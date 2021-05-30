@@ -42,6 +42,7 @@ public class Conexion {
                 + "Usuario: "+ usuario +".\n"
                 + "Password: "+ pass +".\n");
     }
+    
     /**
      * Arma y crea una Conexion a la BD
      * @param nombreBD el nombre de la Base de Datos
@@ -58,6 +59,7 @@ public class Conexion {
                 + "Password: "+ pass +".\n");
         registrarDriver();
     }
+    
     //Getter de conecction
     /**
      * Devuelve una java.sql.Connection o null si error al ejecutar conectar().
@@ -67,7 +69,31 @@ public class Conexion {
         return conexion;
     }
     
+    //Setter de usuario y pass
+    /**
+     * Setter para el nombre del usuario
+     * @param usuario 
+     */
+    public void setUsuario(String usuario){
+        this.usuario = usuario;
+    }
+    /**
+     * Setter para la contraseña del usuario
+     * @param pass 
+     */
+    public void setPassword(String pass){
+        this.pass = pass;
+    }
+    
     //Metodos publicos
+    
+    /**
+     * Cambiar el nombre de la BD en el URL de la conexion
+     */
+    public void setNombreBD(String nombreBD){
+        url = url = "jdbc:mariadb://"+ CONF.DIR +":"+ CONF.PUERTO +"/"+ nombreBD;;
+    }
+    
     /**
      * Intenta establecer una conexion a la BD, devuelve null si no es posible
      * @return 
@@ -77,6 +103,7 @@ public class Conexion {
             try {
                 conexion = java.sql.DriverManager.getConnection( url + "?useLegacyDatetimeCode=false&serverTimezone=UTC"// + "&user"+ usuario + "&password=" +pass
                         ,usuario, pass);
+                System.out.println("Conectar se ejecuto con exito:\nURL: "+url+"\nUsuario: "+usuario+"\nPassword: "+pass);
             } catch (java.sql.SQLException ex) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Error al Conectar: \n"+ex);
                 System.out.println("Error al Conectar: "+ex);

@@ -8,9 +8,10 @@ package GUI;
  * @author Astor, Pablo, Gian, Meli
  */
 public class Principal extends javax.swing.JFrame {
+    //Atributos
     
     /**
-     * Crear una nueva vista Principal
+     * Constructor de vista Principal
      */
     public Principal() {
         initComponents();
@@ -73,6 +74,7 @@ public class Principal extends javax.swing.JFrame {
         menuAyudaInfo = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Biblioteca por Grupo1");
         setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(800, 600));
         setPreferredSize(new java.awt.Dimension(800, 600));
@@ -265,13 +267,28 @@ public class Principal extends javax.swing.JFrame {
         menuAutores.setText("Autores");
 
         menuAutores1.setText("Autor");
+        menuAutores1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuAutores1ActionPerformed(evt);
+            }
+        });
         menuAutores.add(menuAutores1);
 
         menuAutores2.setText("Lista de Autores");
+        menuAutores2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuAutores2ActionPerformed(evt);
+            }
+        });
         menuAutores.add(menuAutores2);
         menuAutores.add(jSeparator4);
 
         menuAutores3.setText("Libros publicados");
+        menuAutores3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuAutores3ActionPerformed(evt);
+            }
+        });
         menuAutores.add(menuAutores3);
 
         menuBiblioteca.add(menuAutores);
@@ -279,16 +296,36 @@ public class Principal extends javax.swing.JFrame {
         menuLectores.setText("Lectores");
 
         menuLectores1.setText("Lector");
+        menuLectores1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLectores1ActionPerformed(evt);
+            }
+        });
         menuLectores.add(menuLectores1);
 
         menuLectores2.setText("Lista de Lectores");
+        menuLectores2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLectores2ActionPerformed(evt);
+            }
+        });
         menuLectores.add(menuLectores2);
         menuLectores.add(jSeparator2);
 
         menuLectores3.setText("Prestamo");
+        menuLectores3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLectores3ActionPerformed(evt);
+            }
+        });
         menuLectores.add(menuLectores3);
 
         menuLectores4.setText("Multa");
+        menuLectores4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLectores4ActionPerformed(evt);
+            }
+        });
         menuLectores.add(menuLectores4);
 
         menuBiblioteca.add(menuLectores);
@@ -296,30 +333,70 @@ public class Principal extends javax.swing.JFrame {
         menuLibros.setText("Libros");
 
         menuLibros1.setText("Libro");
+        menuLibros1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLibros1ActionPerformed(evt);
+            }
+        });
         menuLibros.add(menuLibros1);
 
         menuLibros2.setText("Listado de Libros");
+        menuLibros2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLibros2ActionPerformed(evt);
+            }
+        });
         menuLibros.add(menuLibros2);
         menuLibros.add(jSeparator3);
 
         menuLibros3.setText("Ejemplar");
+        menuLibros3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLibros3ActionPerformed(evt);
+            }
+        });
         menuLibros.add(menuLibros3);
 
         menuLibros4.setText("Ver ejemplares de un libro");
+        menuLibros4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLibros4ActionPerformed(evt);
+            }
+        });
         menuLibros.add(menuLibros4);
         menuLibros.add(jSeparator5);
 
         menuLibros5.setText("Prestamos por fecha");
+        menuLibros5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLibros5ActionPerformed(evt);
+            }
+        });
         menuLibros.add(menuLibros5);
 
         menuLibros6.setText("Prestamos por lector");
+        menuLibros6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLibros6ActionPerformed(evt);
+            }
+        });
         menuLibros.add(menuLibros6);
         menuLibros.add(jSeparator6);
 
         menuLibros7.setText("Lectores morosos");
+        menuLibros7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLibros7ActionPerformed(evt);
+            }
+        });
         menuLibros.add(menuLibros7);
 
         menuLibros8.setText("Lectores con multa");
+        menuLibros8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLibros8ActionPerformed(evt);
+            }
+        });
         menuLibros.add(menuLibros8);
 
         menuBiblioteca.add(menuLibros);
@@ -373,7 +450,8 @@ public class Principal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    // <editor-fold defaultstate="collapsed" desc="Eventos Generados por el Design">  
     private void menuSistemaSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSistemaSalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_menuSistemaSalirActionPerformed
@@ -388,6 +466,12 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverAlEscritorioActionPerformed
 
     private void btnConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConectarActionPerformed
+        if(!txtNombreBD.getText().isEmpty())
+            grupo1tpfinal.Grupo1TPFinal.CONEXION.setNombreBD(txtNombreBD.getText());
+        if(!txtUsuarioBD.getText().isEmpty())
+            grupo1tpfinal.Grupo1TPFinal.CONEXION.setUsuario(txtUsuarioBD.getText());
+        if(!txtContraseñaBD.getText().isEmpty())
+            grupo1tpfinal.Grupo1TPFinal.CONEXION.setPassword(txtContraseñaBD.getText());
         alinicio();
     }//GEN-LAST:event_btnConectarActionPerformed
 
@@ -395,11 +479,72 @@ public class Principal extends javax.swing.JFrame {
         irAInfo();
     }//GEN-LAST:event_menuAyudaInfoActionPerformed
 
+    private void menuAutores1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAutores1ActionPerformed
+        insertarEnEscritorio(null);
+    }//GEN-LAST:event_menuAutores1ActionPerformed
+
+    private void menuAutores2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAutores2ActionPerformed
+        insertarEnEscritorio(null);
+    }//GEN-LAST:event_menuAutores2ActionPerformed
+
+    private void menuAutores3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAutores3ActionPerformed
+        insertarEnEscritorio(null);
+    }//GEN-LAST:event_menuAutores3ActionPerformed
+
+    private void menuLectores1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores1ActionPerformed
+        insertarEnEscritorio(null);
+    }//GEN-LAST:event_menuLectores1ActionPerformed
+
+    private void menuLectores2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores2ActionPerformed
+        insertarEnEscritorio(null);
+    }//GEN-LAST:event_menuLectores2ActionPerformed
+
+    private void menuLectores3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores3ActionPerformed
+        insertarEnEscritorio(null);
+    }//GEN-LAST:event_menuLectores3ActionPerformed
+
+    private void menuLectores4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores4ActionPerformed
+        insertarEnEscritorio(null);
+    }//GEN-LAST:event_menuLectores4ActionPerformed
+
+    private void menuLibros1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros1ActionPerformed
+        insertarEnEscritorio(null);
+    }//GEN-LAST:event_menuLibros1ActionPerformed
+
+    private void menuLibros2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros2ActionPerformed
+        insertarEnEscritorio(null);
+    }//GEN-LAST:event_menuLibros2ActionPerformed
+
+    private void menuLibros3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros3ActionPerformed
+        insertarEnEscritorio(null);
+    }//GEN-LAST:event_menuLibros3ActionPerformed
+
+    private void menuLibros4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros4ActionPerformed
+        insertarEnEscritorio(null);
+    }//GEN-LAST:event_menuLibros4ActionPerformed
+
+    private void menuLibros5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros5ActionPerformed
+        insertarEnEscritorio(null);
+    }//GEN-LAST:event_menuLibros5ActionPerformed
+
+    private void menuLibros6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros6ActionPerformed
+        insertarEnEscritorio(null);
+    }//GEN-LAST:event_menuLibros6ActionPerformed
+
+    private void menuLibros7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros7ActionPerformed
+        insertarEnEscritorio(null);
+    }//GEN-LAST:event_menuLibros7ActionPerformed
+
+    private void menuLibros8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros8ActionPerformed
+        insertarEnEscritorio(null);
+    }//GEN-LAST:event_menuLibros8ActionPerformed
+    //</editor-fold>
+    
     /**
+     * Antiguo main
      * Construye el GUI principal de la Biblioteca.
      */
     public static void iniciar() {
-        /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -421,12 +566,11 @@ public class Principal extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             new Principal().setVisible(true);
         });
     }
+    
     //<editor-fold defaultstate="collapsed" desc=" Variables del Design ">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConectar;
@@ -498,12 +642,17 @@ public class Principal extends javax.swing.JFrame {
             //deshabilitar menu de biblioteca
             menuBiblioteca.setVisible(false);
         }else{
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Se establecio la conexión con la Biblioteca.", 
+                    "Biblioteca conectada", 
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
             //establecer que pueda hacer uso del programa
             irAEscritorio();
             //habilitar menu de biblioteca
             menuBiblioteca.setVisible(true);
         }
     }
+    
     /**
      * Panel con informacion para intentar conectar
      */
@@ -512,6 +661,7 @@ public class Principal extends javax.swing.JFrame {
         formInfo.setVisible(false);
         escritorio.setVisible(false);
     }
+    
     /**
      * Panel con informacion del TP
      */
@@ -520,6 +670,7 @@ public class Principal extends javax.swing.JFrame {
         formInfo.setVisible(true);
         escritorio.setVisible(false);
     }
+    
     /**
      * Panel de escritorio principal
      */
@@ -527,5 +678,19 @@ public class Principal extends javax.swing.JFrame {
         formConectar.setVisible(false);
         formInfo.setVisible(false);
         escritorio.setVisible(true);
+    }
+    
+    /**
+     * 
+     */
+    private void insertarEnEscritorio(javax.swing.JInternalFrame vista){
+        if(vista != null){
+            //Preparar el escritorio, ver si es necesario
+            //Si no limpiamos el escritorio, controlar si es necesario que la vista no este ya abierta
+            escritorio.removeAll();
+            vista.setVisible(true);
+            escritorio.add(vista);
+            escritorio.moveToFront(vista);
+        }
     }
 }
