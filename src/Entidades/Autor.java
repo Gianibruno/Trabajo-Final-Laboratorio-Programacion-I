@@ -17,6 +17,10 @@ public class Autor extends Persona{
     public Autor(long dni, String nombre, String nacionalidad, LocalDate fechaNacimiento) {
         super(dni, nombre, nacionalidad, fechaNacimiento);
     }
-
+    
+    public Autor(){
+        super(0,"","",java.time.LocalDate.now());
+    }
+    
 
 }
