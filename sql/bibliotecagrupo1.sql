@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-05-2021 a las 04:29:12
+-- Tiempo de generación: 03-06-2021 a las 00:06:13
 -- Versión del servidor: 10.4.18-MariaDB
 -- Versión de PHP: 8.0.5
 
@@ -28,12 +28,13 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `autores` (
-  `id_autor` int(11) NOT NULL,
-  `dni` varchar(20) NOT NULL,
-  `nombre` varchar(50) NOT NULL,
-  `nacionalidad` varchar(30) NOT NULL,
-  `fechaNacimiento` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_autor` int(11) NOT NULL COMMENT 'ID',
+  `dni` varchar(20) NOT NULL COMMENT 'DNI',
+  `nombre` varchar(50) NOT NULL COMMENT 'NOMBRE Y APELLIDO',
+  `nacionalidad` varchar(30) NOT NULL COMMENT 'NACIONALIDAD',
+  `fechaNacimiento` date NOT NULL COMMENT 'FECHA DE NACIMIENTO',
+  `estado` tinyint(1) NOT NULL DEFAULT 1 COMMENT 'Estado del Autor'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla de autores';
 
 -- --------------------------------------------------------
 
@@ -43,10 +44,9 @@ CREATE TABLE `autores` (
 
 CREATE TABLE `ejemplares` (
   `id_ejemplar` int(11) NOT NULL COMMENT 'Clave primaria',
-  `id_libro` int(11) NOT NULL,
-  `id_autor` int(11) NOT NULL,
-  `estado` set('Prestado','Retrasado','Reparación','Disponible') NOT NULL COMMENT 'Prestado, retraso, reparación, disponible en biblioteca'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_libro` int(11) NOT NULL COMMENT 'Relacion con libro',
+  `estado` tinyint(1) NOT NULL DEFAULT 3 COMMENT 'Prestado, retraso, reparación, disponible en biblioteca'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla de ejemplares';
 
 -- --------------------------------------------------------
 
@@ -65,7 +65,7 @@ CREATE TABLE `info` (
   `libros` int(11) DEFAULT NULL,
   `usuarios` int(11) DEFAULT NULL,
   `autores` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla para informacion de la Biblioteca, no necesaria';
 
 --
 -- Volcado de datos para la tabla `info`
@@ -81,11 +81,14 @@ INSERT INTO `info` (`nombre`, `direccion`, `telefono`, `contacto`, `director`, `
 --
 
 CREATE TABLE `lectores` (
-  `id_lector` int(11) NOT NULL,
-  `nombre` varchar(50) NOT NULL,
-  `telefono` varchar(20) NOT NULL,
-  `direccion` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_lector` int(11) NOT NULL COMMENT 'ID',
+  `dni` varchar(20) NOT NULL COMMENT 'DNI',
+  `nombre` varchar(50) NOT NULL COMMENT 'NOMBRE Y APELLIDO',
+  `telefono` varchar(20) NOT NULL COMMENT 'TELEFONO',
+  `direccion` varchar(50) NOT NULL COMMENT 'DOMICILIO',
+  `fechaNacimiento` date NOT NULL COMMENT 'FECHA DE NACIMIENTO',
+  `estado` tinyint(1) NOT NULL DEFAULT 1 COMMENT 'ESTADO'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla de lectores';
 
 -- --------------------------------------------------------
 
@@ -95,11 +98,13 @@ CREATE TABLE `lectores` (
 
 CREATE TABLE `libros` (
   `id_libro` int(11) NOT NULL COMMENT 'Clave primaria',
-  `isbn` varchar(15) NOT NULL COMMENT 'Código de ISBN',
+  `id_autor` int(11) NOT NULL COMMENT 'Relacion con Autor',
+  `isbn` bigint(13) NOT NULL COMMENT 'Código de ISBN',
   `nombre` varchar(50) NOT NULL COMMENT 'Nombre del libro',
-  `tipo` varchar(120) NOT NULL COMMENT 'Ingeniería, literatura, informática, etc',
+  `tipo` varchar(20) NOT NULL COMMENT 'Ingeniería, literatura, informática, etc',
   `editorial` varchar(50) NOT NULL COMMENT 'Nombre de la editorial',
-  `año` year(4) NOT NULL COMMENT 'Año de publicación'
+  `año` year(4) NOT NULL COMMENT 'Año de publicación',
+  `estado` tinyint(1) NOT NULL DEFAULT 1 COMMENT 'ESTADO'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla de libros';
 
 -- --------------------------------------------------------
@@ -109,11 +114,11 @@ CREATE TABLE `libros` (
 --
 
 CREATE TABLE `multa` (
-  `id_multa` int(11) NOT NULL,
-  `id_prestamo` int(11) NOT NULL,
-  `fecha_inicio` int(11) NOT NULL,
-  `fecha_fin` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_multa` int(11) NOT NULL COMMENT 'ID',
+  `id_prestamo` int(11) NOT NULL COMMENT 'relacion con prestamo',
+  `fecha_inicio` date NOT NULL COMMENT 'FECHA DE INICIO DE LA MULTA',
+  `fecha_fin` date NOT NULL COMMENT 'FECHA DE FIN DE MULTA'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla de multa';
 
 -- --------------------------------------------------------
 
@@ -122,12 +127,12 @@ CREATE TABLE `multa` (
 --
 
 CREATE TABLE `prestamos` (
-  `id_prestamo` int(11) NOT NULL,
-  `id_ejemplar` int(11) NOT NULL,
-  `id_lector` int(11) NOT NULL,
-  `fecha_prestamo` int(11) NOT NULL,
-  `fecha_devolucion` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_prestamo` int(11) NOT NULL COMMENT 'ID',
+  `id_ejemplar` int(11) NOT NULL COMMENT 'Relacion con ejemplar',
+  `id_lector` int(11) NOT NULL COMMENT 'Relacion con lector',
+  `fecha_prestamo` date NOT NULL COMMENT 'FECHA DEL PRESTAMO',
+  `fecha_devolucion` date DEFAULT NULL COMMENT 'FECHA DE DEVOLUCION'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla de prestamos';
 
 --
 -- Índices para tablas volcadas
@@ -145,8 +150,7 @@ ALTER TABLE `autores`
 --
 ALTER TABLE `ejemplares`
   ADD PRIMARY KEY (`id_ejemplar`),
-  ADD KEY `ejemplar del libro` (`id_libro`),
-  ADD KEY `ejemplar por autor` (`id_autor`);
+  ADD KEY `ejemplar del libro` (`id_libro`);
 
 --
 -- Indices de la tabla `lectores`
@@ -159,7 +163,8 @@ ALTER TABLE `lectores`
 --
 ALTER TABLE `libros`
   ADD PRIMARY KEY (`id_libro`),
-  ADD UNIQUE KEY `isbn` (`isbn`);
+  ADD UNIQUE KEY `isbn` (`isbn`),
+  ADD KEY `Autor del Libro` (`id_autor`);
 
 --
 -- Indices de la tabla `multa`
@@ -184,7 +189,7 @@ ALTER TABLE `prestamos`
 -- AUTO_INCREMENT de la tabla `autores`
 --
 ALTER TABLE `autores`
-  MODIFY `id_autor` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_autor` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID';
 
 --
 -- AUTO_INCREMENT de la tabla `ejemplares`
@@ -196,7 +201,7 @@ ALTER TABLE `ejemplares`
 -- AUTO_INCREMENT de la tabla `lectores`
 --
 ALTER TABLE `lectores`
-  MODIFY `id_lector` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_lector` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID';
 
 --
 -- AUTO_INCREMENT de la tabla `libros`
@@ -208,7 +213,7 @@ ALTER TABLE `libros`
 -- AUTO_INCREMENT de la tabla `multa`
 --
 ALTER TABLE `multa`
-  MODIFY `id_multa` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_multa` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID';
 
 --
 -- Restricciones para tablas volcadas
@@ -218,8 +223,13 @@ ALTER TABLE `multa`
 -- Filtros para la tabla `ejemplares`
 --
 ALTER TABLE `ejemplares`
-  ADD CONSTRAINT `ejemplar del libro` FOREIGN KEY (`id_libro`) REFERENCES `libros` (`id_libro`),
-  ADD CONSTRAINT `ejemplar por autor` FOREIGN KEY (`id_autor`) REFERENCES `autores` (`id_autor`);
+  ADD CONSTRAINT `ejemplar del libro` FOREIGN KEY (`id_libro`) REFERENCES `libros` (`id_libro`);
+
+--
+-- Filtros para la tabla `libros`
+--
+ALTER TABLE `libros`
+  ADD CONSTRAINT `Autor del Libro` FOREIGN KEY (`id_autor`) REFERENCES `autores` (`id_autor`);
 
 --
 -- Filtros para la tabla `multa`
