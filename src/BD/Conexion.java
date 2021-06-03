@@ -165,10 +165,10 @@ public class Conexion {
             try {
                 conexion = java.sql.DriverManager.getConnection( url + "?useLegacyDatetimeCode=false&serverTimezone=UTC"// + "&user"+ usuario + "&password=" +pass
                         ,usuario, pass);
-                mensaje("Conectar se ejecuto con exito:\nURL: "+url+"\nUsuario: "+usuario+"\nPassword: "+pass);
+                //mensaje("Conectar se ejecuto con exito:\nURL: "+url+"\nUsuario: "+usuario+"\nPassword: "+pass);
             } catch (java.sql.SQLException ex) {
                 //javax.swing.JOptionPane.showMessageDialog(null, "Error al Conectar: \n"+ex);
-                mensaje("Error al Conectar: "+ex.getMessage());
+                //mensaje("Error al Conectar: "+ex.getMessage());
                 excepcion = ex;
                 conexion = null;
             }
@@ -181,7 +181,7 @@ public class Conexion {
      */
     public boolean esValida(){
         try {
-            return conexion.isValid(1000);
+            return (conexion != null) ? conexion.isValid(1000) : false;
         } catch (java.sql.SQLException ex) {
             excepcion = ex;
             return false;
