@@ -161,7 +161,7 @@ public class Conexion {
      * @return 
      */
     public Conexion Conectar(){
-        if(conexion == null){
+        //if(conexion == null){
             try {
                 conexion = java.sql.DriverManager.getConnection( url + "?useLegacyDatetimeCode=false&serverTimezone=UTC"// + "&user"+ usuario + "&password=" +pass
                         ,usuario, pass);
@@ -172,7 +172,7 @@ public class Conexion {
                 excepcion = ex;
                 conexion = null;
             }
-        }
+        //}
         return this;
     }
     /**

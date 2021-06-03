@@ -35,9 +35,11 @@ public class Principal extends javax.swing.JFrame {
         formConectar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtNombreBD = new javax.swing.JTextField();
+        txtPuerto = new javax.swing.JTextField();
         txtUsuarioBD = new javax.swing.JTextField();
         txtContraseñaBD = new javax.swing.JTextField();
         btnConectar = new javax.swing.JButton();
@@ -185,9 +187,17 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel2.setText("Nombre de la BD: ");
 
+        jLabel12.setText("Puerto:");
+
         jLabel3.setText("Usuario: ");
 
         jLabel4.setText("Contraseña:  ");
+
+        txtPuerto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPuertoKeyTyped(evt);
+            }
+        });
 
         btnConectar.setText("Conectar");
         btnConectar.addActionListener(new java.awt.event.ActionListener() {
@@ -205,29 +215,35 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(formConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
                     .addGroup(formConectarLayout.createSequentialGroup()
-                        .addGroup(formConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addGroup(formConectarLayout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(btnConectar)))
+                        .addGroup(formConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(formConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNombreBD)
                             .addComponent(txtUsuarioBD)
-                            .addComponent(txtContraseñaBD))))
+                            .addComponent(txtContraseñaBD)
+                            .addComponent(txtPuerto)))
+                    .addGroup(formConectarLayout.createSequentialGroup()
+                        .addComponent(btnConectar)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         formConectarLayout.setVerticalGroup(
             formConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(formConectarLayout.createSequentialGroup()
-                .addGap(51, 51, 51)
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(51, 51, 51)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(formConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtNombreBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(formConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(txtPuerto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(formConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -236,9 +252,9 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(formConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtContraseñaBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnConectar)
-                .addContainerGap())
+                .addContainerGap(182, Short.MAX_VALUE))
         );
 
         menuSistema.setText("Sistema");
@@ -451,7 +467,7 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    // <editor-fold defaultstate="collapsed" desc="Eventos Generados por el Design">  
+    // <editor-fold defaultstate="collapsed" desc=" Eventos Generados por el Design ">  
     private void menuSistemaSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSistemaSalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_menuSistemaSalirActionPerformed
@@ -468,10 +484,13 @@ public class Principal extends javax.swing.JFrame {
     private void btnConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConectarActionPerformed
         if(!txtNombreBD.getText().isEmpty())
             grupo1tpfinal.Grupo1TPFinal.CONEXION.setNombreBD(txtNombreBD.getText());
+        if(!txtPuerto.getText().isEmpty())
+            grupo1tpfinal.Grupo1TPFinal.CONEXION.setPuerto(Integer.parseInt(txtPuerto.getText()));
         if(!txtUsuarioBD.getText().isEmpty())
             grupo1tpfinal.Grupo1TPFinal.CONEXION.setUsuario(txtUsuarioBD.getText());
         if(!txtContraseñaBD.getText().isEmpty())
             grupo1tpfinal.Grupo1TPFinal.CONEXION.setPassword(txtContraseñaBD.getText());
+        grupo1tpfinal.Grupo1TPFinal.CONEXION.Conectar();
         alinicio();
     }//GEN-LAST:event_btnConectarActionPerformed
 
@@ -538,8 +557,22 @@ public class Principal extends javax.swing.JFrame {
     private void menuLibros8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros8ActionPerformed
         insertarEnEscritorio(null);
     }//GEN-LAST:event_menuLibros8ActionPerformed
+
+    private void txtPuertoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPuertoKeyTyped
+        char 
+            tecla = evt.getKeyChar(),
+            cero = '0',
+            nueve = '9';
+        int max = 4; //.........................................................CONSULTAR
+        if(txtPuerto.getText().length() >= max){ //modificar salio a lo bruto
+            evt.consume();
+        }else if(tecla < cero || tecla > nueve){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtPuertoKeyTyped
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc=" Metodo static iniciar ">
     /**
      * Antiguo main
      * Construye el GUI principal de la Biblioteca.
@@ -570,7 +603,7 @@ public class Principal extends javax.swing.JFrame {
             new Principal().setVisible(true);
         });
     }
-    
+    //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc=" Variables del Design ">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConectar;
@@ -581,6 +614,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -622,18 +656,22 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuSistemaSalir;
     private javax.swing.JTextField txtContraseñaBD;
     private javax.swing.JTextField txtNombreBD;
+    private javax.swing.JTextField txtPuerto;
     private javax.swing.JTextField txtUsuarioBD;
     // End of variables declaration//GEN-END:variables
     //</editor-fold>
     
-    //Metodos privados
+    //<editor-fold defaultstate="collapsed" desc=" Metodos Privados ">
     /**
      * Si existe conexion prepara menu y escritorio, 
      * si no existe conexion muestra informacion para reconectar.
      */
     private void alinicio(){
         //probar conexion
-        if(grupo1tpfinal.Grupo1TPFinal.CONEXION.Conectar() == null){
+        if(grupo1tpfinal.Grupo1TPFinal.CONEXION.getConexion() == null)
+            grupo1tpfinal.Grupo1TPFinal.CONEXION.Conectar();
+        //error si no es valida
+        if(!grupo1tpfinal.Grupo1TPFinal.CONEXION.esValida()){
             javax.swing.JOptionPane.showMessageDialog(this, 
                     "Error en la Conexion con la BD.", 
                     "Error", 
@@ -687,10 +725,12 @@ public class Principal extends javax.swing.JFrame {
         if(vista != null){
             //Preparar el escritorio, ver si es necesario
             //Si no limpiamos el escritorio, controlar si es necesario que la vista no este ya abierta
+            System.out.println("------------------------------------------------\nVISTA: "+ vista.getTitle() +"------------------------------------------------");
             escritorio.removeAll();
             vista.setVisible(true);
             escritorio.add(vista);
             escritorio.moveToFront(vista);
         }
     }
+    //</editor-fold>
 }
