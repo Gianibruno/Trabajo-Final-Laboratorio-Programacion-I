@@ -14,7 +14,7 @@ public class Multa {
     private Lector lector;
     private Ejemplar libro;
     
-    public void aplicarMulta () {
+    public static void aplicarMulta () {
         lector.deuda += 2;
     }
 }
