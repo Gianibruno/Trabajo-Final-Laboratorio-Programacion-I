@@ -23,5 +23,7 @@ public class Lector extends Persona {
         this.librosPrestados = new ArrayList<>();
     }
 
-    
+    public int getDeuda () {
+        return deuda;
+    }
 }
