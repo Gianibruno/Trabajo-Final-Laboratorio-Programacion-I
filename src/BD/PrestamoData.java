@@ -17,15 +17,23 @@ package BD;
  * </ul>
  * <h3>A considerar</h3>
  * <p>Un ejemplar puede ser prestado a varios Lectores en distintas fechas</p>
+ * <h2>CONSTRUCTORES:</h2>
+ * <ol>
+ * <li>PrestamoData(Conexion)</li>
+ * </ol>
  * <h2>LOS METODOS:</h2>
  * <ol>
- * <li>registrar(idEjemplar, idLector) : int con idPrestamo.</li>
- * <li>modificar(Prestamo, idPrestamo) : 1 o 0.</li>
- * <li>anular(Prestamo, idPrestamo) : 1 o 0.</li>
+ * <li>registrar(Prestamo) : idPrestamo.</li>
+ * <li>registrar(idEjemplar, idLector) : idPrestamo.</li>
+ * <li>modificar(Prestamo) : 1 o 0.</li>
+ * <li>modificar(idPrestamo, idEjemplar, idLector) : 1 o 0.</li>
+ * <li>anular(Prestamo) : 1 o 0.</li>
+ * <li>anular(idPrestamo) : 1 o 0.</li>
  * <li>devolver(Prestamo, idPrestamo) : 1 o 0</li>
  * <li>listar(fecha) : Lista de Prestamos en esa fecha.</li>
  * <li>listar(lector) : Lista de Prestamos del lector.</li>
  * <li>listarVencidos() : Lista de Lectores con prestamos vencidos.</li>
+ * <li>getExcepcion() : Objeto con la ultima excepcion, o null.</li>
  * </ol>
  */
 public class PrestamoData {
@@ -47,6 +55,7 @@ public class PrestamoData {
     private java.sql.PreparedStatement declaracion = null;
     private java.sql.ResultSet resultado = null;
     private java.sql.Connection conexion = null;
+    private Object ex = null;
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Constructores ">
@@ -60,25 +69,72 @@ public class PrestamoData {
 
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc=" Metodos Getters ">
+    public Object getExcepcion() {
+        return ex;
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc=" Metodos Funcionalidades ">
     /**
-     * Inserta un Prestamo (INSERT INTO), devuelve el id nuevo.
+     * Inserta un Prestamo (INSERT INTO) completo incluyendo fechas de prestamo 
+     * y devolucion, devuelve el id nuevo.
+     * @param prestamo != null
+     * @return idPrestamo o 0 si error.
+     */
+    public int registrar(Entidades.Prestamo prestamo) {
+        int respuesta = 0;
+        String sql = "INSERT INTO " + TABLA + " ("
+                + CAMPOS[1] + ", "
+                + CAMPOS[2] + ", "
+                + CAMPOS[3] + ", "
+                + CAMPOS[4] + "" 
+                + ") "
+                + "VALUES ("
+                + "?, " //idEjemplar
+                + "?, " //idLector
+                + "?, "  //fechaPrestamo
+                + "?"   //fechaDevolucion
+                + ");"
+                ;
+        if(prestamo != null){
+            try {
+                declaracion = conexion.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+                declaracion.setInt(1, prestamo.getIdEjemplar());
+                declaracion.setInt(2, prestamo.getIdLector());
+                declaracion.setDate(3, java.sql.Date.valueOf(prestamo.getFechaPrestamo()));
+                declaracion.setDate(4, java.sql.Date.valueOf(prestamo.getFechaDevolucion()));
+                declaracion.executeUpdate();
+                resultado = declaracion.getGeneratedKeys();
+                if(resultado.next()){
+                    respuesta = resultado.getInt(CAMPOS[0]);
+                }
+                declaracion.close();
+            } catch (java.sql.SQLException ex) {
+                error(ex);
+            }
+        }
+        return respuesta;
+    }
+    /**
+     * Inserta un Prestamo (INSERT INTO) por Ids de Ejemplar y Lector, 
+     * devuelve el id nuevo.
      * @param idEjemplar
      * @param idLector
-     * @return idPrestamo
+     * @return idPrestamo o 0 si error.
      */
     public int registrar(int idEjemplar, int idLector) {
         int respuesta = 0;
         String sql = "INSERT INTO " + TABLA + " ("
                 + CAMPOS[1] + ", "
                 + CAMPOS[2] + ", "
-                + CAMPOS[3] + ", "
+                + CAMPOS[3] + " "
             //    + CAMPOS[4] + "" //ver el tema de devolucion para null
                 + ") "
                 + "VALUES ("
                 + "?, " //idEjemplar
                 + "?, " //idLector
-                + "?, " //now()
+                + "? " //now()
             //    + "?" //null
                 + ");"
                 ;
@@ -102,53 +158,114 @@ public class PrestamoData {
     /**
      * Modificar un Prestamo (UPDATE)
      * @param prestamo
-     * @param id opcional, si id > 0 usa este id en lugar del id del prestamo.
      * @return 1 si logro modificar los datos.
      */
-    public int modificar(Entidades.Prestamo prestamo, int id){
+    public int modificar(Entidades.Prestamo prestamo){
         String sql = "UPDATE "+ TABLA +" SET "
                 + CAMPOS[1] + "=?, " //idEjemplar
                 + CAMPOS[2] + "=? "  //idLector
                 + "WHERE " + CAMPOS[0] + "=?;"; //idPrestamo
         int 
-            idEjemplar = prestamo.getIdEjemplar(), 
-            idLector = prestamo.getIdLector(), 
-            idPrestamo = (id == 0) ? prestamo.getIdPrestamo() : id,
+            idEjemplar = 0, 
+            idLector = 0, 
+            idPrestamo = 0,
             respuesta = 0;
-        try{
-            declaracion = conexion.prepareStatement(sql);
-            declaracion.setInt(1, idEjemplar);
-            declaracion.setInt(2, idLector);
-            declaracion.setInt(3, idPrestamo);
-            declaracion.executeUpdate();
-            declaracion.close();
-            respuesta = 1;
-        }catch(java.sql.SQLException ex){
-            error(ex);
+        if(prestamo != null){
+            idEjemplar = prestamo.getIdEjemplar();
+            idLector = prestamo.getIdLector();
+            idPrestamo = prestamo.getIdPrestamo();
+        }
+        if(idPrestamo > 0){
+            try{
+                declaracion = conexion.prepareStatement(sql);
+                declaracion.setInt(1, idEjemplar);
+                declaracion.setInt(2, idLector);
+                declaracion.setInt(3, idPrestamo);
+                declaracion.executeUpdate();
+                declaracion.close();
+                respuesta = 1;
+            }catch(java.sql.SQLException ex){
+                error(ex);
+            }
+        }
+        return respuesta;
+    }
+    /**
+     * Modificar un Prestamo (UPDATE) por sus ids.
+     * @param idPrestamo Entero > 0.
+     * @param idLector Entero > 0.
+     * @param idEjemplar Entero > 0.
+     * @return 1 si logro modificar los datos.
+     */
+    public int modificar(int idPrestamo, int idLector, int idEjemplar){
+        String sql = "UPDATE "+ TABLA +" SET "
+                + CAMPOS[1] + "=?, " //idEjemplar
+                + CAMPOS[2] + "=? "  //idLector
+                + "WHERE " + CAMPOS[0] + "=?;"; //idPrestamo
+        int 
+            respuesta = 0;
+        if(idPrestamo > 0 && idLector > 0 && idEjemplar > 0){
+            try{
+                declaracion = conexion.prepareStatement(sql);
+                declaracion.setInt(1, idEjemplar);
+                declaracion.setInt(2, idLector);
+                declaracion.setInt(3, idPrestamo);
+                declaracion.executeUpdate();
+                declaracion.close();
+                respuesta = 1;
+            }catch(java.sql.SQLException ex){
+                error(ex);
+            }
         }
         return respuesta;
     }
     /**
      * Anular un Prestamo (DELETE FROM)
      * @param prestamo
-     * @param id opcional, si id > 0 usa este id en lugar del id del prestamo.
      * @return 1 si logro eliminarlo.
      */
-    public int anular(Entidades.Prestamo prestamo, int id){
+    public int anular(Entidades.Prestamo prestamo){
         //delete prestamo? que pasa si hay multa?
-        String sql = "DELETE FROM"+ TABLA 
+        String sql = "DELETE FROM "+ TABLA 
                 +" WHERE "+ CAMPOS[0] +"=?;";
         int 
-            idPrestamo = (id == 0) ? prestamo.getIdPrestamo() : id,
+            idPrestamo = (prestamo != null) ? prestamo.getIdPrestamo() : 0,
             respuesta = 0;
-        try{
-            declaracion = conexion.prepareStatement(sql);
-            declaracion.setInt(1, idPrestamo);
-            declaracion.executeUpdate();
-            declaracion.close();
-            respuesta = 1;
-        }catch(java.sql.SQLException ex){
-            error(ex);
+        if(idPrestamo > 0){
+            try{
+                declaracion = conexion.prepareStatement(sql);
+                declaracion.setInt(1, idPrestamo);
+                declaracion.executeUpdate();
+                declaracion.close();
+                respuesta = 1;
+            }catch(java.sql.SQLException ex){
+                error(ex);
+            }
+        }
+        return respuesta;
+    }
+    /**
+     * Anular un Prestamo (DELETE FROM) por su id
+     * @param id entero > 0.
+     * @return 1 si logro eliminarlo.
+     */
+    public int anular(int id){
+        //delete prestamo? que pasa si hay multa?
+        String sql = "DELETE FROM "+ TABLA 
+                +" WHERE "+ CAMPOS[0] +"=?;";
+        int 
+            idPrestamo = id,
+            respuesta = 0;
+        if(idPrestamo > 0){
+            try{
+                declaracion = conexion.prepareStatement(sql);
+                declaracion.setInt(1, idPrestamo);
+                declaracion.executeUpdate();
+                declaracion.close();
+                respuesta = 1;
+            }catch(java.sql.SQLException ex){
+                error(ex);
+            }
         }
         return respuesta;
     }
@@ -173,7 +290,11 @@ public class PrestamoData {
                 prestamo.setIdLector(resultado.getInt(CAMPOS[2]));   //idLector
                 prestamo.setFechaPrestamo(resultado.getDate(CAMPOS[3]).toLocalDate()); //fecha_prestamo
                 //ver si es null
-                prestamo.setFechaDevolucion(resultado.getDate(CAMPOS[4]).toLocalDate()); //fecha_devolucion
+                if(resultado.getDate(CAMPOS[4]) == null){            //fecha_devolucion
+                    prestamo.setFechaDevolucion(null);
+                }else{
+                    prestamo.setFechaDevolucion(resultado.getDate(CAMPOS[4]).toLocalDate());
+                }
                 respuesta.add(prestamo);
             }
             declaracion.close();
@@ -251,24 +372,57 @@ public class PrestamoData {
     
     //<editor-fold defaultstate="collapsed" desc=" Metodos Necesarios ">
     /**
-     * Modifica la fecha de devolucion del Prestamo (UPDATE)
-     * @param prestamo
-     * @param id opcional si id>0, no usa el id del Prestamo
-     * @return 1 si logro modificar la fecha de devolucion
+     * Modifica la fecha de devolucion del Prestamo. (UPDATE)
+     * @param prestamo que contiene id y la fecha a modificar.
+     * @return 1 si logro modificar la fecha de devolucion.
      */
-    public int devolver(Entidades.Prestamo prestamo, int id){
+    public int devolver(Entidades.Prestamo prestamo){
         int 
             respuesta = 0, 
-            idPrestamo = (id == 0) ? prestamo.getIdPrestamo() : id;
+            idPrestamo = 0;
+        java.time.LocalDate fechaDevolucion = null;
         String sql = "UPDATE "+ TABLA +" SET "
-                + CAMPOS[4] + "=? " //fecha
+                + CAMPOS[4] + "=? " //fechaDevolucion del prestamo
                 + "WHERE " + CAMPOS[0] + "=?;"; //idPrestamo
-        try {
-            declaracion = conexion.prepareStatement(sql);
-            declaracion.setDate(1,java.sql.Date.valueOf(java.time.LocalDate.now()));
-            declaracion.setInt(2, idPrestamo);
-        } catch (java.sql.SQLException ex) {
-            error(ex);
+        if(prestamo != null){
+            idPrestamo = prestamo.getIdPrestamo();
+            fechaDevolucion = prestamo.getFechaDevolucion();
+        }
+        if(idPrestamo > 0 && fechaDevolucion != null){
+            try {
+                declaracion = conexion.prepareStatement(sql);
+                declaracion.setDate(1,java.sql.Date.valueOf(fechaDevolucion));
+                declaracion.setInt(2, idPrestamo);
+                declaracion.executeUpdate();
+                respuesta = 1;
+            } catch (java.sql.SQLException ex) {
+                error(ex);
+            }
+        }
+        return respuesta;
+    }
+    /**
+     * Modifica la fecha de devolucion del Prestamo (UPDATE) por id.
+     * fecha_devolucion = java.time.LocalDate.now();
+     * @param idPrestamo Entero > 0.
+     * @return 1 si logro modificar la fecha de devolucion.
+     */
+    public int devolver(int idPrestamo){
+        int respuesta = 0;
+        java.time.LocalDate fechaDevolucion = java.time.LocalDate.now();
+        String sql = "UPDATE "+ TABLA +" SET "
+                + CAMPOS[4] + "=? " //fechaDevolucion del prestamo
+                + "WHERE " + CAMPOS[0] + "=?;"; //idPrestamo
+        if(idPrestamo > 0){
+            try {
+                declaracion = conexion.prepareStatement(sql);
+                declaracion.setDate(1, java.sql.Date.valueOf(fechaDevolucion));
+                declaracion.setInt(2, idPrestamo);
+                declaracion.executeUpdate();
+                respuesta = 1;
+            } catch (java.sql.SQLException ex) {
+                error(ex);
+            }
         }
         return respuesta;
     }
@@ -282,6 +436,7 @@ public class PrestamoData {
     private void error(Object ex){
         //Ver que hacer con errores
         System.out.println("Error: \n"+ex);
+        this.ex = ex;
     }
     //</editor-fold>
 }
