@@ -13,7 +13,7 @@ package BD;
 public class LectorData {
     //Constantes
     final private String TABLA = "lectores",
-            CAMPOS[] = {"id_lector", "dni", "nombre", "telefono", "domicilio", "fechaNacimiento", "estado"};
+            CAMPOS[] = {"id_lector", "dni", "nombre", "telefono", "direccion", "fechaNacimiento", "estado"};
     //Atributos
     private java.sql.PreparedStatement ps = null;
     private java.sql.ResultSet rs = null;
@@ -107,13 +107,13 @@ public class LectorData {
             rs = ps.executeQuery();
             while (rs.next()) {
                 entidad = new Entidades.Lector(
+                        rs.getString(CAMPOS[1]), 
                         rs.getString(CAMPOS[2]), 
                         rs.getString(CAMPOS[3]), 
                         rs.getString(CAMPOS[4]), 
-                        rs.getString(CAMPOS[5]), 
-                        java.time.LocalDate.parse(rs.getString(CAMPOS[6])));
+                        java.time.LocalDate.parse(rs.getString(CAMPOS[5])));
                 entidad.setIdLector(rs.getInt(CAMPOS[0]));
-                entidad.setEstado(rs.getInt(CAMPOS[7]));
+                entidad.setEstado(rs.getInt(CAMPOS[6]));
                 lectores.add(entidad);
             }
             ps.close();
