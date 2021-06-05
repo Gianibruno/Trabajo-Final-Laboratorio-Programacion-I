@@ -13,23 +13,23 @@ import java.time.LocalDate;
  */
 public abstract class Persona {
 
-    private long dni;
+    private String dni;
     private String nombre;
     private String nacionalidad;
     private LocalDate fechaNacimiento;
 
-    public Persona(long dni, String nombre, String nacionalidad, LocalDate fechaNacimiento) {
+    public Persona(String dni, String nombre, String nacionalidad, LocalDate fechaNacimiento) {
         this.dni = dni;
         this.nombre = nombre;
         this.nacionalidad = nacionalidad;
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public long getDni() {
+    public String getDni() {
         return dni;
     }
 
-    public void setDni(long dni) {
+    public void setDni(String dni) {
         this.dni = dni;
     }
 
