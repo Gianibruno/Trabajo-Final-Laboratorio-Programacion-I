@@ -38,7 +38,7 @@ public class Ejemplar {
     public void setEstado(int estado) {
         this.estado = estado;
         if (estado == 1) {
-            Multa temp = new Multa (this, lector);//No estoy seguro de éso. Quiero pasar éste objeto como parámetro.
+            Multa temp = new Multa (lector, this);//Edit: Estabas pasando los paramentros fuera de orden "new Multa (this, lector)". No estoy seguro de éso. Quiero pasar éste objeto como parámetro.
             temp.aplicarMulta ();
         }
     }

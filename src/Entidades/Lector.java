@@ -17,20 +17,19 @@ public class Lector extends Persona {
 
     private ArrayList<Ejemplar> librosPrestados;
     private int deuda;
-    private int 
-            idLector,
+    private int idLector,
             estado;
-    private String 
-            telefono,
+    private String telefono,
             direccion;
 
-    public Lector(){
-        super("","","",null);
+    public Lector() {
+        super("", "", "", null);
         telefono = "";
         direccion = "";
         estado = 1;
         librosPrestados = new ArrayList<>();
     }
+
     public Lector(String dni, String nombre, LocalDate fechaNacimiento) {
         super(dni, nombre, "", fechaNacimiento);
         telefono = "";
@@ -38,6 +37,7 @@ public class Lector extends Persona {
         estado = 1;
         librosPrestados = new ArrayList<>();
     }
+
     public Lector(String dni, String nombre, String telefono, String direccion, LocalDate fechaNacimiento) {
         super(dni, nombre, "", fechaNacimiento);
         this.telefono = telefono;
@@ -46,7 +46,7 @@ public class Lector extends Persona {
         librosPrestados = new ArrayList<>();
     }
 
-    public void setIdLector(int idLector){
+    public void setIdLector(int idLector) {
         this.idLector = idLector;
     }
 
@@ -61,15 +61,23 @@ public class Lector extends Persona {
     public void setEstado(int estado) {
         this.estado = estado;
     }
-    
-    public int getDeuda () {
+
+    public int getDeuda() {
         return deuda;
     }
-    
-    public int getIdLector(){
+
+    public void setLibrosPrestados(ArrayList<Ejemplar> librosPrestados) {
+        this.librosPrestados = librosPrestados;
+    }
+
+    public void setDeuda(int deuda) {
+        this.deuda = deuda;
+    }
+
+    public int getIdLector() {
         return idLector;
     }
-    
+
     public String getTelefono() {
         return telefono;
     }
@@ -81,5 +89,5 @@ public class Lector extends Persona {
     public int getEstado() {
         return estado;
     }
-    
+
 }
