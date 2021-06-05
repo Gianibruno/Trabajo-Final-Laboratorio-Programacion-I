@@ -12,20 +12,52 @@ package Entidades;
  */
 public class Libro {
 
+    private int id;
     private long isbn;
     private String nombre;
     private String tipo;
     private String editorial;
     private short año;
     private Autor autor;
+    private int estado;
 
-    public Libro(long isbn, String nombre, String tipo, String editorial, short año, Autor autor) {
+    public Libro(long isbn, String nombre, String tipo, String editorial, short año, Autor autor, int estado, int id) {
+        this.id=id;
         this.isbn = isbn;
         this.nombre = nombre;
         this.tipo = tipo;
         this.editorial = editorial;
         this.año = año;
         this.autor = autor;
+        this.estado = estado;
+
+    }
+
+    public Libro() {
+        this.id=0;
+        this.isbn=0;
+        this.nombre="";
+        this.tipo="";
+        this.editorial="";
+        this.año=0;
+        this.autor=null;
+        this.estado=0;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
     }
 
     public long getIsbn() {
