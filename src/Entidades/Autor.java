@@ -13,14 +13,37 @@ import java.time.LocalDate;
  *
  */
 public class Autor extends Persona{
-
-    public Autor(long dni, String nombre, String nacionalidad, LocalDate fechaNacimiento) {
-        super(dni, nombre, nacionalidad, fechaNacimiento);
-    }
+    private int 
+            idAutor,
+            estado;
     
     public Autor(){
-        super(0,"","",java.time.LocalDate.now());
+        super("","","",null);
+        idAutor = 0;
+        estado = 1;
     }
     
+    public Autor(String dni, String nombre, String nacionalidad, LocalDate fechaNacimiento) {
+        super(dni, nombre, nacionalidad, fechaNacimiento);
+        idAutor = 0;
+        estado = 1;
+    }
 
+    public int getIdAutor() {
+        return idAutor;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setIdAutor(int idAutor) {
+        this.idAutor = idAutor;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+    
+    
 }
