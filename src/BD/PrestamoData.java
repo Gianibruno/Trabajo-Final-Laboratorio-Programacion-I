@@ -6,6 +6,8 @@
  */
 package BD;
 
+import Entidades.Biblioteca;
+
 /**
  * <h1>Clase Data: Prestamo</h1>
  * <h3>De las funcionalidades:</h3>
@@ -279,59 +281,101 @@ public class PrestamoData {
         String sql = "SELECT * FROM "+ TABLA +" "
                 + "WHERE "+ CAMPOS[3] +"=?";
         Entidades.Prestamo prestamo;
-        try{
-            declaracion = conexion.prepareStatement(sql);
-            declaracion.setDate(1, java.sql.Date.valueOf(fechaPrestamo));
-            resultado = declaracion.executeQuery();
-            while(resultado.next()){
-                prestamo = new Entidades.Prestamo();
-                prestamo.setIdPrestamo(resultado.getInt(CAMPOS[0])); //idPrestamo
-                prestamo.setIdEjemplar(resultado.getInt(CAMPOS[1])); //idEjemplar
-                prestamo.setIdLector(resultado.getInt(CAMPOS[2]));   //idLector
-                prestamo.setFechaPrestamo(resultado.getDate(CAMPOS[3]).toLocalDate()); //fecha_prestamo
-                //ver si es null
-                if(resultado.getDate(CAMPOS[4]) == null){            //fecha_devolucion
-                    prestamo.setFechaDevolucion(null);
-                }else{
-                    prestamo.setFechaDevolucion(resultado.getDate(CAMPOS[4]).toLocalDate());
+        if(fechaPrestamo != null){
+            try{
+                declaracion = conexion.prepareStatement(sql);
+                declaracion.setDate(1, java.sql.Date.valueOf(fechaPrestamo));
+                resultado = declaracion.executeQuery();
+                while(resultado.next()){
+                    prestamo = new Entidades.Prestamo();
+                    prestamo.setIdPrestamo(resultado.getInt(CAMPOS[0])); //idPrestamo
+                    prestamo.setIdEjemplar(resultado.getInt(CAMPOS[1])); //idEjemplar
+                    prestamo.setIdLector(resultado.getInt(CAMPOS[2]));   //idLector
+                    prestamo.setFechaPrestamo(resultado.getDate(CAMPOS[3]).toLocalDate()); //fecha_prestamo
+                    //ver si es null
+                    if(resultado.getDate(CAMPOS[4]) == null){            //fecha_devolucion
+                        prestamo.setFechaDevolucion(null);
+                    }else{
+                        prestamo.setFechaDevolucion(resultado.getDate(CAMPOS[4]).toLocalDate());
+                    }
+                    respuesta.add(prestamo);
                 }
-                respuesta.add(prestamo);
+                declaracion.close();
+            }catch(java.sql.SQLException ex){
+                error(ex);
             }
-            declaracion.close();
-        }catch(java.sql.SQLException ex){
-            error(ex);
         }
         return respuesta;
     }
     /**
      * Listar los prestamos por lector
      * @param lector
-     * @param id opcional si id>0, busca por id en lugar del lector
      * @return lista de prestamos
      */
-    public java.util.List<Entidades.Prestamo> listar(Entidades.Lector lector, int id){
+    public java.util.List<Entidades.Prestamo> listar(Entidades.Lector lector){
         java.util.List<Entidades.Prestamo> respuesta = new java.util.ArrayList<>();
         String sql = "SELECT * FROM "+ TABLA +" "
                 + "WHERE "+ CAMPOS[2] +"=?";
-        int idLector = (id == 0) ? lector.getIdLector() : id;
+        int idLector = 0;
         Entidades.Prestamo prestamo;
-        try{
-            declaracion = conexion.prepareStatement(sql);
-            declaracion.setInt(1, idLector);
-            resultado = declaracion.executeQuery();
-            while(resultado.next()){
-                prestamo = new Entidades.Prestamo();
-                prestamo.setIdPrestamo(resultado.getInt(CAMPOS[0])); //idPrestamo
-                prestamo.setIdEjemplar(resultado.getInt(CAMPOS[1])); //idEjemplar
-                prestamo.setIdLector(resultado.getInt(CAMPOS[2]));   //idLector
-                prestamo.setFechaPrestamo(resultado.getDate(CAMPOS[3]).toLocalDate()); //fecha_prestamo
-                //ver si es null
-                prestamo.setFechaDevolucion(resultado.getDate(CAMPOS[4]).toLocalDate()); //fecha_devolucion
-                respuesta.add(prestamo);
+        if(lector != null) idLector = lector.getIdLector();
+        if(idLector > 0){
+            try{
+                declaracion = conexion.prepareStatement(sql);
+                declaracion.setInt(1, idLector);
+                resultado = declaracion.executeQuery();
+                while(resultado.next()){
+                    prestamo = new Entidades.Prestamo();
+                    prestamo.setIdPrestamo(resultado.getInt(CAMPOS[0])); //idPrestamo
+                    prestamo.setIdEjemplar(resultado.getInt(CAMPOS[1])); //idEjemplar
+                    prestamo.setIdLector(resultado.getInt(CAMPOS[2]));   //idLector
+                    prestamo.setFechaPrestamo(resultado.getDate(CAMPOS[3]).toLocalDate()); //fecha_prestamo
+                    if(resultado.getDate(CAMPOS[4]) == null){            //fecha_devolucion
+                        prestamo.setFechaDevolucion(null);
+                    }else{
+                        prestamo.setFechaDevolucion(resultado.getDate(CAMPOS[4]).toLocalDate());
+                    }
+                    respuesta.add(prestamo);
+                }
+                declaracion.close();
+            }catch(java.sql.SQLException ex){
+                error(ex);
             }
-            declaracion.close();
-        }catch(java.sql.SQLException ex){
-            error(ex);
+        }
+        return respuesta;
+    }
+    /**
+     * Listar los prestamos por el id de un lector
+     * @param idLector entero > 0.
+     * @return lista de prestamos
+     */
+    public java.util.List<Entidades.Prestamo> listar(int idLector){
+        java.util.List<Entidades.Prestamo> respuesta = new java.util.ArrayList<>();
+        String sql = "SELECT * FROM "+ TABLA +" "
+                + "WHERE "+ CAMPOS[2] +"=?";
+        Entidades.Prestamo prestamo;
+        if(idLector > 0){
+            try{
+                declaracion = conexion.prepareStatement(sql);
+                declaracion.setInt(1, idLector);
+                resultado = declaracion.executeQuery();
+                while(resultado.next()){
+                    prestamo = new Entidades.Prestamo();
+                    prestamo.setIdPrestamo(resultado.getInt(CAMPOS[0])); //idPrestamo
+                    prestamo.setIdEjemplar(resultado.getInt(CAMPOS[1])); //idEjemplar
+                    prestamo.setIdLector(resultado.getInt(CAMPOS[2]));   //idLector
+                    prestamo.setFechaPrestamo(resultado.getDate(CAMPOS[3]).toLocalDate()); //fecha_prestamo
+                    if(resultado.getDate(CAMPOS[4]) == null){            //fecha_devolucion
+                        prestamo.setFechaDevolucion(null);
+                    }else{
+                        prestamo.setFechaDevolucion(resultado.getDate(CAMPOS[4]).toLocalDate());
+                    }
+                    respuesta.add(prestamo);
+                }
+                declaracion.close();
+            }catch(java.sql.SQLException ex){
+                error(ex);
+            }
         }
         return respuesta;
     }
@@ -341,12 +385,12 @@ public class PrestamoData {
      */
     public java.util.List<Entidades.Lector> listarVencidos(){
         java.util.List<Entidades.Lector> respuesta = new java.util.ArrayList<>();
-        //select * from lectores where ... (
-        //select idLector from prestamos where fecha de prestamo supera 
-        //en 3 dias la fecha actual)
         String 
-            lectores = "lectores",
-            sql = "SELECT * FROM "+ TABLA +" ";//MODIFICAR
+            tablaLectores = "lectores", campoId = CAMPOS[2],
+        //SELECT DISTINCT l.id_lector, l.nombre FROM lectores AS l, prestamos AS p WHERE p.id_lector = l.id_lector AND DATEDIFF(NOW(),p.fecha_prestamo) > 30
+            sql = "SELECT DISTINCT l.* FROM "+ tablaLectores +" AS l, "+ TABLA +" AS p "
+                + "WHERE p." + campoId + " = l." + campoId +" "
+                + "AND DATEDIFF(NOW(), p."+ CAMPOS[3] +") > "+ Biblioteca.CONF.MAXDIASPRESTADOS;
         Entidades.Lector lector;
         try{
             declaracion = conexion.prepareStatement(sql);
@@ -354,12 +398,14 @@ public class PrestamoData {
             resultado = declaracion.executeQuery();
             while(resultado.next()){
                 lector = new Entidades.Lector(
-                    resultado.getLong(2), //dni
+                    resultado.getString(2), //dni
                     resultado.getString(3), //nombre
-                    resultado.getString(4), //nacionalidad
-                    resultado.getDate(4).toLocalDate() //fechaNacimiento
+                    resultado.getString(4), //telefono
+                    resultado.getString(5), //direccion
+                    resultado.getDate(6).toLocalDate() //fechaNacimiento
                 );
                 lector.setIdLector(resultado.getInt(1));
+                lector.setEstado(resultado.getInt(7));
                 respuesta.add(lector);
             }
             declaracion.close();
