@@ -86,15 +86,43 @@ public class LectorData {
         return respuesta;
     }
     
-    public int desactivar(int idAutor){
+    public int desactivar(int idLector){
         int respuesta = 0;
-        
+        String sql = "UPDATE " + TABLA + " SET "
+                + CAMPOS[6] + "=? "
+                + "WHERE " + CAMPOS[0] + "=?;";
+        if(idLector > 0){
+            try {
+                ps = con.prepareStatement(sql);
+                ps.setInt(1, 0);
+                ps.setInt(2, idLector);
+                ps.executeUpdate();
+                ps.close();
+                respuesta = 1;
+            } catch (java.sql.SQLException ex) {
+                error(ex);
+            }
+        }
         return respuesta;
     }
     
-    public int activar(int idAutor){
+    public int activar(int idLector){
         int respuesta = 0;
-        
+        String sql = "UPDATE " + TABLA + " SET "
+                + CAMPOS[6] + "=? "
+                + "WHERE " + CAMPOS[0] + "=?;";
+        if(idLector > 0){
+            try {
+                ps = con.prepareStatement(sql);
+                ps.setInt(1, 1);
+                ps.setInt(2, idLector);
+                ps.executeUpdate();
+                ps.close();
+                respuesta = 1;
+            } catch (java.sql.SQLException ex) {
+                error(ex);
+            }
+        }
         return respuesta;
     }
     

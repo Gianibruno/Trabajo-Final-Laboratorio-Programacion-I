@@ -82,14 +82,43 @@ public class AutorData {
         }
         return respuesta;
     }
-    public int desactivar(int idAutor){
+     public int desactivar(int idAutor){
         int respuesta = 0;
-        
+        String sql = "UPDATE " + TABLA + " SET "
+                + CAMPOS[5] + "=? "
+                + "WHERE " + CAMPOS[0] + "=?;";
+        if(idAutor > 0){
+            try {
+                ps = con.prepareStatement(sql);
+                ps.setInt(1, 0);
+                ps.setInt(2, idAutor);
+                ps.executeUpdate();
+                ps.close();
+                respuesta = 1;
+            } catch (java.sql.SQLException ex) {
+                error(ex);
+            }
+        }
         return respuesta;
     }
+    
     public int activar(int idAutor){
         int respuesta = 0;
-        
+        String sql = "UPDATE " + TABLA + " SET "
+                + CAMPOS[5] + "=? "
+                + "WHERE " + CAMPOS[0] + "=?;";
+        if(idAutor > 0){
+            try {
+                ps = con.prepareStatement(sql);
+                ps.setInt(1, 1);
+                ps.setInt(2, idAutor);
+                ps.executeUpdate();
+                ps.close();
+                respuesta = 1;
+            } catch (java.sql.SQLException ex) {
+                error(ex);
+            }
+        }
         return respuesta;
     }
     public java.util.List<Entidades.Autor> obtenerAutores() {
