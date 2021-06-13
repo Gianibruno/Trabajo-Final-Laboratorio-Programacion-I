@@ -13,6 +13,9 @@ public class Biblioteca {
                 MAXPRESTAMOSPORLECTOR = 3,
                 MAXDIASPRESTADOS = 30,
                 MULTAPORDIA = 2;
-                
+        public static final String
+                AUTORESTADOS[] = {"Inactivo", "Activo"},
+                LECTORESTADOS[] = {"Inactivo", "Activo"},
+                LIBROESTADOS[] = {"Inactivo", "Activo"};
     }
 }
