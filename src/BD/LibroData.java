@@ -148,7 +148,33 @@ public class LibroData {
         }
         return libro;
     }
-
+    
+    public Entidades.Libro buscarLibroXId(int id) {
+        Entidades.Libro libro = null;
+        String sql = "SELECT * FROM " + TABLA + " WHERE " + CAMPOS[0] + "=?;";
+        AutorData ad = new AutorData(conaux);
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setLong(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                libro = new Entidades.Libro();
+                libro.setId(rs.getInt(CAMPOS[0]));
+                libro.setAutor(ad.buscarAutor(CAMPOS[1]));
+                libro.setIsbn(rs.getLong(CAMPOS[2]));
+                libro.setNombre(rs.getString(CAMPOS[3]));
+                libro.setTipo(rs.getString(CAMPOS[4]));
+                libro.setEditorial(rs.getString(CAMPOS[5]));
+                libro.setAño(rs.getShort(CAMPOS[6]));
+                libro.setEstado(rs.getInt(CAMPOS[7]));
+            }
+            ps.close();
+        } catch (java.sql.SQLException ex) {
+            error(ex);
+        }
+        return libro;
+    }
+    
     private void error(Object ex) {
         System.out.println("Error: " + ex);
         this.ex = ex;
