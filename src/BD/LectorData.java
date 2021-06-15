@@ -175,6 +175,30 @@ public class LectorData {
         return entidad;
     }
     
+    public Entidades.Lector buscarLector(int idLector) {
+        Entidades.Lector entidad = null;
+        String sql = "SELECT * FROM " + TABLA + " WHERE " + CAMPOS[0] + "=?;";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idLector);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                entidad = new Entidades.Lector();
+                entidad.setIdLector(rs.getInt(CAMPOS[0]));
+                entidad.setDni(rs.getString(CAMPOS[1]));
+                entidad.setNombre(rs.getString(CAMPOS[2]));
+                entidad.setTelefono(rs.getString(CAMPOS[3]));
+                entidad.setDireccion(rs.getString(CAMPOS[4]));
+                entidad.setFechaNacimiento(java.time.LocalDate.parse(rs.getString(CAMPOS[5])));
+                entidad.setEstado(rs.getInt(CAMPOS[6]));
+            }
+            ps.close();
+        } catch (java.sql.SQLException ex) {
+            error(ex);
+        }
+        return entidad;
+    }
+    
     private void error(Object ex) {
         System.out.println("Error: "+ ex);
         this.ex = ex;
