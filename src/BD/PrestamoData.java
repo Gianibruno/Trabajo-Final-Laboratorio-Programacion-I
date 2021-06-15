@@ -102,8 +102,8 @@ public class PrestamoData {
         if(prestamo != null){
             try {
                 declaracion = conexion.getConexion().prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
-                declaracion.setInt(1, prestamo.getIdEjemplar());
-                declaracion.setInt(2, prestamo.getIdLector());
+                declaracion.setInt(1, prestamo.getEjemplar().getId());
+                declaracion.setInt(2, prestamo.getLector().getIdLector());
                 declaracion.setDate(3, java.sql.Date.valueOf(prestamo.getFechaPrestamo()));
                 declaracion.setDate(4, java.sql.Date.valueOf(prestamo.getFechaDevolucion()));
                 declaracion.executeUpdate();
@@ -173,8 +173,8 @@ public class PrestamoData {
             idPrestamo = 0,
             respuesta = 0;
         if(prestamo != null){
-            idEjemplar = prestamo.getIdEjemplar();
-            idLector = prestamo.getIdLector();
+            idEjemplar = prestamo.getEjemplar().getId();
+            idLector = prestamo.getLector().getIdLector();
             idPrestamo = prestamo.getIdPrestamo();
         }
         if(idPrestamo > 0){
