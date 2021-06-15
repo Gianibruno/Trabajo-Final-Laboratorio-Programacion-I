@@ -56,7 +56,7 @@ public class PrestamoData {
     //<editor-fold defaultstate="collapsed" desc=" Atributos ">
     private java.sql.PreparedStatement declaracion = null;
     private java.sql.ResultSet resultado = null;
-    private java.sql.Connection conexion = null;
+    private BD.Conexion conexion = null;
     private Object ex = null;
     //</editor-fold>
     
@@ -66,7 +66,7 @@ public class PrestamoData {
      * @param conexion 
      */
     public PrestamoData(BD.Conexion conexion) {
-        this.conexion = conexion.getConexion();
+        this.conexion = conexion;
     }
 
     //</editor-fold>
@@ -101,7 +101,7 @@ public class PrestamoData {
                 ;
         if(prestamo != null){
             try {
-                declaracion = conexion.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+                declaracion = conexion.getConexion().prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
                 declaracion.setInt(1, prestamo.getIdEjemplar());
                 declaracion.setInt(2, prestamo.getIdLector());
                 declaracion.setDate(3, java.sql.Date.valueOf(prestamo.getFechaPrestamo()));
@@ -141,7 +141,7 @@ public class PrestamoData {
                 + ");"
                 ;
         try {
-            declaracion = conexion.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+            declaracion = conexion.getConexion().prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
             declaracion.setInt(1, idEjemplar);
             declaracion.setInt(2, idLector);
             declaracion.setDate(3, java.sql.Date.valueOf(java.time.LocalDate.now()));
@@ -179,7 +179,7 @@ public class PrestamoData {
         }
         if(idPrestamo > 0){
             try{
-                declaracion = conexion.prepareStatement(sql);
+                declaracion = conexion.getConexion().prepareStatement(sql);
                 declaracion.setInt(1, idEjemplar);
                 declaracion.setInt(2, idLector);
                 declaracion.setInt(3, idPrestamo);
@@ -208,7 +208,7 @@ public class PrestamoData {
             respuesta = 0;
         if(idPrestamo > 0 && idLector > 0 && idEjemplar > 0){
             try{
-                declaracion = conexion.prepareStatement(sql);
+                declaracion = conexion.getConexion().prepareStatement(sql);
                 declaracion.setInt(1, idEjemplar);
                 declaracion.setInt(2, idLector);
                 declaracion.setInt(3, idPrestamo);
@@ -235,7 +235,7 @@ public class PrestamoData {
             respuesta = 0;
         if(idPrestamo > 0){
             try{
-                declaracion = conexion.prepareStatement(sql);
+                declaracion = conexion.getConexion().prepareStatement(sql);
                 declaracion.setInt(1, idPrestamo);
                 declaracion.executeUpdate();
                 declaracion.close();
@@ -260,7 +260,7 @@ public class PrestamoData {
             respuesta = 0;
         if(idPrestamo > 0){
             try{
-                declaracion = conexion.prepareStatement(sql);
+                declaracion = conexion.getConexion().prepareStatement(sql);
                 declaracion.setInt(1, idPrestamo);
                 declaracion.executeUpdate();
                 declaracion.close();
@@ -283,7 +283,7 @@ public class PrestamoData {
         Entidades.Prestamo prestamo;
         if(fechaPrestamo != null){
             try{
-                declaracion = conexion.prepareStatement(sql);
+                declaracion = conexion.getConexion().prepareStatement(sql);
                 declaracion.setDate(1, java.sql.Date.valueOf(fechaPrestamo));
                 resultado = declaracion.executeQuery();
                 while(resultado.next()){
@@ -321,7 +321,7 @@ public class PrestamoData {
         if(lector != null) idLector = lector.getIdLector();
         if(idLector > 0){
             try{
-                declaracion = conexion.prepareStatement(sql);
+                declaracion = conexion.getConexion().prepareStatement(sql);
                 declaracion.setInt(1, idLector);
                 resultado = declaracion.executeQuery();
                 while(resultado.next()){
@@ -356,7 +356,7 @@ public class PrestamoData {
         Entidades.Prestamo prestamo;
         if(idLector > 0){
             try{
-                declaracion = conexion.prepareStatement(sql);
+                declaracion = conexion.getConexion().prepareStatement(sql);
                 declaracion.setInt(1, idLector);
                 resultado = declaracion.executeQuery();
                 while(resultado.next()){
@@ -393,7 +393,7 @@ public class PrestamoData {
                 + "AND DATEDIFF(NOW(), p."+ CAMPOS[3] +") > "+ Biblioteca.CONF.MAXDIASPRESTADOS;
         Entidades.Lector lector;
         try{
-            declaracion = conexion.prepareStatement(sql);
+            declaracion = conexion.getConexion().prepareStatement(sql);
             //parametros int, date
             resultado = declaracion.executeQuery();
             while(resultado.next()){
@@ -436,7 +436,7 @@ public class PrestamoData {
         }
         if(idPrestamo > 0 && fechaDevolucion != null){
             try {
-                declaracion = conexion.prepareStatement(sql);
+                declaracion = conexion.getConexion().prepareStatement(sql);
                 declaracion.setDate(1,java.sql.Date.valueOf(fechaDevolucion));
                 declaracion.setInt(2, idPrestamo);
                 declaracion.executeUpdate();
@@ -461,7 +461,7 @@ public class PrestamoData {
                 + "WHERE " + CAMPOS[0] + "=?;"; //idPrestamo
         if(idPrestamo > 0){
             try {
-                declaracion = conexion.prepareStatement(sql);
+                declaracion = conexion.getConexion().prepareStatement(sql);
                 declaracion.setDate(1, java.sql.Date.valueOf(fechaDevolucion));
                 declaracion.setInt(2, idPrestamo);
                 declaracion.executeUpdate();
