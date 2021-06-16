@@ -15,7 +15,7 @@ public class Multa {
     private Ejemplar libro;
     
     public void aplicarMulta () {
-        lector.setDeuda(lector.getDeuda()+2);
+
     }
     
     public Multa (Lector unLector, Ejemplar unLibro) { //Los métodos estáticos no sirven.

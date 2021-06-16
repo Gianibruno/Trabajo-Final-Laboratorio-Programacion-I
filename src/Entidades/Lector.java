@@ -16,7 +16,6 @@ import java.util.ArrayList;
 public class Lector extends Persona {
 
     private ArrayList<Ejemplar> librosPrestados;
-    private int deuda;
     private int idLector,
             estado;
     private String telefono,
@@ -62,16 +61,8 @@ public class Lector extends Persona {
         this.estado = estado;
     }
 
-    public int getDeuda() {
-        return deuda;
-    }
-
     public void setLibrosPrestados(ArrayList<Ejemplar> librosPrestados) {
         this.librosPrestados = librosPrestados;
-    }
-
-    public void setDeuda(int deuda) {
-        this.deuda = deuda;
     }
 
     public int getIdLector() {
@@ -91,7 +82,7 @@ public class Lector extends Persona {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return super.getNombre();
     }
 }
