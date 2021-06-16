@@ -90,4 +90,8 @@ public class Lector extends Persona {
         return estado;
     }
 
+    @Override
+    public String toString(){
+        return super.getNombre();
+    }
 }
