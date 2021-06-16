@@ -107,7 +107,7 @@ public class LibroData {
             while (rs.next()) {
                 libro = new Entidades.Libro();
                 libro.setId(rs.getInt(CAMPOS[0]));
-                libro.setAutor(ad.buscarAutor(CAMPOS[1]));
+                libro.setAutor(ad.buscarAutorXId(Integer.parseInt(rs.getString(CAMPOS[1]))));
                 libro.setIsbn(rs.getLong(CAMPOS[2]));
                 libro.setNombre(rs.getString(CAMPOS[3]));
                 libro.setTipo(rs.getString(CAMPOS[4]));
@@ -123,7 +123,7 @@ public class LibroData {
         return libros;
     }
 
-    public Entidades.Libro buscarLibro(int isbn) {
+    public Entidades.Libro buscarLibro(long isbn) {
         Entidades.Libro libro = null;
         String sql = "SELECT * FROM " + TABLA + " WHERE " + CAMPOS[2] + "=?;";
         AutorData ad = new AutorData(conaux);
@@ -134,7 +134,7 @@ public class LibroData {
             while (rs.next()) {
                 libro = new Entidades.Libro();
                 libro.setId(rs.getInt(CAMPOS[0]));
-                libro.setAutor(ad.buscarAutor(CAMPOS[1]));
+                libro.setAutor(ad.buscarAutorXId(Integer.parseInt(rs.getString(CAMPOS[1]))));
                 libro.setIsbn(rs.getLong(CAMPOS[2]));
                 libro.setNombre(rs.getString(CAMPOS[3]));
                 libro.setTipo(rs.getString(CAMPOS[4]));
@@ -160,7 +160,7 @@ public class LibroData {
             while (rs.next()) {
                 libro = new Entidades.Libro();
                 libro.setId(rs.getInt(CAMPOS[0]));
-                libro.setAutor(ad.buscarAutor(CAMPOS[1]));
+                libro.setAutor(ad.buscarAutorXId(rs.getInt(CAMPOS[1])));
                 libro.setIsbn(rs.getLong(CAMPOS[2]));
                 libro.setNombre(rs.getString(CAMPOS[3]));
                 libro.setTipo(rs.getString(CAMPOS[4]));

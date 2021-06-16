@@ -332,7 +332,7 @@ public class Grupo1TPFinal {
         
         // <editor-fold defaultstate="collapsed" desc=" GUI ">
         System.out.println("GUI Principal con menu");
-        //GUI.Principal.iniciar();//..............................................GUI
+        GUI.Principal.iniciar();//..............................................GUI
         // </editor-fold>
     }
     
