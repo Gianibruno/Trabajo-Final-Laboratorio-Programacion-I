@@ -511,7 +511,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuAutores3ActionPerformed
 
     private void menuLectores1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores1ActionPerformed
-        insertarEnEscritorio(null);
+        System.out.println("ABRIR VISTA LECTORES");
+        insertarEnEscritorio(new Lectores());
     }//GEN-LAST:event_menuLectores1ActionPerformed
 
     private void menuLectores2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores2ActionPerformed
@@ -527,7 +528,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuLectores4ActionPerformed
 
     private void menuLibros1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros1ActionPerformed
-        insertarEnEscritorio(null);
+        System.out.println("ABRIR VISTA LIBROS");
+        insertarEnEscritorio(new Libros());
     }//GEN-LAST:event_menuLibros1ActionPerformed
 
     private void menuLibros2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros2ActionPerformed

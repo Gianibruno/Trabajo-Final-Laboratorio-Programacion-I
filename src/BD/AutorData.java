@@ -169,6 +169,29 @@ public class AutorData {
         }
         return autor;
     }
+    
+    public Entidades.Autor buscarAutorXId(int id) {
+        Entidades.Autor autor = null;
+        String sql = "SELECT * FROM " + TABLA + " WHERE " + CAMPOS[0] + "=?;";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                autor = new Entidades.Autor();
+                autor.setIdAutor(rs.getInt(CAMPOS[0]));
+                autor.setDni(rs.getString(CAMPOS[1]));
+                autor.setNombre(rs.getString(CAMPOS[2]));
+                autor.setNacionalidad(rs.getString(CAMPOS[3]));
+                autor.setFechaNacimiento(java.time.LocalDate.parse(rs.getString(CAMPOS[4])));
+                autor.setEstado(rs.getInt(CAMPOS[5]));
+            }
+            ps.close();
+        } catch (java.sql.SQLException ex) {
+            error(ex);
+        }
+        return autor;
+    }
 
     private void error(Object ex) {
         System.out.println("Error: " + ex);
