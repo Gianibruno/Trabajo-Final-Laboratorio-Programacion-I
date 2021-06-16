@@ -38,11 +38,11 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         btnFechaPrestamo = new javax.swing.JButton();
         btnFechaDevolucion = new javax.swing.JButton();
         panelOpciones = new javax.swing.JPanel();
+        btnBuscar = new javax.swing.JButton();
         btnPrestar = new javax.swing.JButton();
         btnRecibir = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
-        btnBuscar = new javax.swing.JButton();
         panelLector = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -128,6 +128,13 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
             }
         });
 
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
         btnPrestar.setVisible(false);
         btnPrestar.setText("Prestar");
         btnPrestar.addActionListener(new java.awt.event.ActionListener() {
@@ -156,13 +163,6 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
-            }
-        });
-
-        btnBuscar.setText("Buscar");
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
             }
         });
 
@@ -624,14 +624,15 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Variables Privadas ">
+    //entidades
     Entidades.Lector lector = new Entidades.Lector();
-    Entidades.Libro libro = new Entidades.Libro();
     Entidades.Ejemplar ejemplar = new Entidades.Ejemplar();
     Entidades.Prestamo prestamo = new Entidades.Prestamo();
+    //data
     BD.PrestamoData pData = new BD.PrestamoData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
     BD.LectorData lectorData = new BD.LectorData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
     BD.EjemplarData eData = new BD.EjemplarData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
-    
+    //listas
     java.util.List<Entidades.Lector> lectores = null;
     java.util.List<Entidades.Ejemplar> ejemplares = null;
     java.util.List<Entidades.Prestamo> prestamos = null;
@@ -687,18 +688,18 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
             dispose();
     }
     
-    private void guardar(){
+    private void guardar(){ //actualizar
         if(prestamo.getIdPrestamo() > 0){
             if(pData.modificar(prestamo) == 0)
                 javax.swing.JOptionPane.showMessageDialog(this, "Error al Actualizar el prestamo.\n");
             else{
+                javax.swing.JOptionPane.showMessageDialog(this, "Se actualizaron los datos del prestamo.\n");
                 seleccionar(0);
                 desHabilitarFPrestamo();
                 desHabilitarFDevolucion();
-                desHabilitarEditar();
-                limpiar();
             }
-        }
+        } else
+            javax.swing.JOptionPane.showMessageDialog(this, "Error al Actualizar el prestamo.\n");
     }
     
     private void limpiar(){
@@ -707,43 +708,77 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         datoEjemplar.setText("");
         datoFechaPrestamo.setDate(null);
         datoFechaDevolucion.setDate(null);
+        buscarEjemplar.setText("");
+        buscarLector.setText("");
+        buscarPrestamo.setText("");
+        ((javax.swing.DefaultListModel)listaEjemplar.getModel()).clear();
+        ((javax.swing.DefaultListModel)listaLector.getModel()).clear();
+        ((javax.swing.DefaultListModel)listaPrestamos.getModel()).clear();
     }
     
     private void prestar(){
-        prestamo.setFechaPrestamo(java.time.LocalDateTime.ofInstant(
+        if(lector != null && ejemplar != null && datoFechaPrestamo.getDate() != null){
+            prestamo.setFechaPrestamo(java.time.LocalDateTime.ofInstant(
                     datoFechaPrestamo.getCalendar().toInstant(), 
                     datoFechaPrestamo.getCalendar().getTimeZone().toZoneId()).toLocalDate());
-        if(datoFechaDevolucion.getDate() != null)
-            prestamo.setFechaDevolucion(java.time.LocalDateTime.ofInstant(
-                    datoFechaDevolucion.getCalendar().toInstant(),
-                    datoFechaDevolucion.getCalendar().getTimeZone().toZoneId()).toLocalDate());
-        prestamo.setLector(lector);
-        prestamo.setEjemplar(ejemplar);
-        int nuevo = pData.registrar(prestamo);
-        if(nuevo == 0)
-            javax.swing.JOptionPane.showMessageDialog(this, "Error al Registrar un nuevo prestamo.\n");
-        else{
-            datoIdPrestamo.setText(String.valueOf(nuevo));
-            javax.swing.JOptionPane.showMessageDialog(this, "Se registro un nuevo prestamo.\n");
-            seleccionar(0);
-            desHabilitarFPrestamo();
-            desHabilitarFDevolucion();
-            desHabilitarEditar();
-        }
-    }
-    
-    private void recibir(){
-        if(prestamo.getIdPrestamo() > 0){
-            if(pData.devolver(prestamo) == 0)
-                javax.swing.JOptionPane.showMessageDialog(this, "Error al registrar devolución.\n");
+            if(datoFechaDevolucion.getDate() != null)
+                prestamo.setFechaDevolucion(java.time.LocalDateTime.ofInstant(
+                        datoFechaDevolucion.getCalendar().toInstant(),
+                        datoFechaDevolucion.getCalendar().getTimeZone().toZoneId()).toLocalDate());
+            prestamo.setLector(lector);
+            prestamo.setEjemplar(ejemplar);
+            int nuevo = pData.registrar(prestamo);
+            if(nuevo == 0)
+                javax.swing.JOptionPane.showMessageDialog(this, "Error al Registrar un nuevo prestamo.\n");
             else{
+                datoIdPrestamo.setText(String.valueOf(nuevo));
+                prestamo.setIdPrestamo(nuevo);
+                ejemplar.setEstado(0);
+                int cambioEjemplar = eData.cambiarEstado(ejemplar);
+                if(cambioEjemplar != 0){
+                    javax.swing.JOptionPane.showMessageDialog(this, "Se registro un nuevo prestamo.\n");
+                }else{
+                    javax.swing.JOptionPane.showMessageDialog(this, "Se registro un nuevo prestamo.\nAun asi hubo un error al cambiar el estado del ejemplar.\nVerifiquelo manualmente.");
+                }
                 seleccionar(0);
                 desHabilitarFPrestamo();
                 desHabilitarFDevolucion();
-                desHabilitarEditar();
-                limpiar();
             }
-        }
+        }else
+            javax.swing.JOptionPane.showMessageDialog(this, "Error al Registrar un nuevo prestamo. Faltan datos necesarios.");
+    }
+    
+    private void recibir(){
+        //prestamo ya esta cargado al seleccionar un prestamo en el buscador
+        java.time.LocalDate ahora = java.time.LocalDate.now();
+        if(prestamo.getIdPrestamo() > 0){
+            if(pData.devolver(prestamo.getIdPrestamo()) == 0)
+                javax.swing.JOptionPane.showMessageDialog(this, "Error al registrar devolución.\n");
+            else{
+                prestamo.setFechaDevolucion(ahora);
+                datoFechaDevolucion.setDate(java.sql.Date.valueOf(ahora));
+                ejemplar.setEstado(3);
+                int cambioEjemplar = eData.cambiarEstado(ejemplar);
+                if(cambioEjemplar != 0){
+                    javax.swing.JOptionPane.showMessageDialog(this, "Devolución del ejemplar realizada con exito.\n");
+                }else{
+                    javax.swing.JOptionPane.showMessageDialog(this, "Devolución del ejemplar realizada con exito.\nAun asi hubo un error al cambiar el estado del ejemplar.\nVerifiquelo manualmente.");
+                }
+                //Ver el tema de multa
+                long dias = java.time.temporal.ChronoUnit.DAYS.between(
+                        prestamo.getFechaPrestamo(), 
+                        java.time.LocalDate.now()) - Entidades.Biblioteca.CONF.MAXDIASPRESTADOS;
+                if(dias > 0){
+                    javax.swing.JOptionPane.showMessageDialog(this, "Corresponde multa de: "+ String.valueOf(dias * Entidades.Biblioteca.CONF.MULTAPORDIA));
+                    System.out.println("Corresponde multa de: "+ String.valueOf(dias * Entidades.Biblioteca.CONF.MULTAPORDIA) + " días.");
+                    //ver como hacer con la multa
+                }
+                seleccionar(0);
+                desHabilitarFPrestamo();
+                desHabilitarFDevolucion();
+            }
+        }else
+            javax.swing.JOptionPane.showMessageDialog(this, "Algo está mal con el Prestamo.\n");
     }
     
     private void habilitarFPrestamo(){
@@ -841,7 +876,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         datoEjemplar.setText(nombreEjemplar);
         datoIdPrestamo.setText(prestamo.getIdPrestamo()+"");
         datoFechaPrestamo.setDate(java.sql.Date.valueOf(prestamo.getFechaPrestamo()));
-        datoFechaDevolucion.setDate(java.sql.Date.valueOf(prestamo.getFechaDevolucion()));
+        datoFechaDevolucion.setDate(prestamo.getFechaDevolucion() == null ? null : java.sql.Date.valueOf(prestamo.getFechaDevolucion()));
         habilidarEditar();
     }
     //</editor-fold>
