@@ -499,11 +499,13 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuAyudaInfoActionPerformed
 
     private void menuAutores1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAutores1ActionPerformed
-        insertarEnEscritorio(null);
+        System.out.println("ABRIR VISTA AUTORES");
+        insertarEnEscritorio(new AutorGUI());
     }//GEN-LAST:event_menuAutores1ActionPerformed
 
     private void menuAutores2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAutores2ActionPerformed
-        insertarEnEscritorio(null);
+        System.out.println("ABRIR VISTA LISTA AUTORES");
+        insertarEnEscritorio(new ListaAutores());
     }//GEN-LAST:event_menuAutores2ActionPerformed
 
     private void menuAutores3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAutores3ActionPerformed
@@ -516,12 +518,13 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuLectores1ActionPerformed
 
     private void menuLectores2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores2ActionPerformed
-        System.out.println("ABRIR LISTA LECTORES");
+        System.out.println("ABRIR VISTA LISTA LECTORES");
         insertarEnEscritorio(new ListaLectores());
     }//GEN-LAST:event_menuLectores2ActionPerformed
 
     private void menuLectores3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores3ActionPerformed
-        insertarEnEscritorio(null);
+        System.out.println("ABRIR PRESTAMOS");
+        insertarEnEscritorio(new PrestamoGUI());
     }//GEN-LAST:event_menuLectores3ActionPerformed
 
     private void menuLectores4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores4ActionPerformed
@@ -534,7 +537,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuLibros1ActionPerformed
 
     private void menuLibros2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros2ActionPerformed
-        insertarEnEscritorio(null);
+        System.out.println("ABRIR VISTA LISTA LIBROS");
+        insertarEnEscritorio(new ListaLibros());
     }//GEN-LAST:event_menuLibros2ActionPerformed
 
     private void menuLibros3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros3ActionPerformed

@@ -6,38 +6,46 @@
 package GUI;
 
 import Entidades.Lector;
+import Entidades.Libro;
 import java.util.List;
 
 /**
  *
  * @author giani
  */
-public class ListaLectores extends javax.swing.JInternalFrame {
+public class ListaLibros extends javax.swing.JInternalFrame {
 
     javax.swing.table.DefaultTableModel modelTable = null;
 
     /**
-     * Creates new form ListaLectores
+     * Creates new form ListaLibros
      */
-    public ListaLectores() {
+    public ListaLibros() {
         initComponents();
-        String[] COLUMNAS = new String[]{"Nombre", "DNI", "Direccion", "Telefono", "Estado", "Fecha Nacimiento"};
-        modelTable =  (javax.swing.table.DefaultTableModel)jTable2.getModel();
+        String[] COLUMNAS = new String[]{"Nombre", "ISBN", "Tipo", "Editorial", "Año", "Autor", "Estado"};
+        modelTable = (javax.swing.table.DefaultTableModel) jTable2.getModel();
         modelTable.setColumnIdentifiers(COLUMNAS);
         actualizar();
-        
     }
-        public void actualizar(){
-            int i=0;
-            modelTable.setRowCount(0);
-            BD.LectorData ld = new BD.LectorData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
-            List<Entidades.Lector> lista =ld.obtenerLectores();
-            //modelTable.setRowCount(lista.size());
-            for (Lector lector : lista) {    
-                modelTable.insertRow(i, new String[]{lector.getNombre(),lector.getDni(),lector.getDireccion(),lector.getTelefono(),lector.getEstado()+"",lector.getFechaNacimiento()+""});
-                i++;
+
+    public void actualizar() {
+        int i = 0;
+        String estado="";
+        modelTable.setRowCount(0);
+        BD.LibroData ld = new BD.LibroData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
+        List<Entidades.Libro> lista = ld.obtenerLibros();
+        //modelTable.setRowCount(lista.size());
+        for (Libro libro: lista) {
+            if(libro.getEstado()==1){
+                estado="Activado";
+            }else{
+                estado="Desactivado";
             }
+            modelTable.insertRow(i, new String[]{libro.getNombre(),libro.getIsbn()+"",libro.getTipo()+"",libro.getEditorial(),libro.getAño()+"",libro.getAutor().getNombre(),estado});
+            i++;
         }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -47,9 +55,9 @@ public class ListaLectores extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
         jbActualizar = new javax.swing.JButton();
 
         setClosable(true);
@@ -57,11 +65,11 @@ public class ListaLectores extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel());
-        jScrollPane2.setViewportView(jTable2);
-
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jLabel1.setText("Lista de Lectores");
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel());
+        jScrollPane2.setViewportView(jTable2);
 
         jbActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/actualizar.png"))); // NOI18N
         jbActualizar.setText("Actualizar");
@@ -83,19 +91,19 @@ public class ListaLectores extends javax.swing.JInternalFrame {
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(199, 199, 199))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jbActualizar)
-                                .addGap(229, 229, 229))))))
+                        .addComponent(jLabel1)
+                        .addGap(201, 201, 201))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(238, 238, 238)
+                .addComponent(jbActualizar)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbActualizar)
