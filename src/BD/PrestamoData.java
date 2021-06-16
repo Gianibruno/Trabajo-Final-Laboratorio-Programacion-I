@@ -168,24 +168,33 @@ public class PrestamoData {
     public int modificar(Entidades.Prestamo prestamo){
         String sql = "UPDATE "+ TABLA +" SET "
                 + CAMPOS[1] + "=?, " //idEjemplar
-                + CAMPOS[2] + "=? "  //idLector
+                + CAMPOS[2] + "=?, "  //idLector
+                + CAMPOS[3] + "=?, "  //fecha del prestamo
+                + CAMPOS[4] + "=? "  //fecha de devolucion 
                 + "WHERE " + CAMPOS[0] + "=?;"; //idPrestamo
         int 
             idEjemplar = 0, 
             idLector = 0, 
             idPrestamo = 0,
             respuesta = 0;
+        java.time.LocalDate
+                fechaPrestamo = null,
+                fechaDevolucion = null;
         if(prestamo != null){
             idEjemplar = prestamo.getEjemplar().getId();
             idLector = prestamo.getLector().getIdLector();
             idPrestamo = prestamo.getIdPrestamo();
+            fechaPrestamo = prestamo.getFechaPrestamo();
+            fechaDevolucion = prestamo.getFechaDevolucion() == null ? null : prestamo.getFechaDevolucion();
         }
         if(idPrestamo > 0){
             try{
                 declaracion = conexion.getConexion().prepareStatement(sql);
                 declaracion.setInt(1, idEjemplar);
                 declaracion.setInt(2, idLector);
-                declaracion.setInt(3, idPrestamo);
+                declaracion.setDate(2, java.sql.Date.valueOf(fechaPrestamo));
+                declaracion.setDate(2, java.sql.Date.valueOf(fechaDevolucion));
+                declaracion.setInt(5, idPrestamo);
                 declaracion.executeUpdate();
                 declaracion.close();
                 respuesta = 1;
