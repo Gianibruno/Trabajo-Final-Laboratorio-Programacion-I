@@ -199,6 +199,34 @@ public class LectorData {
         return entidad;
     }
     
+    public java.util.ArrayList<Entidades.Lector> buscarNoMultados(String nombre){
+        java.util.ArrayList<Entidades.Lector> respuesta = new java.util.ArrayList<>();
+        Entidades.Lector lector;
+        String sql = "SELECT DISTINCT l.* FROM lectores AS l, prestamos AS p, multa AS m "
+                + "WHERE l.nombre LIKE \"%" + nombre + "%\" "
+                + "AND l.id_lector = p.id_lector "
+                + "AND NOT p.id_prestamo = m.id_prestamo;";
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                lector = new Entidades.Lector(
+                    rs.getString(CAMPOS[1]), 
+                    rs.getString(CAMPOS[2]), 
+                    rs.getString(CAMPOS[3]), 
+                    rs.getString(CAMPOS[4]), 
+                    rs.getDate(CAMPOS[5]).toLocalDate());
+                lector.setIdLector(rs.getInt(CAMPOS[0]));
+                lector.setEstado(rs.getInt(CAMPOS[6]));
+                respuesta.add(lector);
+            }
+            ps.close();
+        } catch (java.sql.SQLException ex) {
+            error(ex);
+        }
+        return respuesta;
+    }
+    
     private void error(Object ex) {
         System.out.println("Error: "+ ex);
         this.ex = ex;

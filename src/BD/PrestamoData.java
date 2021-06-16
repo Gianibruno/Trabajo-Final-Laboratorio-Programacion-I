@@ -105,7 +105,10 @@ public class PrestamoData {
                 declaracion.setInt(1, prestamo.getEjemplar().getId());
                 declaracion.setInt(2, prestamo.getLector().getIdLector());
                 declaracion.setDate(3, java.sql.Date.valueOf(prestamo.getFechaPrestamo()));
-                declaracion.setDate(4, java.sql.Date.valueOf(prestamo.getFechaDevolucion()));
+                if(prestamo.getFechaDevolucion() != null)
+                    declaracion.setDate(4, java.sql.Date.valueOf(prestamo.getFechaDevolucion()));
+                else
+                    declaracion.setNull(4, java.sql.Types.DATE);
                 declaracion.executeUpdate();
                 resultado = declaracion.getGeneratedKeys();
                 if(resultado.next()){
@@ -512,6 +515,53 @@ public class PrestamoData {
             } catch (java.sql.SQLException ex) {
                 error(ex);
             }
+        }
+        return respuesta;
+    }
+    
+    public java.util.List<Entidades.Prestamo> buscar(String nombreLibro){
+        java.util.ArrayList<Entidades.Prestamo> respuesta = new java.util.ArrayList<Entidades.Prestamo>();
+        Entidades.Prestamo prestamo;
+        Entidades.Lector lector;
+        Entidades.Ejemplar ejemplar;
+        String sql = "SELECT p.* FROM prestamos AS p, ejemplares AS e, libros AS l "
+                + "WHERE l.nombre like \"%"+ nombreLibro +"%\" "
+                + "AND p.id_ejemplar = e.id_ejemplar "
+                + "AND e.id_libro = l.id_libro;";
+        BD.EjemplarData eData = new BD.EjemplarData(conexion);
+        BD.LectorData lData = new BD.LectorData(conexion);
+        int 
+                idPrestamo = 0,
+                idLector = 0,
+                idEjemplar = 0;
+        java.time.LocalDate 
+                fechaPrestamo = null,
+                fechaDevolucion = null;
+        try{
+            declaracion = conexion.getConexion().prepareStatement(sql);
+            resultado = declaracion.executeQuery();
+            while(resultado.next()){
+                idPrestamo = resultado.getInt(CAMPOS[0]);
+                idEjemplar = resultado.getInt(CAMPOS[1]);
+                fechaPrestamo = (resultado.getDate(CAMPOS[3]) == null) ? null : resultado.getDate(CAMPOS[3]).toLocalDate();
+                fechaDevolucion = (resultado.getDate(CAMPOS[4]) == null) ? null : resultado.getDate(CAMPOS[4]).toLocalDate();
+                //El ejemplar
+                ejemplar = eData.buscarEjemplar(idEjemplar);
+                //El lector
+                lector = lData.buscarLector(idLector);//Modificar por el metodo de busqueda por id
+                //El prestamo
+                prestamo = new Entidades.Prestamo(
+                    idPrestamo,
+                    ejemplar,
+                    lector,
+                    fechaPrestamo,
+                    fechaDevolucion
+                );
+                respuesta.add(prestamo);
+            }
+            declaracion.close();
+        }catch(java.sql.SQLException ex){
+            error(ex);
         }
         return respuesta;
     }

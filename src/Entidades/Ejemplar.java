@@ -52,4 +52,9 @@ public class Ejemplar {
     public void setEstado(int estado) {
         this.estado = estado;
     }
+
+    @Override
+    public String toString() {
+        return libro.getNombre() + ", " + id;
+    }
 }
