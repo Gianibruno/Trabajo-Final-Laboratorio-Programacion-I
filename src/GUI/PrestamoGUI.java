@@ -39,6 +39,8 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         btnFechaDevolucion = new javax.swing.JButton();
         panelOpciones = new javax.swing.JPanel();
         btnBuscar = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
         btnPrestar = new javax.swing.JButton();
         btnRecibir = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
@@ -128,10 +130,27 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
             }
         });
 
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/buscar.png"))); // NOI18N
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
+            }
+        });
+
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/nuevo.png"))); // NOI18N
+        btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
+
+        btnEliminar.setVisible(false);
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
             }
         });
 
@@ -152,6 +171,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         });
 
         btnGuardar.setVisible(false);
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/guardar.png"))); // NOI18N
         btnGuardar.setText("Actualizar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -159,6 +179,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
             }
         });
 
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cerrar.png"))); // NOI18N
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -172,15 +193,21 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
             panelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelOpcionesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnPrestar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnRecibir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnBuscar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnGuardar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSalir)
+                .addGroup(panelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelOpcionesLayout.createSequentialGroup()
+                        .addComponent(btnBuscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnNuevo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSalir))
+                    .addGroup(panelOpcionesLayout.createSequentialGroup()
+                        .addComponent(btnPrestar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnRecibir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnGuardar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEliminar)))
                 .addContainerGap())
         );
         panelOpcionesLayout.setVerticalGroup(
@@ -188,11 +215,15 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
             .addGroup(panelOpcionesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSalir)
                     .addComponent(btnPrestar)
                     .addComponent(btnRecibir)
                     .addComponent(btnGuardar)
-                    .addComponent(btnBuscar))
+                    .addComponent(btnEliminar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addGroup(panelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBuscar)
+                    .addComponent(btnSalir)
+                    .addComponent(btnNuevo))
                 .addContainerGap())
         );
 
@@ -290,6 +321,12 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(listaLector);
 
+        buscarLector.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                buscarLectorKeyPressed(evt);
+            }
+        });
+
         btnBuscarLector.setText("Buscar");
         btnBuscarLector.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -350,6 +387,12 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(listaEjemplar);
 
+        buscarEjemplar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                buscarEjemplarKeyPressed(evt);
+            }
+        });
+
         btnBuscarEjemplar.setText("Buscar");
         btnBuscarEjemplar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -402,6 +445,12 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         jLabel1.setText("Buscar un Prestamo de un Ejemplar:");
 
         jLabel4.setText("Nombre del Libro:");
+
+        buscarPrestamo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                buscarPrestamoKeyPressed(evt);
+            }
+        });
 
         listaPrestamos.setModel(new javax.swing.DefaultListModel<Entidades.Prestamo>());
         listaPrestamos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -457,10 +506,10 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                     .addComponent(buscarPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscarPrestamo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnVolverPrestamo)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -485,10 +534,14 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                 .addComponent(Titulo)
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelLector, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelBuscarPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelEjemplar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(panelBuscarPrestamo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(panelLector, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(panelEjemplar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(panelPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         pack();
@@ -524,7 +577,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnRecibirActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        guardar();
+        actualizar();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnBuscarLectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarLectorActionPerformed
@@ -558,20 +611,50 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
     private void listaPrestamosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaPrestamosValueChanged
         if(listaPrestamos.getSelectedIndex() > -1){
             seleccionarPrestamo();
+            seleccionar(0);
         }
     }//GEN-LAST:event_listaPrestamosValueChanged
 
     private void listaEjemplarValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaEjemplarValueChanged
         if(listaEjemplar.getSelectedIndex() > -1){
             seleccionarEjemplar();
+            seleccionar(0);
         }
     }//GEN-LAST:event_listaEjemplarValueChanged
 
     private void listaLectorValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaLectorValueChanged
         if(listaLector.getSelectedIndex() > -1){
             seleccionarLector();
+            seleccionar(0);
         }
     }//GEN-LAST:event_listaLectorValueChanged
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        habilitarNuevo();
+        limpiarTodo();
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        eliminar();
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void buscarLectorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscarLectorKeyPressed
+        int tecla = evt.getKeyCode();
+        if(tecla == java.awt.event.KeyEvent.VK_ENTER)
+            buscarLectores();
+    }//GEN-LAST:event_buscarLectorKeyPressed
+
+    private void buscarEjemplarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscarEjemplarKeyPressed
+        int tecla = evt.getKeyCode();
+        if(tecla == java.awt.event.KeyEvent.VK_ENTER)
+            buscarEjemplares();
+    }//GEN-LAST:event_buscarEjemplarKeyPressed
+
+    private void buscarPrestamoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscarPrestamoKeyPressed
+        int tecla = evt.getKeyCode();
+        if(tecla == java.awt.event.KeyEvent.VK_ENTER)
+            buscarPrestamos();
+    }//GEN-LAST:event_buscarPrestamoKeyPressed
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Variables del Diseñador ">
@@ -581,11 +664,13 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnBuscarEjemplar;
     private javax.swing.JButton btnBuscarLector;
     private javax.swing.JButton btnBuscarPrestamo;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnFechaDevolucion;
     private javax.swing.JButton btnFechaPrestamo;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModoEjemplar;
     private javax.swing.JButton btnModoLector;
+    private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnPrestar;
     private javax.swing.JButton btnRecibir;
     private javax.swing.JButton btnSalir;
@@ -688,21 +773,37 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
             dispose();
     }
     
-    private void guardar(){ //actualizar
-        if(prestamo.getIdPrestamo() > 0){
+    private void actualizar(){
+        if(Integer.parseInt(datoIdPrestamo.getText()) > 0){
+            actualizarDatos();if(prestamo.getIdPrestamo() > 0){
             if(pData.modificar(prestamo) == 0)
+                    javax.swing.JOptionPane.showMessageDialog(this, "Error al Actualizar el prestamo.\n");
+                else{
+                    javax.swing.JOptionPane.showMessageDialog(this, "Se actualizaron los datos del prestamo.\n");
+                    seleccionar(0);
+                    desHabilitarFPrestamo();
+                    desHabilitarFDevolucion();
+                }
+            } else
                 javax.swing.JOptionPane.showMessageDialog(this, "Error al Actualizar el prestamo.\n");
-            else{
-                javax.swing.JOptionPane.showMessageDialog(this, "Se actualizaron los datos del prestamo.\n");
-                seleccionar(0);
-                desHabilitarFPrestamo();
-                desHabilitarFDevolucion();
-            }
-        } else
-            javax.swing.JOptionPane.showMessageDialog(this, "Error al Actualizar el prestamo.\n");
+        }
     }
     
-    private void limpiar(){
+    private void actualizarDatos(){
+        prestamo.setFechaPrestamo(java.time.LocalDateTime.ofInstant(
+                datoFechaPrestamo.getCalendar().toInstant(), 
+                datoFechaPrestamo.getCalendar().getTimeZone().toZoneId()).toLocalDate());
+        if(datoFechaDevolucion.getDate() != null)
+            prestamo.setFechaDevolucion(java.time.LocalDateTime.ofInstant(
+                    datoFechaDevolucion.getCalendar().toInstant(),
+                    datoFechaDevolucion.getCalendar().getTimeZone().toZoneId()).toLocalDate());
+        prestamo.setLector(lector);
+        prestamo.setEjemplar(ejemplar);
+        if(Integer.parseInt(datoIdPrestamo.getText()) > 0)
+            prestamo.setIdPrestamo(Integer.parseInt(datoIdPrestamo.getText()));
+    }
+    
+    private void limpiarTodo(){
         datoIdPrestamo.setText("0");
         datoLector.setText("");
         datoEjemplar.setText("");
@@ -718,38 +819,33 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
     
     private void prestar(){
         if(lector != null && ejemplar != null && datoFechaPrestamo.getDate() != null){
-            prestamo.setFechaPrestamo(java.time.LocalDateTime.ofInstant(
-                    datoFechaPrestamo.getCalendar().toInstant(), 
-                    datoFechaPrestamo.getCalendar().getTimeZone().toZoneId()).toLocalDate());
-            if(datoFechaDevolucion.getDate() != null)
-                prestamo.setFechaDevolucion(java.time.LocalDateTime.ofInstant(
-                        datoFechaDevolucion.getCalendar().toInstant(),
-                        datoFechaDevolucion.getCalendar().getTimeZone().toZoneId()).toLocalDate());
-            prestamo.setLector(lector);
-            prestamo.setEjemplar(ejemplar);
-            int nuevo = pData.registrar(prestamo);
-            if(nuevo == 0)
-                javax.swing.JOptionPane.showMessageDialog(this, "Error al Registrar un nuevo prestamo.\n");
-            else{
-                datoIdPrestamo.setText(String.valueOf(nuevo));
-                prestamo.setIdPrestamo(nuevo);
-                ejemplar.setEstado(0);
-                int cambioEjemplar = eData.cambiarEstado(ejemplar);
-                if(cambioEjemplar != 0){
-                    javax.swing.JOptionPane.showMessageDialog(this, "Se registro un nuevo prestamo.\n");
-                }else{
-                    javax.swing.JOptionPane.showMessageDialog(this, "Se registro un nuevo prestamo.\nAun asi hubo un error al cambiar el estado del ejemplar.\nVerifiquelo manualmente.");
+            if(Integer.parseInt(datoIdPrestamo.getText()) == 0){
+                actualizarDatos();
+                int nuevo = pData.registrar(prestamo);
+                if(nuevo == 0)
+                    javax.swing.JOptionPane.showMessageDialog(this, "Error al Registrar un nuevo prestamo.\n");
+                else{
+                    datoIdPrestamo.setText(String.valueOf(nuevo));
+                    prestamo.setIdPrestamo(nuevo);
+                    ejemplar.setEstado(0);
+                    int cambioEjemplar = eData.cambiarEstado(ejemplar);
+                    if(cambioEjemplar != 0){
+                        javax.swing.JOptionPane.showMessageDialog(this, "Se registro un nuevo prestamo.\n");
+                    }else{
+                        javax.swing.JOptionPane.showMessageDialog(this, "Se registro un nuevo prestamo.\nAun asi hubo un error al cambiar el estado del ejemplar.\nVerifiquelo manualmente.");
+                    }
+                    seleccionar(0);
+                    desHabilitarFPrestamo();
+                    desHabilitarFDevolucion();
                 }
-                seleccionar(0);
-                desHabilitarFPrestamo();
-                desHabilitarFDevolucion();
-            }
+            }else
+                javax.swing.JOptionPane.showMessageDialog(this, "Ya existe un prestamo con estos datos.");
         }else
             javax.swing.JOptionPane.showMessageDialog(this, "Error al Registrar un nuevo prestamo. Faltan datos necesarios.");
     }
     
     private void recibir(){
-        //prestamo ya esta cargado al seleccionar un prestamo en el buscador
+        actualizarDatos();
         java.time.LocalDate ahora = java.time.LocalDate.now();
         if(prestamo.getIdPrestamo() > 0){
             if(pData.devolver(prestamo.getIdPrestamo()) == 0)
@@ -781,6 +877,24 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Algo está mal con el Prestamo.\n");
     }
     
+    private void eliminar(){
+        actualizarDatos();
+        if(prestamo.getIdPrestamo() > 0){
+            if(pData.anular(prestamo) == 0)
+                javax.swing.JOptionPane.showMessageDialog(this, "Error al Eliminar el prestamo.\n");
+            else{
+                javax.swing.JOptionPane.showMessageDialog(this, "Prestamo Eliminado de la Base de datos.\n");
+                limpiarTodo();
+                habilitarNuevo();
+            }
+            desHabilitarEditar();
+        }
+    }
+    
+    private void habilitarNuevo(){
+        btnPrestar.setVisible(true);
+    }
+    
     private void habilitarFPrestamo(){
         datoFechaPrestamo.setEnabled(true);
     }
@@ -801,12 +915,14 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         btnPrestar.setVisible(true);
         btnRecibir.setVisible(true);
         btnGuardar.setVisible(true);
+        btnEliminar.setVisible(true);
     }
     
     private void desHabilitarEditar(){
         btnPrestar.setVisible(false);
         btnRecibir.setVisible(false);
         btnGuardar.setVisible(false);
+        btnEliminar.setVisible(false);
     }
     
     private void buscarLectores(){
