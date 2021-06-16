@@ -11,7 +11,7 @@ package BD;
  *
  */
 public class EjemplarData {
-
+    
     final private String TABLA = "ejemplares", //¿Por qué nos hemos olvidado de poner letras mayúsculas en los nombres?
             CAMPOS[] = {"id_ejemplar", "id_libro", "estado"};
     //Atributos
@@ -59,21 +59,72 @@ public class EjemplarData {
         int respuesta = 0;
         String sql = "UPDATE " + TABLA + " SET "
                 + CAMPOS[1] + "=?, "
-                + CAMPOS[2] + "=?, "
-                + CAMPOS[3] + "=?, "
+                + CAMPOS[2] + "=? "
                 + "WHERE " + CAMPOS[0] + "=?;";
         if (ejemplar != null && ejemplar.getId() > 0) {
             try {
                 ps = con.prepareStatement(sql);
-                ps.setInt(1, ejemplar.getId());
-                ps.setInt(2, ejemplar.getLibro().getId());
-                ps.setInt(3, ejemplar.getEstado());
+                ps.setInt(1, ejemplar.getLibro().getId());
+                ps.setInt(2, ejemplar.getEstado());
                 ps.executeUpdate();
                 ps.close();
-                respuesta = 0; //Si retorna 0, entonces todo 0K.
+                respuesta = 1;
             } catch (java.sql.SQLException ex) {
                 error(ex);
+            }
+        }
+        return respuesta;
+    }
+    
+    /**
+     * Cambiar estado del ejemplar, el ejemplar debe poseer el estado nuevo.
+     * @return 
+     */
+    public int cambiarEstado(Entidades.Ejemplar ejemplar){
+        int respuesta = 0;
+        String sql = "UPDATE " + TABLA + " SET "
+                + CAMPOS[2] + "=? "
+                + "WHERE " + CAMPOS[0] + "=?;";
+        if(ejemplar.getId() > 0 && (ejemplar.getEstado() >= 0 && ejemplar.getEstado() <= 3)){
+            try {
+                ps = con.prepareStatement(sql);
+                ps.setInt(1, ejemplar.getEstado());
+                ps.setInt(2, ejemplar.getId());
+                ps.executeUpdate();
+                ps.close();
                 respuesta = 1;
+            } catch (java.sql.SQLException ex) {
+                error(ex);
+            }
+        }
+        return respuesta;
+    }
+    
+    /**
+     * Cambiar estado del ejemplar:
+     * Estados:
+     * 0 - prestado,
+     * 1 - retraso,
+     * 2 - reparacion,
+     * 3 - disponible.
+     * Entidades.Ejemplar.ESTADOS
+     * @return 
+     */
+    public int cambiarEstado(int idEjemplar, int estado){
+        int respuesta = 0;
+        String sql = "UPDATE " + TABLA + " SET "
+                + CAMPOS[2] + "=? "
+                + "WHERE " + CAMPOS[0] + "=?;";
+        if(idEjemplar > 0 && (estado >= 0 && estado <= 3)){
+            try {
+                ps = con.prepareStatement(sql);
+                ps.setInt(1, estado);
+                ps.setInt(2, idEjemplar);
+                ps.executeUpdate();
+                ps.close();
+                respuesta = 1;
+            } catch (java.sql.SQLException ex) {
+                error(ex);
             }
         }
         return respuesta;
