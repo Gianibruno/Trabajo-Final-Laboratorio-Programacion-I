@@ -116,4 +116,11 @@ public class Prestamo {
         this.lector = lector;
     }
     //</editor-fold>
+
+    @Override
+    public String toString() {
+        return "Prestamo del Ejemplar: " + getEjemplar().getId() + " del Libro: " + getEjemplar().getLibro().getNombre() + ", al Lector: "+ getLector().getNombre(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }
