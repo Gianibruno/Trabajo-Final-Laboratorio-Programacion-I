@@ -12,6 +12,13 @@ package Entidades;
  */
 public class Ejemplar {
 
+    public static final class ESTADOS{
+        public static int
+                prestado = 0,
+                retraso = 1,
+                reparacion = 2,
+                disponible = 3;
+    }
     private int id;
     private int estado;
     private Libro libro;
