@@ -543,6 +543,7 @@ public class PrestamoData {
             while(resultado.next()){
                 idPrestamo = resultado.getInt(CAMPOS[0]);
                 idEjemplar = resultado.getInt(CAMPOS[1]);
+                idLector = resultado.getInt(CAMPOS[2]);
                 fechaPrestamo = (resultado.getDate(CAMPOS[3]) == null) ? null : resultado.getDate(CAMPOS[3]).toLocalDate();
                 fechaDevolucion = (resultado.getDate(CAMPOS[4]) == null) ? null : resultado.getDate(CAMPOS[4]).toLocalDate();
                 //El ejemplar
