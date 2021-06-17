@@ -14,6 +14,7 @@ public class LectoresMorosos extends javax.swing.JInternalFrame {
      */
     public LectoresMorosos() {
         initComponents();
+        iniciar();
     }
 
     /**
@@ -25,21 +26,128 @@ public class LectoresMorosos extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
-        );
+        jLabel1 = new javax.swing.JLabel();
+        btnActualizar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabla = new javax.swing.JTable();
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+        setTitle("Lectores con prestamos adeudados");
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Lectores con ejemplares no devueltos");
+
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+
+        tabla.setModel(new javax.swing.table.DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+        tabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        ((javax.swing.table.DefaultTableModel) tabla.getModel())
+        .setColumnIdentifiers(
+            new String[]{
+                "Id",
+                "DNI",
+                "Nombre",
+                "Telefono",
+                "Dirección",
+                "Fecha Nacimiento",
+                "Estado"
+            });
+            tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    tablaMouseClicked(evt);
+                }
+            });
+            jScrollPane1.setViewportView(tabla);
+
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(btnActualizar)))
+                    .addContainerGap())
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jLabel1)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(btnActualizar)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            );
+
+            pack();
+        }// </editor-fold>//GEN-END:initComponents
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        actualizar();
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        if(evt.getClickCount() >= 2)
+        abrirLector(tabla.getSelectedRow());
+    }//GEN-LAST:event_tablaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
+    
+    private BD.LectorData lData = new BD.LectorData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
+    private Entidades.Lector lector = null;
+    private java.util.List<Entidades.Lector> lista = null;
+    private javax.swing.table.DefaultTableModel modelo = null;
+    
+    private void iniciar(){
+        lista = new java.util.ArrayList<>();
+        modelo = (javax.swing.table.DefaultTableModel)tabla.getModel();
+    }
+    
+    private void actualizar() {
+        modelo.setRowCount(0);
+        lista = lData.obtenerLectoresMorosos();
+        if(lista.size() > 0){
+            for (Entidades.Lector lector : lista) {
+                modelo.addRow(new String[]{
+                        lector.getIdLector()+"", 
+                        lector.getDni(), 
+                        lector.getNombre(),  
+                        lector.getTelefono(),
+                        lector.getDireccion(),
+                        lector.getFechaNacimiento().toString(),
+                        Entidades.Biblioteca.CONF.LECTORESTADOS[lector.getEstado()]
+                    });
+            }
+        }
+    }
+
+    private void abrirLector(int indice) {
+        System.out.println(lista.get(indice).toString());
+    }
 }
