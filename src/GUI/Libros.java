@@ -306,7 +306,7 @@ public class Libros extends javax.swing.JInternalFrame {
         tfIsbn.setText(libro.getIsbn() + "");
         tfTitulo.setText(libro.getNombre());
         tfEditorial.setText(libro.getEditorial());
-        cbAutor.setSelectedItem(libro.getAutor().getNombre());
+        cbAutor.setSelectedIndex(libro.getAutor().getIdAutor());
         ycAnio.setYear(libro.getAño());
         boolean estado = false;
         if (libro.getEstado() == 1) {
@@ -333,7 +333,7 @@ public class Libros extends javax.swing.JInternalFrame {
         tfIsbn.setText(libro.getIsbn() + "");
         tfTitulo.setText(libro.getNombre());
         tfEditorial.setText(libro.getEditorial());
-        cbAutor.setSelectedItem(libro.getAutor().getNombre());
+        cbAutor.setSelectedIndex(libro.getAutor().getIdAutor());
         ycAnio.setYear(libro.getAño());
         boolean estado = false;
         if (libro.getEstado() == 1) {
