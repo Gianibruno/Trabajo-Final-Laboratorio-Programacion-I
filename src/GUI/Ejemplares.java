@@ -156,10 +156,11 @@ public class Ejemplares extends javax.swing.JInternalFrame {
                     .addComponent(jLabel2)
                     .addComponent(bBuscar))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(bActualizar))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(comboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bActualizar)))
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -208,7 +209,7 @@ public class Ejemplares extends javax.swing.JInternalFrame {
 
     private void bCrearEjemplarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCrearEjemplarActionPerformed
         Entidades.Ejemplar ejemplar = new Entidades.Ejemplar();
-        ejemplar.setEstado(comboEstado.getSelectedIndex() + 1);
+        ejemplar.setEstado((comboEstado.getSelectedIndex() == 0) ? 3 : comboEstado.getSelectedIndex() - 1);
         ejemplar.setLibro(ld.buscarLibroXId(cbLibro.getSelectedIndex()));
         int aux = ed.guardar(ejemplar);
         if (aux > 0) {
