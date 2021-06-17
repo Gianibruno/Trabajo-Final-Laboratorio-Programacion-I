@@ -21,6 +21,8 @@ public class Principal extends javax.swing.JFrame {
     private PrestamosPorLector prestamoPorLector = new PrestamosPorLector();
     private LectoresMorosos lectoresMorosos = new LectoresMorosos();
     private LectoresMultas lectoresMultas = new LectoresMultas();
+    private Multa multa = new Multa();
+    private Ejemplares ejemplares = new Ejemplares();
     /**
      * Constructor de vista Principal
      */
@@ -63,8 +65,6 @@ public class Principal extends javax.swing.JFrame {
         menuAutores = new javax.swing.JMenu();
         menuAutores1 = new javax.swing.JMenuItem();
         menuAutores2 = new javax.swing.JMenuItem();
-        jSeparator4 = new javax.swing.JPopupMenu.Separator();
-        menuAutores3 = new javax.swing.JMenuItem();
         menuLectores = new javax.swing.JMenu();
         menuLectores1 = new javax.swing.JMenuItem();
         menuLectores2 = new javax.swing.JMenuItem();
@@ -79,7 +79,6 @@ public class Principal extends javax.swing.JFrame {
         menuLibros2 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         menuLibros3 = new javax.swing.JMenuItem();
-        menuLibros4 = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         menuLibros5 = new javax.swing.JMenuItem();
         menuLibros6 = new javax.swing.JMenuItem();
@@ -308,15 +307,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         menuAutores.add(menuAutores2);
-        menuAutores.add(jSeparator4);
-
-        menuAutores3.setText("Libros publicados");
-        menuAutores3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuAutores3ActionPerformed(evt);
-            }
-        });
-        menuAutores.add(menuAutores3);
 
         menuBiblioteca.add(menuAutores);
 
@@ -400,14 +390,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         menuLibros.add(menuLibros3);
-
-        menuLibros4.setText("Ver ejemplares de un libro");
-        menuLibros4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuLibros4ActionPerformed(evt);
-            }
-        });
-        menuLibros.add(menuLibros4);
         menuLibros.add(jSeparator5);
 
         menuLibros5.setText("Prestamos por fecha");
@@ -526,10 +508,6 @@ public class Principal extends javax.swing.JFrame {
         insertarEnEscritorio(listaAutores);
     }//GEN-LAST:event_menuAutores2ActionPerformed
 
-    private void menuAutores3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAutores3ActionPerformed
-        insertarEnEscritorio(null);
-    }//GEN-LAST:event_menuAutores3ActionPerformed
-
     private void menuLectores1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores1ActionPerformed
         System.out.println("ABRIR VISTA LECTORES");
         insertarEnEscritorio(lectoresGUI);
@@ -546,7 +524,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuLectores3ActionPerformed
 
     private void menuLectores4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores4ActionPerformed
-        insertarEnEscritorio(null);
+        System.out.println("ABRIR VISTA MULTAS");
+        insertarEnEscritorio(multa);
     }//GEN-LAST:event_menuLectores4ActionPerformed
 
     private void menuLibros1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros1ActionPerformed
@@ -561,12 +540,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void menuLibros3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros3ActionPerformed
         System.out.println("ABRIR VISTA EJEMPLARES");
-        insertarEnEscritorio(new Ejemplares());
+        insertarEnEscritorio(ejemplares);
     }//GEN-LAST:event_menuLibros3ActionPerformed
-
-    private void menuLibros4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros4ActionPerformed
-        insertarEnEscritorio(null);
-    }//GEN-LAST:event_menuLibros4ActionPerformed
 
     private void menuLibros5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros5ActionPerformed
         System.out.println("ABRIR VISTA PRESTAMOS POR FECHA");
@@ -655,14 +630,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
-    private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuAutores;
     private javax.swing.JMenuItem menuAutores1;
     private javax.swing.JMenuItem menuAutores2;
-    private javax.swing.JMenuItem menuAutores3;
     private javax.swing.JMenuItem menuAyudaInfo;
     private javax.swing.JMenu menuBiblioteca;
     private javax.swing.JMenu menuLectores;
@@ -674,7 +647,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuLibros1;
     private javax.swing.JMenuItem menuLibros2;
     private javax.swing.JMenuItem menuLibros3;
-    private javax.swing.JMenuItem menuLibros4;
     private javax.swing.JMenuItem menuLibros5;
     private javax.swing.JMenuItem menuLibros6;
     private javax.swing.JMenuItem menuLibros7;

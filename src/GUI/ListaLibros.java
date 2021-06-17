@@ -66,7 +66,7 @@ public class ListaLibros extends javax.swing.JInternalFrame {
         setResizable(true);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        jLabel1.setText("Lista de Lectores");
+        jLabel1.setText("Lista de Libros");
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel());
         jScrollPane2.setViewportView(jTable2);
