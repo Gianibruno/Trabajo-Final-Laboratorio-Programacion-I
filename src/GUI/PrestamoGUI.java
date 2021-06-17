@@ -847,6 +847,9 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
     private void recibir(){
         actualizarDatos();
         java.time.LocalDate ahora = java.time.LocalDate.now();
+        java.time.LocalDate fechaFinMulta = null;
+        BD.MultaData mData = new BD.MultaData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
+        Entidades.Multa multa = null;
         if(prestamo.getIdPrestamo() > 0){
             if(pData.devolver(prestamo.getIdPrestamo()) == 0)
                 javax.swing.JOptionPane.showMessageDialog(this, "Error al registrar devolución.\n");
@@ -865,9 +868,13 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                         prestamo.getFechaPrestamo(), 
                         java.time.LocalDate.now()) - Entidades.Biblioteca.CONF.MAXDIASPRESTADOS;
                 if(dias > 0){
-                    javax.swing.JOptionPane.showMessageDialog(this, "Corresponde multa de: "+ String.valueOf(dias * Entidades.Biblioteca.CONF.MULTAPORDIA));
                     System.out.println("Corresponde multa de: "+ String.valueOf(dias * Entidades.Biblioteca.CONF.MULTAPORDIA) + " días.");
-                    //ver como hacer con la multa
+                    multa = new Entidades.Multa(prestamo, ahora, fechaFinMulta);
+                    if(mData.guardar(multa) == 0){
+                        javax.swing.JOptionPane.showMessageDialog(this, "Corresponde multa de: "+ String.valueOf(dias * Entidades.Biblioteca.CONF.MULTAPORDIA) + " días. Se deberá aplicar la misma manualmente.");
+                    }else{
+                        javax.swing.JOptionPane.showMessageDialog(this, "Se le aplicó al Lector una multa de: "+ String.valueOf(dias * Entidades.Biblioteca.CONF.MULTAPORDIA) + " días.");
+                    }
                 }
                 seleccionar(0);
                 desHabilitarFPrestamo();
