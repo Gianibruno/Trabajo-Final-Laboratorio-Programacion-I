@@ -24,7 +24,7 @@ public class Multa extends javax.swing.JInternalFrame {
      */
     public Multa() {
         initComponents();
-        
+
     }
 
     /**
@@ -220,17 +220,15 @@ public class Multa extends javax.swing.JInternalFrame {
             jtId.setText("");
             return;
         }
-        jtId.setText(multa.getId_multa()+ "");
+        jtId.setText(multa.getId_multa() + "");
         jtEjemplar.setText(ejemplar.getNombre());
-         jdcInicio.setDate(java.sql.Date.valueOf(multa.getFecha_inicio()));
+        jdcInicio.setDate(java.sql.Date.valueOf(multa.getFecha_inicio()));
         jdcFin.setDate(java.sql.Date.valueOf(multa.getFecha_fin()));
-                                                   
-             
-           
+
+
     }//GEN-LAST:event_jbtnBuscarActionPerformed
 
     private void jbtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnNuevoActionPerformed
-
 
         jtId.setText("");
         jtEjemplar.setText("");
@@ -238,41 +236,21 @@ public class Multa extends javax.swing.JInternalFrame {
         java.util.Date date = new java.util.Date();
         jdcInicio.setDate(date);
         jdcFin.setDate(date);
-   
-       
-
-
-
-
-
-
-
-
-
-
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtnNuevoActionPerformed
 
     private void jbtnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLimpiarActionPerformed
-         jtId.setText("");
+        jtId.setText("");
         jtEjemplar.setText("");
         jdcInicio.setEnabled(false);
         jdcFin.setEnabled(false);
-
-
-
-
-
-
-
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtnLimpiarActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
-dispose();
-
+        dispose();
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jbSalirActionPerformed
@@ -282,16 +260,13 @@ dispose();
         int id = Integer.parseInt(jtId.getText());
         BD.MultaData multaData = new BD.MultaData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
         multaData.borrarMulta(id);
-        
-
-
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtnBorrarActionPerformed
 
     private void jbtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnModificarActionPerformed
 
-     
+
     }//GEN-LAST:event_jbtnModificarActionPerformed
 
 

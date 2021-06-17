@@ -17,6 +17,7 @@ public class Ejemplares extends javax.swing.JInternalFrame {
 
     BD.EjemplarData ed = new BD.EjemplarData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
     BD.LibroData ld = new BD.LibroData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
+
     /**
      * Creates new form Ejemplares
      */
@@ -187,7 +188,7 @@ public class Ejemplares extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "No se encontró un ejemplar con ese ID.");
             return;
         }
-        comboEstado.setSelectedIndex(ejemplar.getEstado()+1);
+        comboEstado.setSelectedIndex(ejemplar.getEstado() + 1);
         cbLibro.setSelectedIndex(ejemplar.getLibro().getId());
     }//GEN-LAST:event_bBuscarActionPerformed
 
@@ -201,17 +202,21 @@ public class Ejemplares extends javax.swing.JInternalFrame {
             return;
         }
         Entidades.Ejemplar ejemplar = ed.buscarEjemplar(Integer.parseInt(tfId.getText()));
-        ejemplar.setEstado(comboEstado.getSelectedIndex()+1);
+        ejemplar.setEstado(comboEstado.getSelectedIndex() + 1);
         ed.cambiarEstado(ejemplar);
     }//GEN-LAST:event_bActualizarActionPerformed
 
     private void bCrearEjemplarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCrearEjemplarActionPerformed
         Entidades.Ejemplar ejemplar = new Entidades.Ejemplar();
-        ejemplar.setEstado(comboEstado.getSelectedIndex()+1);
+        ejemplar.setEstado(comboEstado.getSelectedIndex() + 1);
         ejemplar.setLibro(ld.buscarLibroXId(cbLibro.getSelectedIndex()));
-        int aux=ed.guardar(ejemplar);
-        tfId.setText(aux+"");
-        JOptionPane.showMessageDialog(this, "El ejemplar se ha creado con exito con el ID:"+aux);
+        int aux = ed.guardar(ejemplar);
+        if (aux > 0) {
+            tfId.setText(aux + "");
+            JOptionPane.showMessageDialog(this, "El ejemplar se ha creado con exito con el ID:" + aux);
+        }else{
+            JOptionPane.showMessageDialog(this, "Error al crear ejemplar!");
+        }
     }//GEN-LAST:event_bCrearEjemplarActionPerformed
 
 
