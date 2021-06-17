@@ -820,24 +820,28 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
     private void prestar(){
         if(lector != null && ejemplar != null && datoFechaPrestamo.getDate() != null){
             if(Integer.parseInt(datoIdPrestamo.getText()) == 0){
-                actualizarDatos();
-                int nuevo = pData.registrar(prestamo);
-                if(nuevo == 0)
-                    javax.swing.JOptionPane.showMessageDialog(this, "Error al Registrar un nuevo prestamo.\n");
-                else{
-                    datoIdPrestamo.setText(String.valueOf(nuevo));
-                    prestamo.setIdPrestamo(nuevo);
-                    ejemplar.setEstado(0);
-                    int cambioEjemplar = eData.cambiarEstado(ejemplar);
-                    if(cambioEjemplar != 0){
-                        javax.swing.JOptionPane.showMessageDialog(this, "Se registro un nuevo prestamo.\n");
-                    }else{
-                        javax.swing.JOptionPane.showMessageDialog(this, "Se registro un nuevo prestamo.\nAun asi hubo un error al cambiar el estado del ejemplar.\nVerifiquelo manualmente.");
+                java.util.List<Entidades.Prestamo> prestamosDelLector = pData.listar(lector);
+                if(prestamosDelLector.size() < Entidades.Biblioteca.CONF.MAXPRESTAMOSPORLECTOR){
+                    actualizarDatos();
+                    int nuevo = pData.registrar(prestamo);
+                    if(nuevo == 0)
+                        javax.swing.JOptionPane.showMessageDialog(this, "Error al Registrar un nuevo prestamo.\n");
+                    else{
+                        datoIdPrestamo.setText(String.valueOf(nuevo));
+                        prestamo.setIdPrestamo(nuevo);
+                        ejemplar.setEstado(0);
+                        int cambioEjemplar = eData.cambiarEstado(ejemplar);
+                        if(cambioEjemplar != 0){
+                            javax.swing.JOptionPane.showMessageDialog(this, "Se registro un nuevo prestamo.\n");
+                        }else{
+                            javax.swing.JOptionPane.showMessageDialog(this, "Se registro un nuevo prestamo.\nAun asi hubo un error al cambiar el estado del ejemplar.\nVerifiquelo manualmente.");
+                        }
+                        seleccionar(0);
+                        desHabilitarFPrestamo();
+                        desHabilitarFDevolucion();
                     }
-                    seleccionar(0);
-                    desHabilitarFPrestamo();
-                    desHabilitarFDevolucion();
-                }
+                }else
+                    javax.swing.JOptionPane.showMessageDialog(this, "Lector en limite de prestamos.");
             }else
                 javax.swing.JOptionPane.showMessageDialog(this, "Ya existe un prestamo con estos datos.");
         }else
