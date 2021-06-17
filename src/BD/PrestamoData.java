@@ -192,8 +192,11 @@ public class PrestamoData {
                 declaracion = conexion.getConexion().prepareStatement(sql);
                 declaracion.setInt(1, idEjemplar);
                 declaracion.setInt(2, idLector);
-                declaracion.setDate(2, java.sql.Date.valueOf(fechaPrestamo));
-                declaracion.setDate(2, java.sql.Date.valueOf(fechaDevolucion));
+                declaracion.setDate(3, java.sql.Date.valueOf(fechaPrestamo));
+                if(fechaDevolucion == null)
+                    declaracion.setNull(4, java.sql.Types.DATE);
+                else
+                    declaracion.setDate(4, java.sql.Date.valueOf(fechaDevolucion));
                 declaracion.setInt(5, idPrestamo);
                 declaracion.executeUpdate();
                 declaracion.close();
