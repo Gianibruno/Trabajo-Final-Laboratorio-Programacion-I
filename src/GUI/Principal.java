@@ -5,11 +5,12 @@ package GUI;
 
 /**
  * GUI principal de la Biblioteca.
+ *
  * @author Astor, Pablo, Gian, Meli
  */
 public class Principal extends javax.swing.JFrame {
     //Atributos
-    
+
     /**
      * Constructor de vista Principal
      */
@@ -17,7 +18,7 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         alinicio();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -466,7 +467,7 @@ public class Principal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
     // <editor-fold defaultstate="collapsed" desc=" Eventos Generados por el Design ">  
     private void menuSistemaSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSistemaSalirActionPerformed
         System.exit(0);
@@ -477,19 +478,26 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuSistemaReconectarActionPerformed
 
     private void btnVolverAlEscritorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverAlEscritorioActionPerformed
-        if(grupo1tpfinal.Grupo1TPFinal.CONEXION.getConexion() == null) irAConectar();
-        else irAEscritorio();
+        if (grupo1tpfinal.Grupo1TPFinal.CONEXION.getConexion() == null) {
+            irAConectar();
+        } else {
+            irAEscritorio();
+        }
     }//GEN-LAST:event_btnVolverAlEscritorioActionPerformed
 
     private void btnConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConectarActionPerformed
-        if(!txtNombreBD.getText().isEmpty())
+        if (!txtNombreBD.getText().isEmpty()) {
             grupo1tpfinal.Grupo1TPFinal.CONEXION.setNombreBD(txtNombreBD.getText());
-        if(!txtPuerto.getText().isEmpty())
+        }
+        if (!txtPuerto.getText().isEmpty()) {
             grupo1tpfinal.Grupo1TPFinal.CONEXION.setPuerto(Integer.parseInt(txtPuerto.getText()));
-        if(!txtUsuarioBD.getText().isEmpty())
+        }
+        if (!txtUsuarioBD.getText().isEmpty()) {
             grupo1tpfinal.Grupo1TPFinal.CONEXION.setUsuario(txtUsuarioBD.getText());
-        if(!txtContraseñaBD.getText().isEmpty())
+        }
+        if (!txtContraseñaBD.getText().isEmpty()) {
             grupo1tpfinal.Grupo1TPFinal.CONEXION.setPassword(txtContraseñaBD.getText());
+        }
         grupo1tpfinal.Grupo1TPFinal.CONEXION.Conectar();
         alinicio();
     }//GEN-LAST:event_btnConectarActionPerformed
@@ -566,23 +574,21 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuLibros8ActionPerformed
 
     private void txtPuertoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPuertoKeyTyped
-        char 
-            tecla = evt.getKeyChar(),
-            cero = '0',
-            nueve = '9';
+        char tecla = evt.getKeyChar(),
+                cero = '0',
+                nueve = '9';
         int max = 4; //.........................................................CONSULTAR
-        if(txtPuerto.getText().length() >= max){ //modificar salio a lo bruto
+        if (txtPuerto.getText().length() >= max) { //modificar salio a lo bruto
             evt.consume();
-        }else if(tecla < cero || tecla > nueve){
+        } else if (tecla < cero || tecla > nueve) {
             evt.consume();
         }
     }//GEN-LAST:event_txtPuertoKeyTyped
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc=" Metodo static iniciar ">
     /**
-     * Antiguo main
-     * Construye el GUI principal de la Biblioteca.
+     * Antiguo main Construye el GUI principal de la Biblioteca.
      */
     public static void iniciar() {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -667,29 +673,30 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField txtUsuarioBD;
     // End of variables declaration//GEN-END:variables
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc=" Metodos Privados ">
     /**
-     * Si existe conexion prepara menu y escritorio, 
-     * si no existe conexion muestra informacion para reconectar.
+     * Si existe conexion prepara menu y escritorio, si no existe conexion
+     * muestra informacion para reconectar.
      */
-    private void alinicio(){
+    private void alinicio() {
         //probar conexion
-        if(grupo1tpfinal.Grupo1TPFinal.CONEXION.getConexion() == null)
+        if (grupo1tpfinal.Grupo1TPFinal.CONEXION.getConexion() == null) {
             grupo1tpfinal.Grupo1TPFinal.CONEXION.Conectar();
+        }
         //error si no es valida
-        if(!grupo1tpfinal.Grupo1TPFinal.CONEXION.esValida()){
-            javax.swing.JOptionPane.showMessageDialog(this, 
-                    "Error en la Conexion con la BD.", 
-                    "Error", 
+        if (!grupo1tpfinal.Grupo1TPFinal.CONEXION.esValida()) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Error en la Conexion con la BD.",
+                    "Error",
                     javax.swing.JOptionPane.ERROR_MESSAGE);
             irAConectar();
             //deshabilitar menu de biblioteca
             menuBiblioteca.setVisible(false);
-        }else{
-            javax.swing.JOptionPane.showMessageDialog(this, 
-                    "Se establecio la conexión con la Biblioteca.", 
-                    "Biblioteca conectada", 
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Se establecio la conexión con la Biblioteca.",
+                    "Biblioteca conectada",
                     javax.swing.JOptionPane.INFORMATION_MESSAGE);
             //establecer que pueda hacer uso del programa
             irAEscritorio();
@@ -697,7 +704,7 @@ public class Principal extends javax.swing.JFrame {
             menuBiblioteca.setVisible(true);
         }
     }
-    
+
     /**
      * Panel con informacion para intentar conectar
      */
@@ -706,16 +713,16 @@ public class Principal extends javax.swing.JFrame {
         formInfo.setVisible(false);
         escritorio.setVisible(false);
     }
-    
+
     /**
      * Panel con informacion del TP
      */
-    private void irAInfo(){
+    private void irAInfo() {
         formConectar.setVisible(false);
         formInfo.setVisible(true);
         escritorio.setVisible(false);
     }
-    
+
     /**
      * Panel de escritorio principal
      */
@@ -724,20 +731,36 @@ public class Principal extends javax.swing.JFrame {
         formInfo.setVisible(false);
         escritorio.setVisible(true);
     }
-    
+
     /**
-     * 
+     *
      */
-    private void insertarEnEscritorio(javax.swing.JInternalFrame vista){
-        if(vista != null){
+//    private void insertarEnEscritorio(javax.swing.JInternalFrame vista){
+//        if(vista != null){
+//            //Preparar el escritorio, ver si es necesario
+//            //Si no limpiamos el escritorio, controlar si es necesario que la vista no este ya abierta
+//            System.out.println("------------------------------------------------\nVISTA: "+ vista.getTitle() +"------------------------------------------------");
+//            escritorio.removeAll();
+//            vista.setVisible(true);
+//            escritorio.add(vista);
+//            escritorio.moveToFront(vista);
+//        } METODO INSERTAR ANTIGUO
+    private void insertarEnEscritorio(javax.swing.JInternalFrame vista) {
+        if (vista != null) {
             //Preparar el escritorio, ver si es necesario
             //Si no limpiamos el escritorio, controlar si es necesario que la vista no este ya abierta
-            System.out.println("------------------------------------------------\nVISTA: "+ vista.getTitle() +"------------------------------------------------");
+            System.out.println("------------------------------------------------\nVISTA: " + vista.getTitle() + "------------------------------------------------");
             escritorio.removeAll();
             vista.setVisible(true);
             escritorio.add(vista);
             escritorio.moveToFront(vista);
+            try {
+                vista.setSelected(true);
+            } catch (java.beans.PropertyVetoException ex) {
+                //nada
+            }
         }
     }
-    //</editor-fold>
 }
+//</editor-fold>
+

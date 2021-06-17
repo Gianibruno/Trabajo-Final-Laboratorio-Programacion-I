@@ -29,6 +29,11 @@ public class Autor extends Persona{
         estado = 1;
     }
 
+    @Override
+    public String toString() {
+        return this.getNombre();
+    }
+
     public int getIdAutor() {
         return idAutor;
     }
