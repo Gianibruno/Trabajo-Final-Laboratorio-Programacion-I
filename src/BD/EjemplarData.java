@@ -35,7 +35,7 @@ public class EjemplarData {
         String sql = "INSERT INTO " + TABLA + " ("
                 + CAMPOS[0] + ", "
                 + CAMPOS[1] + ", "
-                + CAMPOS[2] + ",  VALUES (?,?,?);";
+                + CAMPOS[2] + ")  VALUES (?,?,?);";
         if (ejemplar != null) {
             try {
                 ps = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);

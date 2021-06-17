@@ -560,7 +560,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuLibros2ActionPerformed
 
     private void menuLibros3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros3ActionPerformed
-        insertarEnEscritorio(null);
+        System.out.println("ABRIR VISTA EJEMPLARES");
+        insertarEnEscritorio(new Ejemplares());
     }//GEN-LAST:event_menuLibros3ActionPerformed
 
     private void menuLibros4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros4ActionPerformed
