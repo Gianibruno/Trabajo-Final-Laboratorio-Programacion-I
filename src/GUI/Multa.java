@@ -9,8 +9,6 @@ import BD.MultaData;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
-import java.util.Date;
 import javax.swing.JOptionPane;
 
 /**
@@ -214,14 +212,15 @@ public class Multa extends javax.swing.JInternalFrame {
     private void jbtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBuscarActionPerformed
 
         BD.MultaData md = new BD.MultaData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
-        Entidades.Multa multa = md.buscarMulta(jtId.getText());
+        int id = Integer.parseInt(jtId.getText());
+         Entidades.Multa multa = md.buscarMulta(id);
         if (multa == null) {
             JOptionPane.showMessageDialog(this, "El ID buscado no se encuentra en la base de datos.");
             jtId.setText("");
             return;
         }
         jtId.setText(multa.getId_multa()+ "");
-        jtEjemplar.setText(ejemplar.getNombre());
+        jtEjemplar.setText(multa.getPrestamo().getEjemplar().getLibro().getNombre());
          jdcInicio.setDate(java.sql.Date.valueOf(multa.getFecha_inicio()));
         jdcFin.setDate(java.sql.Date.valueOf(multa.getFecha_fin()));
                                                    
