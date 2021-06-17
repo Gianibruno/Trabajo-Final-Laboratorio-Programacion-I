@@ -17,6 +17,10 @@ public class Principal extends javax.swing.JFrame {
     private Libros librosGUI = new Libros();
     private Lectores lectoresGUI = new Lectores();
     private PrestamoGUI prestamoGUI = new PrestamoGUI();
+    private PrestamoPorFecha prestamoPorFecha = new PrestamoPorFecha();
+    private PrestamosPorLector prestamoPorLector = new PrestamosPorLector();
+    private LectoresMorosos lectoresMorosos = new LectoresMorosos();
+    private LectoresMultas lectoresMultas = new LectoresMultas();
     /**
      * Constructor de vista Principal
      */
@@ -64,6 +68,9 @@ public class Principal extends javax.swing.JFrame {
         menuLectores = new javax.swing.JMenu();
         menuLectores1 = new javax.swing.JMenuItem();
         menuLectores2 = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        menuLibros7 = new javax.swing.JMenuItem();
+        menuLibros8 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         menuLectores3 = new javax.swing.JMenuItem();
         menuLectores4 = new javax.swing.JMenuItem();
@@ -76,9 +83,6 @@ public class Principal extends javax.swing.JFrame {
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         menuLibros5 = new javax.swing.JMenuItem();
         menuLibros6 = new javax.swing.JMenuItem();
-        jSeparator6 = new javax.swing.JPopupMenu.Separator();
-        menuLibros7 = new javax.swing.JMenuItem();
-        menuLibros8 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         menuAyudaInfo = new javax.swing.JMenuItem();
 
@@ -333,6 +337,23 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         menuLectores.add(menuLectores2);
+        menuLectores.add(jSeparator6);
+
+        menuLibros7.setText("Lectores morosos");
+        menuLibros7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLibros7ActionPerformed(evt);
+            }
+        });
+        menuLectores.add(menuLibros7);
+
+        menuLibros8.setText("Lectores con multa");
+        menuLibros8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLibros8ActionPerformed(evt);
+            }
+        });
+        menuLectores.add(menuLibros8);
         menuLectores.add(jSeparator2);
 
         menuLectores3.setText("Prestamo");
@@ -404,23 +425,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         menuLibros.add(menuLibros6);
-        menuLibros.add(jSeparator6);
-
-        menuLibros7.setText("Lectores morosos");
-        menuLibros7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuLibros7ActionPerformed(evt);
-            }
-        });
-        menuLibros.add(menuLibros7);
-
-        menuLibros8.setText("Lectores con multa");
-        menuLibros8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuLibros8ActionPerformed(evt);
-            }
-        });
-        menuLibros.add(menuLibros8);
 
         menuBiblioteca.add(menuLibros);
 
@@ -564,19 +568,23 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuLibros4ActionPerformed
 
     private void menuLibros5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros5ActionPerformed
-        insertarEnEscritorio(null);
+        System.out.println("ABRIR VISTA PRESTAMOS POR FECHA");
+        insertarEnEscritorio(prestamoPorFecha);
     }//GEN-LAST:event_menuLibros5ActionPerformed
 
     private void menuLibros6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros6ActionPerformed
-        insertarEnEscritorio(null);
+        System.out.println("ABRIR VISTA PRESTAMOS POR LECTOR");
+        insertarEnEscritorio(prestamoPorLector);
     }//GEN-LAST:event_menuLibros6ActionPerformed
 
     private void menuLibros7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros7ActionPerformed
-        insertarEnEscritorio(null);
+        System.out.println("ABRIR VISTA LECTORES MOROSOS");
+        insertarEnEscritorio(lectoresMorosos);
     }//GEN-LAST:event_menuLibros7ActionPerformed
 
     private void menuLibros8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros8ActionPerformed
-        insertarEnEscritorio(null);
+        System.out.println("ABRIR VISTA LECTORES CON MULTA");
+        insertarEnEscritorio(lectoresMultas);
     }//GEN-LAST:event_menuLibros8ActionPerformed
 
     private void txtPuertoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPuertoKeyTyped
