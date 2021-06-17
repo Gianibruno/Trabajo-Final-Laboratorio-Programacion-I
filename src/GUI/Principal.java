@@ -10,7 +10,13 @@ package GUI;
  */
 public class Principal extends javax.swing.JFrame {
     //Atributos
-
+    private AutorGUI autorGUI = new AutorGUI();
+    private ListaAutores listaAutores = new ListaAutores();
+    private ListaLectores listaLectores = new ListaLectores();
+    private ListaLibros listaLibros = new ListaLibros();
+    private Libros librosGUI = new Libros();
+    private Lectores lectoresGUI = new Lectores();
+    private PrestamoGUI prestamoGUI = new PrestamoGUI();
     /**
      * Constructor de vista Principal
      */
@@ -508,12 +514,12 @@ public class Principal extends javax.swing.JFrame {
 
     private void menuAutores1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAutores1ActionPerformed
         System.out.println("ABRIR VISTA AUTORES");
-        insertarEnEscritorio(new AutorGUI());
+        insertarEnEscritorio(autorGUI);
     }//GEN-LAST:event_menuAutores1ActionPerformed
 
     private void menuAutores2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAutores2ActionPerformed
         System.out.println("ABRIR VISTA LISTA AUTORES");
-        insertarEnEscritorio(new ListaAutores());
+        insertarEnEscritorio(listaAutores);
     }//GEN-LAST:event_menuAutores2ActionPerformed
 
     private void menuAutores3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAutores3ActionPerformed
@@ -522,17 +528,17 @@ public class Principal extends javax.swing.JFrame {
 
     private void menuLectores1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores1ActionPerformed
         System.out.println("ABRIR VISTA LECTORES");
-        insertarEnEscritorio(new Lectores());
+        insertarEnEscritorio(lectoresGUI);
     }//GEN-LAST:event_menuLectores1ActionPerformed
 
     private void menuLectores2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores2ActionPerformed
         System.out.println("ABRIR VISTA LISTA LECTORES");
-        insertarEnEscritorio(new ListaLectores());
+        insertarEnEscritorio(listaLectores);
     }//GEN-LAST:event_menuLectores2ActionPerformed
 
     private void menuLectores3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores3ActionPerformed
         System.out.println("ABRIR PRESTAMOS");
-        insertarEnEscritorio(new PrestamoGUI());
+        insertarEnEscritorio(prestamoGUI);
     }//GEN-LAST:event_menuLectores3ActionPerformed
 
     private void menuLectores4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores4ActionPerformed
@@ -541,12 +547,12 @@ public class Principal extends javax.swing.JFrame {
 
     private void menuLibros1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros1ActionPerformed
         System.out.println("ABRIR VISTA LIBROS");
-        insertarEnEscritorio(new Libros());
+        insertarEnEscritorio(librosGUI);
     }//GEN-LAST:event_menuLibros1ActionPerformed
 
     private void menuLibros2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros2ActionPerformed
         System.out.println("ABRIR VISTA LISTA LIBROS");
-        insertarEnEscritorio(new ListaLibros());
+        insertarEnEscritorio(listaLibros);
     }//GEN-LAST:event_menuLibros2ActionPerformed
 
     private void menuLibros3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros3ActionPerformed
@@ -731,36 +737,18 @@ public class Principal extends javax.swing.JFrame {
         formInfo.setVisible(false);
         escritorio.setVisible(true);
     }
-
-    /**
-     *
-     */
-//    private void insertarEnEscritorio(javax.swing.JInternalFrame vista){
-//        if(vista != null){
-//            //Preparar el escritorio, ver si es necesario
-//            //Si no limpiamos el escritorio, controlar si es necesario que la vista no este ya abierta
-//            System.out.println("------------------------------------------------\nVISTA: "+ vista.getTitle() +"------------------------------------------------");
-//            escritorio.removeAll();
-//            vista.setVisible(true);
-//            escritorio.add(vista);
-//            escritorio.moveToFront(vista);
-//        } METODO INSERTAR ANTIGUO
+    
     private void insertarEnEscritorio(javax.swing.JInternalFrame vista) {
         if (vista != null) {
-            //Preparar el escritorio, ver si es necesario
-            //Si no limpiamos el escritorio, controlar si es necesario que la vista no este ya abierta
-            System.out.println("------------------------------------------------\nVISTA: " + vista.getTitle() + "------------------------------------------------");
-            escritorio.removeAll();
-            vista.setVisible(true);
-            escritorio.add(vista);
-            escritorio.moveToFront(vista);
-            try {
-                vista.setSelected(true);
-            } catch (java.beans.PropertyVetoException ex) {
-                //nada
+            System.out.println("------------------------------------------------\nVISTA: " + vista.getTitle() + "\n------------------------------------------------");
+            if(!vista.isVisible()){
+                escritorio.add(vista);
+                vista.setVisible(true);
             }
+            vista.toFront();
         }
     }
+    //</editor-fold>
 }
-//</editor-fold>
+
 
