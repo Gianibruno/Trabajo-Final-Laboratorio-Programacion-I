@@ -28,7 +28,7 @@ public class Libros extends javax.swing.JInternalFrame {
     public void actualizarCBAutores() {
         cbAutor.removeAllItems();
         cbAutor.addItem(new Autor());
-        cbAutor.setSelectedItem(null);
+        cbAutor.setSelectedIndex(0);
         BD.AutorData ad = new BD.AutorData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
         lista = ad.obtenerAutores();
         for (Autor autor : lista) {
@@ -207,22 +207,22 @@ public class Libros extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(194, 194, 194)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel6))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel7)))
-                .addGap(0, 239, Short.MAX_VALUE))
+                .addGap(0, 722, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(256, 256, 256))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addGap(55, 55, 55)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
@@ -287,9 +287,21 @@ public class Libros extends javax.swing.JInternalFrame {
 
     private void btnBuscarIsbnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarIsbnActionPerformed
         actualizarCBAutores();
+        if(tfIsbn.getText()==""){
+            JOptionPane.showMessageDialog(this, "No se ha ingresado un ISBN, por favor, ingrese uno.");
+            return;
+        }
+        if(!(tfIsbn.getText().chars().allMatch( Character::isDigit ))){
+            JOptionPane.showMessageDialog(this, "El ISBN debe ser de tipo numerico, por favor, ingreseló nuevamente");
+            return;
+        }
         long isbn = Long.parseLong(tfIsbn.getText());
         BD.LibroData ld = new BD.LibroData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
         Entidades.Libro libro = ld.buscarLibro(isbn);
+        if(libro==null){
+            JOptionPane.showMessageDialog(this, "No se ha encontrado un libro con el ISBN ingresado.");
+            return;
+        }
         tfId.setText(libro.getId() + "");
         tfIsbn.setText(libro.getIsbn() + "");
         tfTitulo.setText(libro.getNombre());
@@ -306,6 +318,14 @@ public class Libros extends javax.swing.JInternalFrame {
 
     private void btnBuscarIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarIdActionPerformed
         actualizarCBAutores();
+        if(tfId.getText()==""){
+            JOptionPane.showMessageDialog(this, "No se ha ingresado un ID, por favor, ingrese uno.");
+            return;
+        }
+        if(!(tfId.getText().chars().allMatch( Character::isDigit ))){
+            JOptionPane.showMessageDialog(this, "El ID debe ser de tipo numerico, por favor, ingreseló nuevamente");
+            return;
+        }
         int id = Integer.parseInt(tfId.getText());
         BD.LibroData ld = new BD.LibroData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
         Entidades.Libro libro = ld.buscarLibroXId(id);
@@ -337,6 +357,14 @@ public class Libros extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbNuevoActionPerformed
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
+        if(tfIsbn.getText()==""){
+            JOptionPane.showMessageDialog(this, "No se ha ingresado un ISBN, por favor, ingrese uno.");
+            return;
+        }
+        if(!(tfIsbn.getText().chars().allMatch( Character::isDigit ))){
+            JOptionPane.showMessageDialog(this, "El ISBN debe ser de tipo numerico, por favor, ingreseló nuevamente");
+            return;
+        }
         int rt=0;
         actualizarCBAutores();
         int aux = 0;

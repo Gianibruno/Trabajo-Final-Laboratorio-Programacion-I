@@ -12,9 +12,9 @@ package Entidades;
  */
 public class Ejemplar {
 
-    public static final class ESTADOS{
-        public static int
-                prestado = 0,
+    public static final class ESTADOS {
+
+        public static int prestado = 0,
                 retraso = 1,
                 reparacion = 2,
                 disponible = 3;
@@ -24,9 +24,9 @@ public class Ejemplar {
     private Libro libro;
 
     public Ejemplar() {
-        this.id=0;
-        this.estado=0;
-        this.libro=null;
+        this.id = 0;
+        this.estado = 0;
+        this.libro = null;
     }
 
     public Ejemplar(int id, int estado, Libro libro) {
@@ -34,7 +34,6 @@ public class Ejemplar {
         this.id = id;
         this.estado = estado;
     }
-
 
     public Libro getLibro() {
         return libro;

@@ -820,24 +820,28 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
     private void prestar(){
         if(lector != null && ejemplar != null && datoFechaPrestamo.getDate() != null){
             if(Integer.parseInt(datoIdPrestamo.getText()) == 0){
-                actualizarDatos();
-                int nuevo = pData.registrar(prestamo);
-                if(nuevo == 0)
-                    javax.swing.JOptionPane.showMessageDialog(this, "Error al Registrar un nuevo prestamo.\n");
-                else{
-                    datoIdPrestamo.setText(String.valueOf(nuevo));
-                    prestamo.setIdPrestamo(nuevo);
-                    ejemplar.setEstado(0);
-                    int cambioEjemplar = eData.cambiarEstado(ejemplar);
-                    if(cambioEjemplar != 0){
-                        javax.swing.JOptionPane.showMessageDialog(this, "Se registro un nuevo prestamo.\n");
-                    }else{
-                        javax.swing.JOptionPane.showMessageDialog(this, "Se registro un nuevo prestamo.\nAun asi hubo un error al cambiar el estado del ejemplar.\nVerifiquelo manualmente.");
+                java.util.List<Entidades.Prestamo> prestamosDelLector = pData.listar(lector);
+                if(prestamosDelLector.size() < Entidades.Biblioteca.CONF.MAXPRESTAMOSPORLECTOR){
+                    actualizarDatos();
+                    int nuevo = pData.registrar(prestamo);
+                    if(nuevo == 0)
+                        javax.swing.JOptionPane.showMessageDialog(this, "Error al Registrar un nuevo prestamo.\n");
+                    else{
+                        datoIdPrestamo.setText(String.valueOf(nuevo));
+                        prestamo.setIdPrestamo(nuevo);
+                        ejemplar.setEstado(0);
+                        int cambioEjemplar = eData.cambiarEstado(ejemplar);
+                        if(cambioEjemplar != 0){
+                            javax.swing.JOptionPane.showMessageDialog(this, "Se registro un nuevo prestamo.\n");
+                        }else{
+                            javax.swing.JOptionPane.showMessageDialog(this, "Se registro un nuevo prestamo.\nAun asi hubo un error al cambiar el estado del ejemplar.\nVerifiquelo manualmente.");
+                        }
+                        seleccionar(0);
+                        desHabilitarFPrestamo();
+                        desHabilitarFDevolucion();
                     }
-                    seleccionar(0);
-                    desHabilitarFPrestamo();
-                    desHabilitarFDevolucion();
-                }
+                }else
+                    javax.swing.JOptionPane.showMessageDialog(this, "Lector en limite de prestamos.");
             }else
                 javax.swing.JOptionPane.showMessageDialog(this, "Ya existe un prestamo con estos datos.");
         }else
@@ -847,6 +851,9 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
     private void recibir(){
         actualizarDatos();
         java.time.LocalDate ahora = java.time.LocalDate.now();
+        java.time.LocalDate fechaFinMulta = null;
+        BD.MultaData mData = new BD.MultaData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
+        Entidades.Multa multa = null;
         if(prestamo.getIdPrestamo() > 0){
             if(pData.devolver(prestamo.getIdPrestamo()) == 0)
                 javax.swing.JOptionPane.showMessageDialog(this, "Error al registrar devolución.\n");
@@ -865,9 +872,13 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                         prestamo.getFechaPrestamo(), 
                         java.time.LocalDate.now()) - Entidades.Biblioteca.CONF.MAXDIASPRESTADOS;
                 if(dias > 0){
-                    javax.swing.JOptionPane.showMessageDialog(this, "Corresponde multa de: "+ String.valueOf(dias * Entidades.Biblioteca.CONF.MULTAPORDIA));
                     System.out.println("Corresponde multa de: "+ String.valueOf(dias * Entidades.Biblioteca.CONF.MULTAPORDIA) + " días.");
-                    //ver como hacer con la multa
+                    multa = new Entidades.Multa(prestamo, ahora, fechaFinMulta);
+                    if(mData.guardar(multa) == 0){
+                        javax.swing.JOptionPane.showMessageDialog(this, "Corresponde multa de: "+ String.valueOf(dias * Entidades.Biblioteca.CONF.MULTAPORDIA) + " días. Se deberá aplicar la misma manualmente.");
+                    }else{
+                        javax.swing.JOptionPane.showMessageDialog(this, "Se le aplicó al Lector una multa de: "+ String.valueOf(dias * Entidades.Biblioteca.CONF.MULTAPORDIA) + " días.");
+                    }
                 }
                 seleccionar(0);
                 desHabilitarFPrestamo();

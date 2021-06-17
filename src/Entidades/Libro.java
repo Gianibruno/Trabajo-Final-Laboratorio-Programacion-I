@@ -13,6 +13,7 @@ package Entidades;
 public class Libro {
 
     private int id;
+
     private long isbn;
     private String nombre;
     private String tipo;
@@ -22,7 +23,7 @@ public class Libro {
     private int estado;
 
     public Libro(long isbn, String nombre, String tipo, String editorial, short año, Autor autor, int estado, int id) {
-        this.id=id;
+        this.id = id;
         this.isbn = isbn;
         this.nombre = nombre;
         this.tipo = tipo;
@@ -34,14 +35,14 @@ public class Libro {
     }
 
     public Libro() {
-        this.id=0;
-        this.isbn=0;
-        this.nombre="";
-        this.tipo="";
-        this.editorial="";
-        this.año=0;
-        this.autor=null;
-        this.estado=0;
+        this.id = 0;
+        this.isbn = 0;
+        this.nombre = "";
+        this.tipo = "";
+        this.editorial = "";
+        this.año = 0;
+        this.autor = null;
+        this.estado = 0;
     }
 
     public int getId() {
@@ -106,6 +107,11 @@ public class Libro {
 
     public void setAutor(Autor autor) {
         this.autor = autor;
+    }
+
+    @Override
+    public String toString() {
+        return nombre;
     }
 
 }
