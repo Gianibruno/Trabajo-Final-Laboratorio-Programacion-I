@@ -202,10 +202,9 @@ public class LectorData {
     public java.util.ArrayList<Entidades.Lector> buscarNoMultados(String nombre){
         java.util.ArrayList<Entidades.Lector> respuesta = new java.util.ArrayList<>();
         Entidades.Lector lector;
-        String sql = "SELECT DISTINCT l.* FROM lectores AS l, prestamos AS p, multa AS m "
-                + "WHERE l.nombre LIKE \"%" + nombre + "%\" "
-                + "AND l.id_lector = p.id_lector "
-                + "AND NOT p.id_prestamo = m.id_prestamo;";
+        String sql = "SELECT * FROM " + TABLA
+                + " WHERE "+ CAMPOS[2] +" LIKE \"%" + nombre + "%\" "
+                + "AND "+ CAMPOS[6] +" = 1;";
         try {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
@@ -232,7 +231,7 @@ public class LectorData {
         Entidades.Lector lector;
         String sql = "SELECT DISTINCT l.* FROM lectores AS l, prestamos AS p " +
                 "WHERE p.id_lector = l.id_lector " +
-                "AND p.fecha_prestamo + INTERVAL 30 DAY  > NOW() " +
+                "AND p.fecha_prestamo + INTERVAL 30 DAY  < NOW() " +
                 "AND p.fecha_devolucion IS NULL;";
         try {
             ps = con.prepareStatement(sql);

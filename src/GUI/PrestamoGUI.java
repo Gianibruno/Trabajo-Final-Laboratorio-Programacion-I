@@ -873,6 +873,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                         java.time.LocalDate.now()) - Entidades.Biblioteca.CONF.MAXDIASPRESTADOS;
                 if(dias > 0){
                     System.out.println("Corresponde multa de: "+ String.valueOf(dias * Entidades.Biblioteca.CONF.MULTAPORDIA) + " días.");
+                    fechaFinMulta = java.time.LocalDate.now().plusDays(dias * Entidades.Biblioteca.CONF.MULTAPORDIA);
                     multa = new Entidades.Multa(prestamo, ahora, fechaFinMulta);
                     if(mData.guardar(multa) == 0){
                         javax.swing.JOptionPane.showMessageDialog(this, "Corresponde multa de: "+ String.valueOf(dias * Entidades.Biblioteca.CONF.MULTAPORDIA) + " días. Se deberá aplicar la misma manualmente.");
@@ -942,8 +943,8 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
             if(lectores.size() > 0){
                 javax.swing.DefaultListModel modelo = (javax.swing.DefaultListModel) listaLector.getModel();
                 modelo.clear();
-                for (Entidades.Lector lector : lectores) {
-                    modelo.addElement(lector);
+                for (Entidades.Lector lectore : lectores) {
+                    modelo.addElement(lectore);
                 }
             } 
         }
@@ -955,8 +956,8 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
             if(ejemplares.size() > 0){
                 javax.swing.DefaultListModel modelo = (javax.swing.DefaultListModel) listaEjemplar.getModel();
                 modelo.clear();
-                for (Entidades.Ejemplar ejemplar : ejemplares) {
-                    modelo.addElement(ejemplar);
+                for (Entidades.Ejemplar ejemplare : ejemplares) {
+                    modelo.addElement(ejemplare);
                 }
             } 
         }
@@ -968,8 +969,8 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
             if(prestamos.size() > 0){
                 javax.swing.DefaultListModel modelo = (javax.swing.DefaultListModel) listaPrestamos.getModel();
                 modelo.clear();
-                for (Entidades.Prestamo prestamo : prestamos) {
-                    modelo.addElement(prestamo);
+                for (Entidades.Prestamo prestamoo : prestamos) {
+                    modelo.addElement(prestamoo);
                 }
             } 
         }

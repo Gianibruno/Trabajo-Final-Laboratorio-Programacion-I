@@ -327,16 +327,16 @@ public class AutorGUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void datoDniKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_datoDniKeyTyped
-        char tecla = evt.getKeyChar();
-        System.out.println(tecla);
-        if(tecla == 'A')
-            evt.consume();
+        //char tecla = evt.getKeyChar();
+        //System.out.println(tecla);
+        //if(tecla == 'A')
+        //    evt.consume();
     }//GEN-LAST:event_datoDniKeyTyped
 
     private void datoDniKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_datoDniKeyPressed
-        char tecla = evt.getKeyChar();
-        if(tecla == 'A')
-            evt.consume();
+//        char tecla = evt.getKeyChar();
+//        if(tecla == 'A')
+//            evt.consume();
     }//GEN-LAST:event_datoDniKeyPressed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
