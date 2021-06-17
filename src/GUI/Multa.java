@@ -210,7 +210,10 @@ public class Multa extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBuscarActionPerformed
-
+        if(!(jtId.getText().chars().allMatch( Character::isDigit ))){
+            JOptionPane.showMessageDialog(this, "El ID debe ser de tipo numerico, por favor, ingreseló nuevamente");
+            return;
+        }
         BD.MultaData md = new BD.MultaData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
         int id = Integer.parseInt(jtId.getText());
         Entidades.Multa multa = md.buscarMulta(id);
