@@ -227,6 +227,61 @@ public class LectorData {
         return respuesta;
     }
     
+    public java.util.List<Entidades.Lector> obtenerLectoresMorosos(){
+        java.util.List<Entidades.Lector> respuesta = new java.util.ArrayList<>();
+        Entidades.Lector lector;
+        String sql = "SELECT DISTINCT l.* FROM lectores AS l, prestamos AS p " +
+                "WHERE p.id_lector = l.id_lector " +
+                "AND p.fecha_prestamo + INTERVAL 30 DAY  > NOW() " +
+                "AND p.fecha_devolucion IS NULL;";
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                lector = new Entidades.Lector(
+                    rs.getString(CAMPOS[1]), 
+                    rs.getString(CAMPOS[2]), 
+                    rs.getString(CAMPOS[3]), 
+                    rs.getString(CAMPOS[4]), 
+                    rs.getDate(CAMPOS[5]).toLocalDate());
+                lector.setIdLector(rs.getInt(CAMPOS[0]));
+                lector.setEstado(rs.getInt(CAMPOS[6]));
+                respuesta.add(lector);
+            }
+            ps.close();
+        } catch (java.sql.SQLException ex) {
+            error(ex);
+        }
+        return respuesta;
+    }
+    
+    public java.util.List<Entidades.Lector> obtenerLectoresConMulta(){
+        java.util.List<Entidades.Lector> respuesta = new java.util.ArrayList<>();
+        Entidades.Lector lector;
+        String sql = "SELECT l.* FROM lectores AS l, prestamos AS p, multa AS m " +
+                "WHERE p.id_lector = l.id_lector " +
+                "AND p.id_prestamo = m.id_prestamo;";
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                lector = new Entidades.Lector(
+                    rs.getString(CAMPOS[1]), 
+                    rs.getString(CAMPOS[2]), 
+                    rs.getString(CAMPOS[3]), 
+                    rs.getString(CAMPOS[4]), 
+                    rs.getDate(CAMPOS[5]).toLocalDate());
+                lector.setIdLector(rs.getInt(CAMPOS[0]));
+                lector.setEstado(rs.getInt(CAMPOS[6]));
+                respuesta.add(lector);
+            }
+            ps.close();
+        } catch (java.sql.SQLException ex) {
+            error(ex);
+        }
+        return respuesta;
+    }
+    
     private void error(Object ex) {
         System.out.println("Error: "+ ex);
         this.ex = ex;
