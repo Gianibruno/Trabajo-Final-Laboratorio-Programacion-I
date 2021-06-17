@@ -5,6 +5,8 @@
  */
 package GUI;
 
+import Entidades.Autor;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,11 +15,25 @@ import javax.swing.JOptionPane;
  */
 public class Libros extends javax.swing.JInternalFrame {
 
+    List<Entidades.Autor> lista = null;
+
     /**
      * Creates new form Libros
      */
     public Libros() {
         initComponents();
+        actualizarCBAutores();      
+    }
+
+    public void actualizarCBAutores() {
+        cbAutor.removeAllItems();
+        cbAutor.addItem(new Autor());
+        cbAutor.setSelectedItem(null);
+        BD.AutorData ad = new BD.AutorData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
+        lista = ad.obtenerAutores();
+        for (Autor autor : lista) {
+            cbAutor.addItem(autor);
+        }
     }
 
     /**
@@ -42,7 +58,6 @@ public class Libros extends javax.swing.JInternalFrame {
         jbNuevo = new javax.swing.JButton();
         btnBuscarIsbn = new javax.swing.JButton();
         jbSalir = new javax.swing.JButton();
-        tfAutor = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         tfIsbn = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -51,6 +66,7 @@ public class Libros extends javax.swing.JInternalFrame {
         tfTipo = new javax.swing.JTextField();
         ycAnio = new com.toedter.calendar.JYearChooser();
         jbGuardar = new javax.swing.JButton();
+        cbAutor = new javax.swing.JComboBox<>();
 
         setClosable(true);
         setIconifiable(true);
@@ -183,11 +199,11 @@ public class Libros extends javax.swing.JInternalFrame {
                             .addComponent(ycAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(tfAutor)
-                                    .addComponent(tfTipo, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE))
+                                    .addComponent(tfTipo, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+                                    .addComponent(cbAutor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(42, 42, 42)
                                 .addComponent(jLabel3)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(299, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -225,10 +241,10 @@ public class Libros extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(tfEditorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
-                        .addGap(21, 21, 21)
+                        .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
-                            .addComponent(tfAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
@@ -260,8 +276,7 @@ public class Libros extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    
+
     private void tfTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfTituloActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfTituloActionPerformed
@@ -271,6 +286,7 @@ public class Libros extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tfEditorialActionPerformed
 
     private void btnBuscarIsbnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarIsbnActionPerformed
+        actualizarCBAutores();
         long isbn = Long.parseLong(tfIsbn.getText());
         BD.LibroData ld = new BD.LibroData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
         Entidades.Libro libro = ld.buscarLibro(isbn);
@@ -278,7 +294,7 @@ public class Libros extends javax.swing.JInternalFrame {
         tfIsbn.setText(libro.getIsbn() + "");
         tfTitulo.setText(libro.getNombre());
         tfEditorial.setText(libro.getEditorial());
-        tfAutor.setText(libro.getAutor().getNombre());
+        cbAutor.setSelectedItem(libro.getAutor().getNombre());
         ycAnio.setYear(libro.getAño());
         boolean estado = false;
         if (libro.getEstado() == 1) {
@@ -289,6 +305,7 @@ public class Libros extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnBuscarIsbnActionPerformed
 
     private void btnBuscarIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarIdActionPerformed
+        actualizarCBAutores();
         int id = Integer.parseInt(tfId.getText());
         BD.LibroData ld = new BD.LibroData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
         Entidades.Libro libro = ld.buscarLibroXId(id);
@@ -296,7 +313,7 @@ public class Libros extends javax.swing.JInternalFrame {
         tfIsbn.setText(libro.getIsbn() + "");
         tfTitulo.setText(libro.getNombre());
         tfEditorial.setText(libro.getEditorial());
-        tfAutor.setText(libro.getAutor().getNombre());
+        cbAutor.setSelectedItem(libro.getAutor().getNombre());
         ycAnio.setYear(libro.getAño());
         boolean estado = false;
         if (libro.getEstado() == 1) {
@@ -312,7 +329,7 @@ public class Libros extends javax.swing.JInternalFrame {
         tfIsbn.setText("");
         tfTitulo.setText("");
         tfEditorial.setText("");
-        tfAutor.setText("");
+        cbAutor.setSelectedItem("");
         ycAnio.setYear(Integer.parseInt(java.time.Year.now() + ""));
         cbEstado.setSelected(false);
         tfTipo.setText("");
@@ -320,26 +337,39 @@ public class Libros extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbNuevoActionPerformed
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
-        int aux=0;
+        int rt=0;
+        actualizarCBAutores();
+        int aux = 0;
         BD.LibroData ld = new BD.LibroData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
         Entidades.Libro libro = new Entidades.Libro();
-        libro.setAutor(new Entidades.Autor()); // MODIFICAR!!
+        BD.AutorData ad = new BD.AutorData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
+        libro.setAutor((Entidades.Autor)cbAutor.getSelectedItem());
+        if(libro.getAutor().toString()==""){
+            JOptionPane.showMessageDialog(this, "Por favor, elija un autor.");
+            return;
+        }
         libro.setAño(Short.parseShort(ycAnio.getYear() + ""));
-        if (ld.buscarLibro(Long.parseLong(tfIsbn.getText()))==null){
+        if (ld.buscarLibro(Long.parseLong(tfIsbn.getText())) == null) {
             libro.setIsbn(Long.parseLong(tfIsbn.getText()));
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "El ISBN ingresado ya existe, intente con otro.");
             tfIsbn.setText("");
             return;
         }
         libro.setEditorial(tfEditorial.getText());
-        if(cbEstado.isSelected()){
-            aux=1;
+        if (cbEstado.isSelected()) {
+            aux = 1;
         }
         libro.setEstado(aux);
         libro.setNombre(tfTitulo.getText());
         libro.setTipo(tfTipo.getText());
-        
+        rt = ld.guardar(libro);
+        if (rt>0) {
+            JOptionPane.showMessageDialog(this, "¡Libro guardado con exito!");
+        } else {
+            JOptionPane.showMessageDialog(this, "¡Error al guardar libro!");
+        }
+        tfId.setText(rt+"");
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
@@ -350,6 +380,7 @@ public class Libros extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarId;
     private javax.swing.JButton btnBuscarIsbn;
+    private javax.swing.JComboBox<Autor> cbAutor;
     private javax.swing.JCheckBox cbEstado;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -363,7 +394,6 @@ public class Libros extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbGuardar;
     private javax.swing.JButton jbNuevo;
     private javax.swing.JButton jbSalir;
-    private javax.swing.JTextField tfAutor;
     private javax.swing.JTextField tfEditorial;
     private javax.swing.JTextField tfId;
     private javax.swing.JTextField tfIsbn;
