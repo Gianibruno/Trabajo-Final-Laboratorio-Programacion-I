@@ -31,6 +31,7 @@ import Entidades.Biblioteca;
  * <li>modificar(idPrestamo, idEjemplar, idLector) : 1 o 0.</li>
  * <li>anular(Prestamo) : 1 o 0.</li>
  * <li>anular(idPrestamo) : 1 o 0.</li>
+ * <li>Buscar(idPrestamo) : Prestamo.</li>
  * <li>devolver(Prestamo, idPrestamo) : 1 o 0</li>
  * <li>listar(fecha) : Lista de Prestamos en esa fecha.</li>
  * <li>listar(lector) : Lista de Prestamos del lector.</li>
@@ -571,6 +572,54 @@ public class PrestamoData {
                     fechaDevolucion
                 );
                 respuesta.add(prestamo);
+            }
+            declaracion.close();
+        }catch(java.sql.SQLException ex){
+            error(ex);
+        }
+        return respuesta;
+    }
+    
+    /**
+     * Buscar por id de prestamo, devuelve un prestamo
+     * @param idPrestamo
+     * @return 
+     */
+    public Entidades.Prestamo buscar(int idPrestamo){
+        Entidades.Prestamo respuesta = null;
+        Entidades.Lector lector;
+        Entidades.Ejemplar ejemplar;
+        BD.EjemplarData eData = new BD.EjemplarData(conexion);
+        BD.LectorData lData = new BD.LectorData(conexion);
+        String sql = "SELECT * FROM prestamos "
+                + "WHERE id_prestamo = ?;";
+        int 
+                idLector = 0,
+                idEjemplar = 0;
+        java.time.LocalDate 
+                fechaPrestamo = null,
+                fechaDevolucion = null;
+        try{
+            declaracion = conexion.getConexion().prepareStatement(sql);
+            declaracion.setInt(1, idPrestamo);
+            resultado = declaracion.executeQuery();
+            if(resultado.next()){
+                idEjemplar = resultado.getInt(CAMPOS[1]);
+                idLector = resultado.getInt(CAMPOS[2]);
+                fechaPrestamo = (resultado.getDate(CAMPOS[3]) == null) ? null : resultado.getDate(CAMPOS[3]).toLocalDate();
+                fechaDevolucion = (resultado.getDate(CAMPOS[4]) == null) ? null : resultado.getDate(CAMPOS[4]).toLocalDate();
+                //El ejemplar
+                ejemplar = eData.buscarEjemplar(idEjemplar);
+                //El lector
+                lector = lData.buscarLector(idLector);//Modificar por el metodo de busqueda por id
+                //El prestamo
+                respuesta = new Entidades.Prestamo(
+                    idPrestamo,
+                    ejemplar,
+                    lector,
+                    fechaPrestamo,
+                    fechaDevolucion
+                );
             }
             declaracion.close();
         }catch(java.sql.SQLException ex){
