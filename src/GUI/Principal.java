@@ -69,28 +69,28 @@ public class Principal extends javax.swing.JFrame {
         menuLectores = new javax.swing.JMenu();
         menuLectores1 = new javax.swing.JMenuItem();
         menuLectores2 = new javax.swing.JMenuItem();
-        jSeparator6 = new javax.swing.JPopupMenu.Separator();
-        menuLibros7 = new javax.swing.JMenuItem();
-        menuLibros8 = new javax.swing.JMenuItem();
-        jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        menuLectores3 = new javax.swing.JMenuItem();
-        menuLectores4 = new javax.swing.JMenuItem();
         menuLibros = new javax.swing.JMenu();
         menuLibros1 = new javax.swing.JMenuItem();
         menuLibros2 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         menuLibros3 = new javax.swing.JMenuItem();
+        menuEjemplaresdeunLibro = new javax.swing.JMenuItem();
+        menuGestion = new javax.swing.JMenu();
+        menuPrestamo = new javax.swing.JMenuItem();
+        menuMulta = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
-        menuLibros5 = new javax.swing.JMenuItem();
-        menuLibros6 = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
-        menuAyudaInfo = new javax.swing.JMenuItem();
+        menuPrestamoporfecha = new javax.swing.JMenuItem();
+        menuPrestamoporlector = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        menuLibros7 = new javax.swing.JMenuItem();
+        menuLibros8 = new javax.swing.JMenuItem();
+        menuAyuda = new javax.swing.JMenu();
+        menuAcercaBiblioteca = new javax.swing.JMenuItem();
+        menuAcercaDe = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Biblioteca por Grupo1");
-        setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(800, 600));
-        setPreferredSize(new java.awt.Dimension(800, 600));
         setSize(new java.awt.Dimension(800, 600));
 
         javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
@@ -328,40 +328,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         menuLectores.add(menuLectores2);
-        menuLectores.add(jSeparator6);
-
-        menuLibros7.setText("Lectores morosos");
-        menuLibros7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuLibros7ActionPerformed(evt);
-            }
-        });
-        menuLectores.add(menuLibros7);
-
-        menuLibros8.setText("Lectores con multa");
-        menuLibros8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuLibros8ActionPerformed(evt);
-            }
-        });
-        menuLectores.add(menuLibros8);
-        menuLectores.add(jSeparator2);
-
-        menuLectores3.setText("Prestamo");
-        menuLectores3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuLectores3ActionPerformed(evt);
-            }
-        });
-        menuLectores.add(menuLectores3);
-
-        menuLectores4.setText("Multa");
-        menuLectores4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuLectores4ActionPerformed(evt);
-            }
-        });
-        menuLectores.add(menuLectores4);
 
         menuBiblioteca.add(menuLectores);
 
@@ -391,39 +357,82 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         menuLibros.add(menuLibros3);
-        menuLibros.add(jSeparator5);
 
-        menuLibros5.setText("Prestamos por fecha");
-        menuLibros5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuLibros5ActionPerformed(evt);
-            }
-        });
-        menuLibros.add(menuLibros5);
-
-        menuLibros6.setText("Prestamos por lector");
-        menuLibros6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuLibros6ActionPerformed(evt);
-            }
-        });
-        menuLibros.add(menuLibros6);
+        menuEjemplaresdeunLibro.setText("Ejemplares de un Libro");
+        menuLibros.add(menuEjemplaresdeunLibro);
 
         menuBiblioteca.add(menuLibros);
 
-        menu.add(menuBiblioteca);
+        menuGestion.setText("Gestión");
 
-        jMenu1.setText("Ayuda");
-
-        menuAyudaInfo.setText("Acerca de...");
-        menuAyudaInfo.addActionListener(new java.awt.event.ActionListener() {
+        menuPrestamo.setText("Prestamo");
+        menuPrestamo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuAyudaInfoActionPerformed(evt);
+                menuPrestamoActionPerformed(evt);
             }
         });
-        jMenu1.add(menuAyudaInfo);
+        menuGestion.add(menuPrestamo);
 
-        menu.add(jMenu1);
+        menuMulta.setText("Multa");
+        menuMulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuMultaActionPerformed(evt);
+            }
+        });
+        menuGestion.add(menuMulta);
+        menuGestion.add(jSeparator5);
+
+        menuPrestamoporfecha.setText("Prestamos por fecha");
+        menuPrestamoporfecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPrestamoporfechaActionPerformed(evt);
+            }
+        });
+        menuGestion.add(menuPrestamoporfecha);
+
+        menuPrestamoporlector.setText("Prestamos por lector");
+        menuPrestamoporlector.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPrestamoporlectorActionPerformed(evt);
+            }
+        });
+        menuGestion.add(menuPrestamoporlector);
+        menuGestion.add(jSeparator6);
+
+        menuLibros7.setText("Lectores morosos");
+        menuLibros7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLibros7ActionPerformed(evt);
+            }
+        });
+        menuGestion.add(menuLibros7);
+
+        menuLibros8.setText("Lectores con multa");
+        menuLibros8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLibros8ActionPerformed(evt);
+            }
+        });
+        menuGestion.add(menuLibros8);
+
+        menuBiblioteca.add(menuGestion);
+
+        menu.add(menuBiblioteca);
+
+        menuAyuda.setText("Ayuda");
+
+        menuAcercaBiblioteca.setText("Acerca de la Biblioteca");
+        menuAyuda.add(menuAcercaBiblioteca);
+
+        menuAcercaDe.setText("Acerca de...");
+        menuAcercaDe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuAcercaDeActionPerformed(evt);
+            }
+        });
+        menuAyuda.add(menuAcercaDe);
+
+        menu.add(menuAyuda);
 
         setJMenuBar(menu);
 
@@ -495,9 +504,9 @@ public class Principal extends javax.swing.JFrame {
         alinicio();
     }//GEN-LAST:event_btnConectarActionPerformed
 
-    private void menuAyudaInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAyudaInfoActionPerformed
+    private void menuAcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAcercaDeActionPerformed
         irAInfo();
-    }//GEN-LAST:event_menuAyudaInfoActionPerformed
+    }//GEN-LAST:event_menuAcercaDeActionPerformed
 
     private void menuAutores1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAutores1ActionPerformed
         System.out.println("ABRIR VISTA AUTORES");
@@ -523,17 +532,17 @@ public class Principal extends javax.swing.JFrame {
         insertarEnEscritorio(listaLectores);
     }//GEN-LAST:event_menuLectores2ActionPerformed
 
-    private void menuLectores3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores3ActionPerformed
+    private void menuPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPrestamoActionPerformed
         System.out.println("ABRIR PRESTAMOS");
         if(prestamoGUI == null)prestamoGUI = new PrestamoGUI();
         insertarEnEscritorio(prestamoGUI);
-    }//GEN-LAST:event_menuLectores3ActionPerformed
+    }//GEN-LAST:event_menuPrestamoActionPerformed
 
-    private void menuLectores4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores4ActionPerformed
+    private void menuMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMultaActionPerformed
         System.out.println("ABRIR VISTA MULTAS");
         if(multa == null)multa = new Multa();
         insertarEnEscritorio(multa);
-    }//GEN-LAST:event_menuLectores4ActionPerformed
+    }//GEN-LAST:event_menuMultaActionPerformed
 
     private void menuLibros1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros1ActionPerformed
         System.out.println("ABRIR VISTA LIBROS");
@@ -553,17 +562,17 @@ public class Principal extends javax.swing.JFrame {
         insertarEnEscritorio(ejemplares);
     }//GEN-LAST:event_menuLibros3ActionPerformed
 
-    private void menuLibros5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros5ActionPerformed
+    private void menuPrestamoporfechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPrestamoporfechaActionPerformed
         System.out.println("ABRIR VISTA PRESTAMOS POR FECHA");
         if(prestamoPorFecha == null)prestamoPorFecha = new PrestamoPorFecha();
         insertarEnEscritorio(prestamoPorFecha);
-    }//GEN-LAST:event_menuLibros5ActionPerformed
+    }//GEN-LAST:event_menuPrestamoporfechaActionPerformed
 
-    private void menuLibros6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros6ActionPerformed
+    private void menuPrestamoporlectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPrestamoporlectorActionPerformed
         System.out.println("ABRIR VISTA PRESTAMOS POR LECTOR");
         if(prestamoPorLector == null)prestamoPorLector = new PrestamosPorLector();
         insertarEnEscritorio(prestamoPorLector);
-    }//GEN-LAST:event_menuLibros6ActionPerformed
+    }//GEN-LAST:event_menuPrestamoporlectorActionPerformed
 
     private void menuLibros7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros7ActionPerformed
         System.out.println("ABRIR VISTA LECTORES MOROSOS");
@@ -640,31 +649,33 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JMenuBar menu;
+    private javax.swing.JMenuItem menuAcercaBiblioteca;
+    private javax.swing.JMenuItem menuAcercaDe;
     private javax.swing.JMenu menuAutores;
     private javax.swing.JMenuItem menuAutores1;
     private javax.swing.JMenuItem menuAutores2;
-    private javax.swing.JMenuItem menuAyudaInfo;
+    private javax.swing.JMenu menuAyuda;
     private javax.swing.JMenu menuBiblioteca;
+    private javax.swing.JMenuItem menuEjemplaresdeunLibro;
+    private javax.swing.JMenu menuGestion;
     private javax.swing.JMenu menuLectores;
     private javax.swing.JMenuItem menuLectores1;
     private javax.swing.JMenuItem menuLectores2;
-    private javax.swing.JMenuItem menuLectores3;
-    private javax.swing.JMenuItem menuLectores4;
     private javax.swing.JMenu menuLibros;
     private javax.swing.JMenuItem menuLibros1;
     private javax.swing.JMenuItem menuLibros2;
     private javax.swing.JMenuItem menuLibros3;
-    private javax.swing.JMenuItem menuLibros5;
-    private javax.swing.JMenuItem menuLibros6;
     private javax.swing.JMenuItem menuLibros7;
     private javax.swing.JMenuItem menuLibros8;
+    private javax.swing.JMenuItem menuMulta;
+    private javax.swing.JMenuItem menuPrestamo;
+    private javax.swing.JMenuItem menuPrestamoporfecha;
+    private javax.swing.JMenuItem menuPrestamoporlector;
     private javax.swing.JMenu menuSistema;
     private javax.swing.JMenuItem menuSistemaReconectar;
     private javax.swing.JMenuItem menuSistemaSalir;
