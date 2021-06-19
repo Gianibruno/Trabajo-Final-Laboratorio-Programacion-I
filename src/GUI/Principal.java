@@ -10,19 +10,20 @@ package GUI;
  */
 public class Principal extends javax.swing.JFrame {
     //Atributos
-    private AutorGUI autorGUI = new AutorGUI();
-    private ListaAutores listaAutores = new ListaAutores();
-    private ListaLectores listaLectores = new ListaLectores();
-    private ListaLibros listaLibros = new ListaLibros();
-    private Libros librosGUI = new Libros();
-    private Lectores lectoresGUI = new Lectores();
-    private PrestamoGUI prestamoGUI = new PrestamoGUI();
-    private PrestamoPorFecha prestamoPorFecha = new PrestamoPorFecha();
-    private PrestamosPorLector prestamoPorLector = new PrestamosPorLector();
-    private LectoresMorosos lectoresMorosos = new LectoresMorosos();
-    private LectoresMultas lectoresMultas = new LectoresMultas();
-    private Multa multa = new Multa();
-    private Ejemplares ejemplares = new Ejemplares();
+    private AutorGUI autorGUI = null;
+    private ListaAutores listaAutores = null;
+    private ListaLectores listaLectores = null;
+    private ListaLibros listaLibros = null;
+    private Libros librosGUI = null;
+    private Lectores lectoresGUI = null;
+    private PrestamoGUI prestamoGUI = null;
+    private PrestamoPorFecha prestamoPorFecha = null;
+    private PrestamosPorLector prestamoPorLector = null;
+    private LectoresMorosos lectoresMorosos = null;
+    private LectoresMultas lectoresMultas = null;
+    private Multa multa = null;
+    private Ejemplares ejemplares = null;
+    private java.util.ArrayList<javax.swing.JInternalFrame> vistas = null;
     /**
      * Constructor de vista Principal
      */
@@ -500,66 +501,79 @@ public class Principal extends javax.swing.JFrame {
 
     private void menuAutores1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAutores1ActionPerformed
         System.out.println("ABRIR VISTA AUTORES");
+        if(autorGUI == null)autorGUI = new AutorGUI();
         insertarEnEscritorio(autorGUI);
     }//GEN-LAST:event_menuAutores1ActionPerformed
 
     private void menuAutores2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAutores2ActionPerformed
         System.out.println("ABRIR VISTA LISTA AUTORES");
+        if(listaAutores == null)listaAutores = new ListaAutores();
         insertarEnEscritorio(listaAutores);
     }//GEN-LAST:event_menuAutores2ActionPerformed
 
     private void menuLectores1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores1ActionPerformed
         System.out.println("ABRIR VISTA LECTORES");
+        if(lectoresGUI == null)lectoresGUI = new Lectores();
         insertarEnEscritorio(lectoresGUI);
     }//GEN-LAST:event_menuLectores1ActionPerformed
 
     private void menuLectores2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores2ActionPerformed
         System.out.println("ABRIR VISTA LISTA LECTORES");
+        if(listaLectores == null)listaLectores = new ListaLectores();
         insertarEnEscritorio(listaLectores);
     }//GEN-LAST:event_menuLectores2ActionPerformed
 
     private void menuLectores3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores3ActionPerformed
         System.out.println("ABRIR PRESTAMOS");
+        if(prestamoGUI == null)prestamoGUI = new PrestamoGUI();
         insertarEnEscritorio(prestamoGUI);
     }//GEN-LAST:event_menuLectores3ActionPerformed
 
     private void menuLectores4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores4ActionPerformed
         System.out.println("ABRIR VISTA MULTAS");
+        if(multa == null)multa = new Multa();
         insertarEnEscritorio(multa);
     }//GEN-LAST:event_menuLectores4ActionPerformed
 
     private void menuLibros1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros1ActionPerformed
         System.out.println("ABRIR VISTA LIBROS");
+        if(librosGUI == null)librosGUI = new Libros();
         insertarEnEscritorio(librosGUI);
     }//GEN-LAST:event_menuLibros1ActionPerformed
 
     private void menuLibros2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros2ActionPerformed
         System.out.println("ABRIR VISTA LISTA LIBROS");
+        if(listaLibros == null)listaLibros = new ListaLibros();
         insertarEnEscritorio(listaLibros);
     }//GEN-LAST:event_menuLibros2ActionPerformed
 
     private void menuLibros3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros3ActionPerformed
         System.out.println("ABRIR VISTA EJEMPLARES");
+        if(ejemplares == null)ejemplares = new Ejemplares();
         insertarEnEscritorio(ejemplares);
     }//GEN-LAST:event_menuLibros3ActionPerformed
 
     private void menuLibros5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros5ActionPerformed
         System.out.println("ABRIR VISTA PRESTAMOS POR FECHA");
+        if(prestamoPorFecha == null)prestamoPorFecha = new PrestamoPorFecha();
         insertarEnEscritorio(prestamoPorFecha);
     }//GEN-LAST:event_menuLibros5ActionPerformed
 
     private void menuLibros6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros6ActionPerformed
         System.out.println("ABRIR VISTA PRESTAMOS POR LECTOR");
+        if(prestamoPorLector == null)prestamoPorLector = new PrestamosPorLector();
         insertarEnEscritorio(prestamoPorLector);
     }//GEN-LAST:event_menuLibros6ActionPerformed
 
     private void menuLibros7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros7ActionPerformed
         System.out.println("ABRIR VISTA LECTORES MOROSOS");
+        if(lectoresMorosos == null)lectoresMorosos = new LectoresMorosos();
         insertarEnEscritorio(lectoresMorosos);
     }//GEN-LAST:event_menuLibros7ActionPerformed
 
     private void menuLibros8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros8ActionPerformed
         System.out.println("ABRIR VISTA LECTORES CON MULTA");
+        if(lectoresMultas == null)lectoresMultas = new LectoresMultas();
         insertarEnEscritorio(lectoresMultas);
     }//GEN-LAST:event_menuLibros8ActionPerformed
 
@@ -668,7 +682,7 @@ public class Principal extends javax.swing.JFrame {
      */
     private void alinicio() {
         //probar conexion
-        if (grupo1tpfinal.Grupo1TPFinal.CONEXION.getConexion() == null) {
+        if (!grupo1tpfinal.Grupo1TPFinal.CONEXION.esValida()) {
             grupo1tpfinal.Grupo1TPFinal.CONEXION.Conectar();
         }
         //error si no es valida
@@ -689,6 +703,7 @@ public class Principal extends javax.swing.JFrame {
             irAEscritorio();
             //habilitar menu de biblioteca
             menuBiblioteca.setVisible(true);
+            vistas = new java.util.ArrayList<>();
         }
     }
 
@@ -727,6 +742,7 @@ public class Principal extends javax.swing.JFrame {
                 vista.setVisible(true);
             }
             vista.toFront();
+            escritorio.setSelectedFrame(vista);
         }
     }
     //</editor-fold>
