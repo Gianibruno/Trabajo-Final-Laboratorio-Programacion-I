@@ -37,7 +37,14 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        escritorio = new javax.swing.JDesktopPane();
+        javax.swing.ImageIcon icono = new javax.swing.ImageIcon(getClass().getResource("/Iconos/Fondo.jpg"));
+        java.awt.Image fondo = icono.getImage();
+        escritorio = new javax.swing.JDesktopPane(){
+            public void paintComponent(java.awt.Graphics graficos){
+                //super.paintComponent(graficos);
+                graficos.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
         formInfo = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -644,9 +651,6 @@ public class Principal extends javax.swing.JFrame {
      */
     public static void iniciar() {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -654,13 +658,7 @@ public class Principal extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (Exception ex) {
             java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -733,6 +731,7 @@ public class Principal extends javax.swing.JFrame {
      * muestra informacion para reconectar.
      */
     private void alinicio() {
+        
         //probar conexion
         if (!grupo1tpfinal.Grupo1TPFinal.CONEXION.esValida()) {
             grupo1tpfinal.Grupo1TPFinal.CONEXION.Conectar();
