@@ -23,7 +23,8 @@ public class Principal extends javax.swing.JFrame {
     private LectoresMultas lectoresMultas = null;
     private Multa multa = null;
     private Ejemplares ejemplares = null;
-    private java.util.ArrayList<javax.swing.JInternalFrame> vistas = null;
+    private EjemplaresPorLibro ejempPorLibro = null;
+    private LaBiblioteca laBiblioteca = null;
     /**
      * Constructor de vista Principal
      */
@@ -55,8 +56,9 @@ public class Principal extends javax.swing.JFrame {
         txtNombreBD = new javax.swing.JTextField();
         txtPuerto = new javax.swing.JTextField();
         txtUsuarioBD = new javax.swing.JTextField();
-        txtContraseñaBD = new javax.swing.JTextField();
+        txtVacia = new javax.swing.JCheckBox();
         btnConectar = new javax.swing.JButton();
+        txtContraseñaBD = new javax.swing.JPasswordField();
         menu = new javax.swing.JMenuBar();
         menuSistema = new javax.swing.JMenu();
         menuSistemaReconectar = new javax.swing.JMenuItem();
@@ -210,10 +212,24 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        txtVacia.setSelected(true);
+        txtVacia.setText("Vacia?");
+        txtVacia.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                txtVaciaItemStateChanged(evt);
+            }
+        });
+
         btnConectar.setText("Conectar");
         btnConectar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConectarActionPerformed(evt);
+            }
+        });
+
+        txtContraseñaBD.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtContraseñaBDKeyTyped(evt);
             }
         });
 
@@ -226,20 +242,22 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(formConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
                     .addGroup(formConectarLayout.createSequentialGroup()
-                        .addGroup(formConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(formConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(formConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnConectar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(formConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNombreBD)
                             .addComponent(txtUsuarioBD)
-                            .addComponent(txtContraseñaBD)
-                            .addComponent(txtPuerto)))
-                    .addGroup(formConectarLayout.createSequentialGroup()
-                        .addComponent(btnConectar)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(txtPuerto)
+                            .addGroup(formConectarLayout.createSequentialGroup()
+                                .addComponent(txtContraseñaBD)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtVacia)))))
                 .addContainerGap())
         );
         formConectarLayout.setVerticalGroup(
@@ -262,11 +280,14 @@ public class Principal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(formConectarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
+                    .addComponent(txtVacia)
                     .addComponent(txtContraseñaBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnConectar)
-                .addContainerGap(182, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        formConectarLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtContraseñaBD, txtUsuarioBD});
 
         menuSistema.setText("Sistema");
 
@@ -359,6 +380,11 @@ public class Principal extends javax.swing.JFrame {
         menuLibros.add(menuLibros3);
 
         menuEjemplaresdeunLibro.setText("Ejemplares de un Libro");
+        menuEjemplaresdeunLibro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuEjemplaresdeunLibroActionPerformed(evt);
+            }
+        });
         menuLibros.add(menuEjemplaresdeunLibro);
 
         menuBiblioteca.add(menuLibros);
@@ -422,6 +448,11 @@ public class Principal extends javax.swing.JFrame {
         menuAyuda.setText("Ayuda");
 
         menuAcercaBiblioteca.setText("Acerca de la Biblioteca");
+        menuAcercaBiblioteca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuAcercaBibliotecaActionPerformed(evt);
+            }
+        });
         menuAyuda.add(menuAcercaBiblioteca);
 
         menuAcercaDe.setText("Acerca de...");
@@ -472,7 +503,7 @@ public class Principal extends javax.swing.JFrame {
 
     // <editor-fold defaultstate="collapsed" desc=" Eventos Generados por el Design ">  
     private void menuSistemaSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSistemaSalirActionPerformed
-        System.exit(0);
+        salir();
     }//GEN-LAST:event_menuSistemaSalirActionPerformed
 
     private void menuSistemaReconectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSistemaReconectarActionPerformed
@@ -488,20 +519,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverAlEscritorioActionPerformed
 
     private void btnConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConectarActionPerformed
-        if (!txtNombreBD.getText().isEmpty()) {
-            grupo1tpfinal.Grupo1TPFinal.CONEXION.setNombreBD(txtNombreBD.getText());
-        }
-        if (!txtPuerto.getText().isEmpty()) {
-            grupo1tpfinal.Grupo1TPFinal.CONEXION.setPuerto(Integer.parseInt(txtPuerto.getText()));
-        }
-        if (!txtUsuarioBD.getText().isEmpty()) {
-            grupo1tpfinal.Grupo1TPFinal.CONEXION.setUsuario(txtUsuarioBD.getText());
-        }
-        if (!txtContraseñaBD.getText().isEmpty()) {
-            grupo1tpfinal.Grupo1TPFinal.CONEXION.setPassword(txtContraseñaBD.getText());
-        }
-        grupo1tpfinal.Grupo1TPFinal.CONEXION.Conectar();
-        alinicio();
+        conectar();
     }//GEN-LAST:event_btnConectarActionPerformed
 
     private void menuAcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAcercaDeActionPerformed
@@ -597,6 +615,27 @@ public class Principal extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtPuertoKeyTyped
+
+    private void menuEjemplaresdeunLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEjemplaresdeunLibroActionPerformed
+        System.out.println("ABRIR VISTA EJEMPLARES POR LIBRO");
+        if(ejempPorLibro == null)ejempPorLibro = new EjemplaresPorLibro();
+        insertarEnEscritorio(ejempPorLibro);
+    }//GEN-LAST:event_menuEjemplaresdeunLibroActionPerformed
+
+    private void menuAcercaBibliotecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAcercaBibliotecaActionPerformed
+        System.out.println("ABRIR VISTA INFO DE LA BIBLIOTECA");
+        if(laBiblioteca == null)laBiblioteca = new LaBiblioteca();
+        insertarEnEscritorio(laBiblioteca);
+    }//GEN-LAST:event_menuAcercaBibliotecaActionPerformed
+
+    private void txtContraseñaBDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContraseñaBDKeyTyped
+        if(txtVacia.isSelected()) txtVacia.setSelected(false);
+    }//GEN-LAST:event_txtContraseñaBDKeyTyped
+
+    private void txtVaciaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_txtVaciaItemStateChanged
+        if(evt.getStateChange() == 1)
+            txtContraseñaBD.setText("");
+    }//GEN-LAST:event_txtVaciaItemStateChanged
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc=" Metodo static iniciar ">
@@ -630,6 +669,7 @@ public class Principal extends javax.swing.JFrame {
         });
     }
     //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc=" Variables del Design ">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConectar;
@@ -679,10 +719,11 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu menuSistema;
     private javax.swing.JMenuItem menuSistemaReconectar;
     private javax.swing.JMenuItem menuSistemaSalir;
-    private javax.swing.JTextField txtContraseñaBD;
+    private javax.swing.JPasswordField txtContraseñaBD;
     private javax.swing.JTextField txtNombreBD;
     private javax.swing.JTextField txtPuerto;
     private javax.swing.JTextField txtUsuarioBD;
+    private javax.swing.JCheckBox txtVacia;
     // End of variables declaration//GEN-END:variables
     //</editor-fold>
 
@@ -714,10 +755,34 @@ public class Principal extends javax.swing.JFrame {
             irAEscritorio();
             //habilitar menu de biblioteca
             menuBiblioteca.setVisible(true);
-            vistas = new java.util.ArrayList<>();
         }
     }
-
+    
+    private void salir(){
+        javax.swing.JOptionPane.showMessageDialog(this, "Gracias por usar la Biblioteca.\nQue tenga un buen día.", "Salir de la Biblioteca", 1);
+        System.exit(0);
+    }
+    
+    private void conectar(){
+        if (!txtNombreBD.getText().isEmpty() && !grupo1tpfinal.Grupo1TPFinal.CONEXION.getNombreBD().equals(txtNombreBD.getText()))
+            grupo1tpfinal.Grupo1TPFinal.CONEXION.setNombreBD(txtNombreBD.getText());
+        else
+            txtNombreBD.setBackground(java.awt.Color.lightGray);
+        if (!txtPuerto.getText().isEmpty() && grupo1tpfinal.Grupo1TPFinal.CONEXION.getPuerto() != Integer.parseInt(txtPuerto.getText()))
+            grupo1tpfinal.Grupo1TPFinal.CONEXION.setPuerto(Integer.parseInt(txtPuerto.getText()));
+        else
+            txtPuerto.setBackground(java.awt.Color.lightGray);
+        if (!txtUsuarioBD.getText().isEmpty() && !grupo1tpfinal.Grupo1TPFinal.CONEXION.getUsuario().equals(txtUsuarioBD.getText()))
+            grupo1tpfinal.Grupo1TPFinal.CONEXION.setUsuario(txtUsuarioBD.getText());
+        else
+            txtUsuarioBD.setBackground(java.awt.Color.lightGray);
+        if (!txtVacia.isSelected() && !txtContraseñaBD.getPassword().toString().isEmpty())
+            grupo1tpfinal.Grupo1TPFinal.CONEXION.setPassword(txtContraseñaBD.getPassword().toString());
+        else if(txtVacia.isSelected())grupo1tpfinal.Grupo1TPFinal.CONEXION.setPassword("");
+            grupo1tpfinal.Grupo1TPFinal.CONEXION.Conectar();
+        alinicio();
+    }
+    
     /**
      * Panel con informacion para intentar conectar
      */
@@ -725,6 +790,13 @@ public class Principal extends javax.swing.JFrame {
         formConectar.setVisible(true);
         formInfo.setVisible(false);
         escritorio.setVisible(false);
+        txtNombreBD.setText(grupo1tpfinal.Grupo1TPFinal.CONEXION.getNombreBD());
+        txtNombreBD.setBackground(java.awt.Color.white);
+        txtPuerto.setText(grupo1tpfinal.Grupo1TPFinal.CONEXION.getPuerto()+"");
+        txtPuerto.setBackground(java.awt.Color.white);
+        txtUsuarioBD.setText(grupo1tpfinal.Grupo1TPFinal.CONEXION.getUsuario());
+        txtUsuarioBD.setBackground(java.awt.Color.white);
+        txtContraseñaBD.setText(grupo1tpfinal.Grupo1TPFinal.CONEXION.getPass());
     }
 
     /**
@@ -752,8 +824,12 @@ public class Principal extends javax.swing.JFrame {
                 escritorio.add(vista);
                 vista.setVisible(true);
             }
-            vista.toFront();
-            escritorio.setSelectedFrame(vista);
+            //vista.toFront();
+            try {
+                vista.setSelected(true);
+            } catch (java.beans.PropertyVetoException ex) {
+                System.out.println("Error al seleccionar una vista: "+ ex.getMessage());
+            }
         }
     }
     //</editor-fold>
