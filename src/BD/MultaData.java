@@ -6,8 +6,6 @@
  */
 package BD;
 
-import java.time.LocalDate;
-
 /**
  * Clase Data: Multa
  * 
@@ -93,10 +91,10 @@ public class MultaData {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                //prestamo = pd.buscar(rs.getInt(CAMPOS [1]));
+                prestamo = pd.buscar(rs.getInt(CAMPOS[1]));
                 multa = new Entidades.Multa();
                 multa.setId_multa(rs.getInt(CAMPOS[0]));
-                //multa.setPrestamo(prestamo);
+                multa.setPrestamo(prestamo);
                 multa.setFecha_inicio(java.time.LocalDate.parse(rs.getString(CAMPOS[2])));
                 multa.setFecha_fin(java.time.LocalDate.parse(rs.getString(CAMPOS[3])));
                
