@@ -117,16 +117,42 @@ public class MultaData {
             ps.setInt(1, id_multa);
             rs = ps.executeQuery();
             if (rs.next()) {
-              //  prestamo = pd.buscar(rs.getInt(CAMPOS [1]));
-                multa = new Entidades.Multa();
+                prestamo = pd.buscar(rs.getInt(CAMPOS[1]));
+                multa = new Entidades.Multa(
+                        prestamo,
+                        java.time.LocalDate.parse(rs.getString(CAMPOS[2])),
+                        java.time.LocalDate.parse(rs.getString(CAMPOS[3]))
+                );
                 multa.setId_multa(rs.getInt(CAMPOS[0]));
-                multa.setFecha_inicio(java.time.LocalDate.parse(rs.getString(CAMPOS[2])));  
-                multa.setFecha_fin(java.time.LocalDate.parse(rs.getString(CAMPOS[3])));
-                
             }
             ps.close();
         } catch (java.sql.SQLException ex) {
             error(ex);
+        }
+        return multa;
+    }
+    
+     public Entidades.Multa buscarMulta(Entidades.Prestamo prestamo) {
+        Entidades.Multa multa = null;
+        String sql = "SELECT * FROM " + TABLA + " WHERE " + CAMPOS[1] + " = ?;";
+        BD.PrestamoData pd = new BD.PrestamoData(conexion);
+        if(prestamo != null && prestamo.getIdPrestamo() > 0){
+            try {
+                ps = con.prepareStatement(sql);
+                ps.setInt(1, prestamo.getIdPrestamo());
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    multa = new Entidades.Multa(
+                            prestamo,
+                            java.time.LocalDate.parse(rs.getString(CAMPOS[2])),
+                            java.time.LocalDate.parse(rs.getString(CAMPOS[3]))
+                    );
+                    multa.setId_multa(rs.getInt(CAMPOS[0]));
+                }
+                ps.close();
+            } catch (java.sql.SQLException ex) {
+                error(ex);
+            }
         }
         return multa;
     }
