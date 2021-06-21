@@ -442,6 +442,7 @@ public class PrestamoData {
     }
     /**
      * Listar todos los lectores que poseen prestamos vencidos
+     * Pasar este metodo a Lector?
      * @return lista de lectores.
      */
     public java.util.List<Entidades.Lector> listarVencidos(){
@@ -450,7 +451,8 @@ public class PrestamoData {
             tablaLectores = "lectores", campoId = CAMPOS[2],
             sql = "SELECT DISTINCT l.* FROM "+ tablaLectores +" AS l, "+ TABLA +" AS p "
                 + "WHERE p." + campoId + " = l." + campoId +" "
-                + "AND DATEDIFF(NOW(), p."+ CAMPOS[3] +") > "+ Biblioteca.CONF.MAXDIASPRESTADOS;
+                + "AND DATEDIFF(NOW(), p."+ CAMPOS[3] +") > "+ Biblioteca.CONF.MAXDIASPRESTADOS +" "
+                + "AND NOT p."+ CAMPOS[4] +" IS NULL;";
         Entidades.Lector lector;
         try{
             declaracion = conexion.getConexion().prepareStatement(sql);
