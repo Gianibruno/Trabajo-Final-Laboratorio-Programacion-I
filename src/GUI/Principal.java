@@ -25,6 +25,28 @@ public class Principal extends javax.swing.JFrame {
     private Ejemplares ejemplares = null;
     private EjemplaresPorLibro ejempPorLibro = null;
     private LaBiblioteca laBiblioteca = null;
+    
+    /**
+     * VENTANAS para agregar al escritorio.
+     */
+    public final static class VISTAS{
+        public final static javax.swing.JInternalFrame
+                BIBLIOTECA = new LaBiblioteca(),
+                AUTOR = new AutorGUI(),
+                LECTOR = new Lectores(),
+                LIBRO = new Libros(),
+                EJEMPLAR = new Ejemplares(),
+                PRESTAMO = new PrestamoGUI(),
+                MULTA = new Multa(),
+                LISTA_AUTORES = new ListaAutores(),
+                LISTA_LECTORES = new ListaLectores(),
+                LISTA_LIBROS = new ListaLibros(),
+                LISTA_EJEMPLARES = new EjemplaresPorLibro(),
+                LISTA_PRESTAMOSXFECHA = new PrestamoPorFecha(),
+                LISTA_PRESTAMOSXLECTOR = new PrestamosPorLector(),
+                LISTA_LECTORESMOROSOS = new LectoresMorosos(),
+                LISTA_LECTORESMULTA = new LectoresMultas();
+    }
     /**
      * Constructor de vista Principal
      */
@@ -535,80 +557,67 @@ public class Principal extends javax.swing.JFrame {
 
     private void menuAutores1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAutores1ActionPerformed
         System.out.println("ABRIR VISTA AUTORES");
-        if(autorGUI == null)autorGUI = new AutorGUI();
-        insertarEnEscritorio(autorGUI);
+        abrir(VISTAS.AUTOR, null);
     }//GEN-LAST:event_menuAutores1ActionPerformed
 
     private void menuAutores2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAutores2ActionPerformed
         System.out.println("ABRIR VISTA LISTA AUTORES");
-        if(listaAutores == null)listaAutores = new ListaAutores();
-        insertarEnEscritorio(listaAutores);
+        abrir(VISTAS.LISTA_AUTORES, null);
     }//GEN-LAST:event_menuAutores2ActionPerformed
 
     private void menuLectores1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores1ActionPerformed
         System.out.println("ABRIR VISTA LECTORES");
-        if(lectoresGUI == null)lectoresGUI = new Lectores();
-        insertarEnEscritorio(lectoresGUI);
+        abrir(VISTAS.LECTOR, null);
     }//GEN-LAST:event_menuLectores1ActionPerformed
 
     private void menuLectores2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLectores2ActionPerformed
         System.out.println("ABRIR VISTA LISTA LECTORES");
-        if(listaLectores == null)listaLectores = new ListaLectores();
-        insertarEnEscritorio(listaLectores);
+        abrir(VISTAS.LISTA_LECTORES, null);
     }//GEN-LAST:event_menuLectores2ActionPerformed
 
     private void menuPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPrestamoActionPerformed
         System.out.println("ABRIR PRESTAMOS");
-        if(prestamoGUI == null)prestamoGUI = new PrestamoGUI();
-        insertarEnEscritorio(prestamoGUI);
+        abrir(VISTAS.PRESTAMO, null);
     }//GEN-LAST:event_menuPrestamoActionPerformed
 
     private void menuMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMultaActionPerformed
         System.out.println("ABRIR VISTA MULTAS");
-        if(multa == null)multa = new Multa();
-        insertarEnEscritorio(multa);
+        abrir(VISTAS.MULTA, null);
     }//GEN-LAST:event_menuMultaActionPerformed
 
     private void menuLibros1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros1ActionPerformed
         System.out.println("ABRIR VISTA LIBROS");
-        if(librosGUI == null)librosGUI = new Libros();
-        insertarEnEscritorio(librosGUI);
+        abrir(VISTAS.LIBRO, null);
     }//GEN-LAST:event_menuLibros1ActionPerformed
 
     private void menuLibros2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros2ActionPerformed
         System.out.println("ABRIR VISTA LISTA LIBROS");
-        if(listaLibros == null)listaLibros = new ListaLibros();
-        insertarEnEscritorio(listaLibros);
+        abrir(VISTAS.LISTA_LIBROS, null);
     }//GEN-LAST:event_menuLibros2ActionPerformed
 
     private void menuLibros3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros3ActionPerformed
         System.out.println("ABRIR VISTA EJEMPLARES");
-        if(ejemplares == null)ejemplares = new Ejemplares();
-        insertarEnEscritorio(ejemplares);
+        abrir(VISTAS.EJEMPLAR, null);
     }//GEN-LAST:event_menuLibros3ActionPerformed
 
     private void menuPrestamoporfechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPrestamoporfechaActionPerformed
         System.out.println("ABRIR VISTA PRESTAMOS POR FECHA");
-        if(prestamoPorFecha == null)prestamoPorFecha = new PrestamoPorFecha();
-        insertarEnEscritorio(prestamoPorFecha);
+        abrir(VISTAS.LISTA_PRESTAMOSXFECHA, null);
     }//GEN-LAST:event_menuPrestamoporfechaActionPerformed
 
     private void menuPrestamoporlectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPrestamoporlectorActionPerformed
         System.out.println("ABRIR VISTA PRESTAMOS POR LECTOR");
-        if(prestamoPorLector == null)prestamoPorLector = new PrestamosPorLector();
-        insertarEnEscritorio(prestamoPorLector);
+        abrir(VISTAS.LISTA_PRESTAMOSXLECTOR, null);
     }//GEN-LAST:event_menuPrestamoporlectorActionPerformed
 
     private void menuLibros7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros7ActionPerformed
         System.out.println("ABRIR VISTA LECTORES MOROSOS");
-        if(lectoresMorosos == null)lectoresMorosos = new LectoresMorosos();
-        insertarEnEscritorio(lectoresMorosos);
+        abrir(VISTAS.LISTA_LECTORESMOROSOS, null);
     }//GEN-LAST:event_menuLibros7ActionPerformed
 
     private void menuLibros8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLibros8ActionPerformed
         System.out.println("ABRIR VISTA LECTORES CON MULTA");
-        if(lectoresMultas == null)lectoresMultas = new LectoresMultas();
-        insertarEnEscritorio(lectoresMultas);
+        abrir(VISTAS.LISTA_LECTORESMULTA, null);
     }//GEN-LAST:event_menuLibros8ActionPerformed
 
     private void txtPuertoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPuertoKeyTyped
@@ -625,14 +634,12 @@ public class Principal extends javax.swing.JFrame {
 
     private void menuEjemplaresdeunLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEjemplaresdeunLibroActionPerformed
         System.out.println("ABRIR VISTA EJEMPLARES POR LIBRO");
-        if(ejempPorLibro == null)ejempPorLibro = new EjemplaresPorLibro();
-        insertarEnEscritorio(ejempPorLibro);
+        abrir(VISTAS.LISTA_EJEMPLARES, null);
     }//GEN-LAST:event_menuEjemplaresdeunLibroActionPerformed
 
     private void menuAcercaBibliotecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAcercaBibliotecaActionPerformed
         System.out.println("ABRIR VISTA INFO DE LA BIBLIOTECA");
-        if(laBiblioteca == null)laBiblioteca = new LaBiblioteca();
-        insertarEnEscritorio(laBiblioteca);
+        abrir(VISTAS.BIBLIOTECA, null);
     }//GEN-LAST:event_menuAcercaBibliotecaActionPerformed
 
     private void txtContraseñaBDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContraseñaBDKeyTyped
@@ -645,7 +652,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtVaciaItemStateChanged
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc=" Metodo static iniciar ">
+    //<editor-fold defaultstate="collapsed" desc=" Metodos static ">
     /**
      * Antiguo main Construye el GUI principal de la Biblioteca.
      */
@@ -666,13 +673,46 @@ public class Principal extends javax.swing.JFrame {
             new Principal().setVisible(true);
         });
     }
+    
+    /**
+     * Abrir una vista en el escritorio.
+     * vistas: GUI.Principal.VISTAS
+     * @param vista 
+     * @param datos Objeto
+     */
+    public static void abrir(javax.swing.JInternalFrame vista, Object datos){
+        if (vista != null) {
+            System.out.println(
+                      "------------------------------------------------\n"
+                    + vista.getTitle() + "\n"
+                    + "------------------------------------------------");
+            if(!vista.isVisible()){
+                escritorio.add(vista);
+                vista.setVisible(true);
+            }
+            if(datos != null){
+                if(vista instanceof AutorGUI)((AutorGUI)vista).ver((Entidades.Autor)datos);
+                if(vista instanceof Lectores)((Lectores)vista).ver((Entidades.Lector)datos);
+                if(vista instanceof Libros)((Libros)vista).ver((Entidades.Libro)datos);
+                if(vista instanceof Ejemplares)((Ejemplares)vista).ver((Entidades.Ejemplar)datos);
+                if(vista instanceof PrestamoGUI)((PrestamoGUI)vista).ver((Entidades.Prestamo)datos);
+                if(vista instanceof Multa)((Multa)vista).ver((Entidades.Multa)datos);
+            }
+            try {
+                vista.setSelected(true);
+            } catch (java.beans.PropertyVetoException ex) {
+                System.out.println("Error al seleccionar una vista: "+ ex.getMessage());
+            }
+        }
+    }
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Variables del Design ">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConectar;
     private javax.swing.JButton btnVolverAlEscritorio;
-    private javax.swing.JDesktopPane escritorio;
+    private static javax.swing.JDesktopPane escritorio;
     private javax.swing.JPanel formConectar;
     private javax.swing.JPanel formInfo;
     private javax.swing.JLabel jLabel1;
@@ -816,21 +856,6 @@ public class Principal extends javax.swing.JFrame {
         escritorio.setVisible(true);
     }
     
-    private void insertarEnEscritorio(javax.swing.JInternalFrame vista) {
-        if (vista != null) {
-            System.out.println("------------------------------------------------\nVISTA: " + vista.getTitle() + "\n------------------------------------------------");
-            if(!vista.isVisible()){
-                escritorio.add(vista);
-                vista.setVisible(true);
-            }
-            //vista.toFront();
-            try {
-                vista.setSelected(true);
-            } catch (java.beans.PropertyVetoException ex) {
-                System.out.println("Error al seleccionar una vista: "+ ex.getMessage());
-            }
-        }
-    }
     //</editor-fold>
 }
 
