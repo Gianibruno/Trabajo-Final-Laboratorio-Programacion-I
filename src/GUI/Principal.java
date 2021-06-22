@@ -757,6 +757,7 @@ public class Principal extends javax.swing.JFrame {
      */
     private void alinicio() {
         
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Iconos/libros.png")).getImage());
         //probar conexion
         if (!grupo1tpfinal.Grupo1TPFinal.CONEXION.esValida()) {
             grupo1tpfinal.Grupo1TPFinal.CONEXION.Conectar();
