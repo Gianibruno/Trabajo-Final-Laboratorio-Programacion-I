@@ -9,23 +9,7 @@ package GUI;
  * @author Astor, Pablo, Gian, Meli
  */
 public class Principal extends javax.swing.JFrame {
-    //Atributos
-    private AutorGUI autorGUI = null;
-    private ListaAutores listaAutores = null;
-    private ListaLectores listaLectores = null;
-    private ListaLibros listaLibros = null;
-    private Libros librosGUI = null;
-    private Lectores lectoresGUI = null;
-    private PrestamoGUI prestamoGUI = null;
-    private PrestamoPorFecha prestamoPorFecha = null;
-    private PrestamosPorLector prestamoPorLector = null;
-    private LectoresMorosos lectoresMorosos = null;
-    private LectoresMultas lectoresMultas = null;
-    private Multa multa = null;
-    private Ejemplares ejemplares = null;
-    private EjemplaresPorLibro ejempPorLibro = null;
-    private LaBiblioteca laBiblioteca = null;
-    
+    // <editor-fold defaultstate="collapsed" desc=" static class VISTAS ">
     /**
      * VENTANAS para agregar al escritorio.
      */
@@ -47,6 +31,7 @@ public class Principal extends javax.swing.JFrame {
                 LISTA_LECTORESMOROSOS = new LectoresMorosos(),
                 LISTA_LECTORESMULTA = new LectoresMultas();
     }
+    // </editor-fold>
     /**
      * Constructor de vista Principal
      */
