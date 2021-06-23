@@ -419,6 +419,18 @@ public class AutorGUI extends javax.swing.JInternalFrame {
         ad = null;
     //</editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc=" Metodos publicos ">
+    public void ver(Entidades.Autor autor){
+        this.autor = autor;
+        datoId.setText(String.valueOf(this.autor.getIdAutor()));
+        datoDni.setText(this.autor.getDni());
+        datoNombre.setText(this.autor.getNombre());
+        datoNacionalidad.setText(this.autor.getNacionalidad());
+        datoNacimiento.setDate(java.sql.Date.valueOf(this.autor.getFechaNacimiento()));
+        datoEstado.setText(Entidades.Biblioteca.CONF.AUTORESTADOS[this.autor.getEstado()]);
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc=" Metodos privados ">
     
     private void iniciar(){
@@ -646,12 +658,7 @@ public class AutorGUI extends javax.swing.JInternalFrame {
                     //permito editar dni
                     datoDni.setEditable(true);
                     //llena los campos con el resultado
-                    datoId.setText(String.valueOf(autor.getIdAutor()));
-                    datoDni.setText(autor.getDni());
-                    datoNombre.setText(autor.getNombre());
-                    datoNacionalidad.setText(autor.getNacionalidad());
-                    datoNacimiento.setDate(java.sql.Date.valueOf(autor.getFechaNacimiento()));
-                    datoEstado.setText(Entidades.Biblioteca.CONF.AUTORESTADOS[autor.getEstado()]);
+                    ver(autor);
                     //actualiza el boton estado
                     if(datoEstado.getText().equals(Entidades.Biblioteca.CONF.AUTORESTADOS[0]))
                         btnEstado.setText("Activar");

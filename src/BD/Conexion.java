@@ -60,6 +60,7 @@ public class Conexion {
     private java.sql.Connection conexion = null;
     private Object excepcion = null;
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc=" Constructores ">
     /**
      * Arma y crea una Conexion con datos predeterminados.                      
@@ -103,6 +104,7 @@ public class Conexion {
         mensaje(null);
     }
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc=" Metodos Getters ">
     /**
      * Devuelve una java.sql.Connection o null si error al ejecutar conectar().
@@ -118,7 +120,36 @@ public class Conexion {
     public Object getExcepcion(){
         return excepcion;
     }
+    /**
+     * Obtener el nombre de la BD
+     * @return 
+     */
+    public String getNombreBD() {
+        return nombreBD;
+    }
+    /**
+     * Obtener el nombre de usuario con acceso a la BD
+     * @return 
+     */
+    public String getUsuario() {
+        return usuario;
+    }
+    /**
+     * Obtener el password del usuario con acceso a la BD
+     * @return 
+     */
+    public String getPass() {
+        return pass;
+    }
+    /**
+     * Obtener el puerto de acceso a la BD
+     * @return 
+     */
+    public int getPuerto() {
+        return puerto;
+    }
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc=" Metodos Setters ">
     /**
      * Cambiar el nombre de la BD en el URL de la conexion
@@ -155,6 +186,7 @@ public class Conexion {
         return this;
     }
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc=" Metodos Publicos ">
     /**
      * Intenta establecer una conexion a la BD, devuelve null si no es posible
@@ -188,6 +220,7 @@ public class Conexion {
         }
     }
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc=" Metodos Privados ">
     /**
      * Metodo utilizado desde los constructores, registra el driver de mariadb en la MVJava
@@ -225,6 +258,7 @@ public class Conexion {
         //mensaje(url);
     }
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc=" Clase CONFIGURACIONES PREDETERMINADAS ">
     /**
      * Configuraciones predeterminadas de acceso
