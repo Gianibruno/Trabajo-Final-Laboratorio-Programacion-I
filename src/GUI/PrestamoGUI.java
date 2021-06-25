@@ -740,7 +740,8 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_buscarPrestamoKeyPressed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-        if(btnGuardar.isVisible())salir();
+        if(btnGuardar.isVisible()) salir();
+        else dispose();
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void btnVerLectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerLectorActionPerformed
@@ -865,6 +866,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
     //<editor-fold defaultstate="collapsed" desc=" Metodos Privados ">
     
     private void iniciar(){
+        setDefaultCloseOperation(0);
         limpiarTodo();
         seleccionar(0);
     }
