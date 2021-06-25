@@ -5,8 +5,6 @@
  */
 package GUI;
 
-import java.util.List;
-
 /**
  *
  * @author giani
@@ -14,27 +12,27 @@ import java.util.List;
 public class ListaAutores extends javax.swing.JInternalFrame {
 
     javax.swing.table.DefaultTableModel modelTable = null;
+    private java.util.List<Entidades.Autor> lista = null;
 
     /**
      * Creates new form ListaAutores
      */
     public ListaAutores() {
         initComponents();
+        lista = new java.util.ArrayList<>();
         String[] COLUMNAS = new String[]{"Nombre", "DNI", "Estado", "Fecha Nacimiento"};
         modelTable = (javax.swing.table.DefaultTableModel) jTable2.getModel();
         modelTable.setColumnIdentifiers(COLUMNAS);
         actualizar();
     }
 
-    public void actualizar() {
-        int i = 0;
+    private void actualizar() {
         modelTable.setRowCount(0);
         BD.AutorData ad = new BD.AutorData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
-        List<Entidades.Autor> lista = ad.obtenerAutores();
+        lista = ad.obtenerAutores();
         //modelTable.setRowCount(lista.size());
         for (Entidades.Autor autor : lista) {
-            modelTable.insertRow(i, new String[]{autor.getNombre(),autor.getDni(),autor.getEstado()+"",autor.getFechaNacimiento()+""});
-            i++;
+            modelTable.addRow(new String[]{autor.getNombre(),autor.getDni(),autor.getEstado()+"",autor.getFechaNacimiento()+""});
         }
     }
 
@@ -60,7 +58,18 @@ public class ListaAutores extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jLabel1.setText("Lista de Autores");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel());
+        jTable2.setModel(new javax.swing.table.DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
 
         jbActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/actualizar.png"))); // NOI18N
@@ -108,6 +117,11 @@ public class ListaAutores extends javax.swing.JInternalFrame {
         actualizar();
     }//GEN-LAST:event_jbActualizarActionPerformed
 
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        if(evt.getClickCount() >= 2)
+            abrirLector(jTable2.getSelectedRow());
+    }//GEN-LAST:event_jTable2MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -115,4 +129,9 @@ public class ListaAutores extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JButton jbActualizar;
     // End of variables declaration//GEN-END:variables
+
+    private void abrirLector(int indice) {
+        System.out.println(lista.get(indice).toString());
+        Principal.abrir(Principal.VISTAS.AUTOR,lista.get(indice));
+    }
 }

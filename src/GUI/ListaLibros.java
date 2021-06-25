@@ -5,10 +5,6 @@
  */
 package GUI;
 
-import Entidades.Lector;
-import Entidades.Libro;
-import java.util.List;
-
 /**
  *
  * @author giani
@@ -16,12 +12,14 @@ import java.util.List;
 public class ListaLibros extends javax.swing.JInternalFrame {
 
     javax.swing.table.DefaultTableModel modelTable = null;
+    private java.util.List<Entidades.Libro> lista = null;
 
     /**
      * Creates new form ListaLibros
      */
     public ListaLibros() {
         initComponents();
+        lista = new java.util.ArrayList<>();
         String[] COLUMNAS = new String[]{"Nombre", "ISBN", "Tipo", "Editorial", "Año", "Autor", "Estado"};
         modelTable = (javax.swing.table.DefaultTableModel) jTable2.getModel();
         modelTable.setColumnIdentifiers(COLUMNAS);
@@ -33,9 +31,9 @@ public class ListaLibros extends javax.swing.JInternalFrame {
         String estado="";
         modelTable.setRowCount(0);
         BD.LibroData ld = new BD.LibroData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
-        List<Entidades.Libro> lista = ld.obtenerLibros();
+        lista = ld.obtenerLibros();
         //modelTable.setRowCount(lista.size());
-        for (Libro libro: lista) {
+        for (Entidades.Libro libro: lista) {
             if(libro.getEstado()==1){
                 estado="Activado";
             }else{
@@ -68,7 +66,17 @@ public class ListaLibros extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jLabel1.setText("Lista de Libros");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel());
+        jTable2.setModel(new javax.swing.table.DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
 
         jbActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/actualizar.png"))); // NOI18N
@@ -117,6 +125,11 @@ public class ListaLibros extends javax.swing.JInternalFrame {
         actualizar();
     }//GEN-LAST:event_jbActualizarActionPerformed
 
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        if(evt.getClickCount() >= 2)
+            abrirLibro(jTable2.getSelectedRow());
+    }//GEN-LAST:event_jTable2MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -124,4 +137,9 @@ public class ListaLibros extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JButton jbActualizar;
     // End of variables declaration//GEN-END:variables
+    
+    private void abrirLibro(int indice) {
+        System.out.println(lista.get(indice).toString());
+        Principal.abrir(Principal.VISTAS.LIBRO,lista.get(indice));
+    }
 }
