@@ -13,23 +13,24 @@ public class Principal extends javax.swing.JFrame {
     /**
      * VENTANAS para agregar al escritorio.
      */
-    public final static class VISTAS{
-        public final static javax.swing.JInternalFrame
-                BIBLIOTECA = new LaBiblioteca(),
-                AUTOR = new AutorGUI(),
-                LECTOR = new Lectores(),
-                LIBRO = new Libros(),
-                EJEMPLAR = new Ejemplares(),
-                PRESTAMO = new PrestamoGUI(),
-                MULTA = new Multa(),
-                LISTA_AUTORES = new ListaAutores(),
-                LISTA_LECTORES = new ListaLectores(),
-                LISTA_LIBROS = new ListaLibros(),
-                LISTA_EJEMPLARES = new EjemplaresPorLibro(),
-                LISTA_PRESTAMOSXFECHA = new PrestamoPorFecha(),
-                LISTA_PRESTAMOSXLECTOR = new PrestamosPorLector(),
-                LISTA_LECTORESMOROSOS = new LectoresMorosos(),
-                LISTA_LECTORESMULTA = new LectoresMultas();
+    public static final class VISTAS{
+        public static javax.swing.JInternalFrame
+                BIBLIOTECA = null,
+                AUTOR = null,
+                LECTOR = null,
+                LIBRO = null,
+                EJEMPLAR = null,
+                PRESTAMO = null,
+                MULTA = null,
+                LISTA_AUTORES = null,
+                LISTA_LECTORES = null,
+                LISTA_LIBROS = null,
+                LISTA_EJEMPLARES = null,
+                LISTA_PRESTAMOSXFECHA = null,
+                LISTA_PRESTAMOSXLECTOR = null,
+                LISTA_LECTORESMOROSOS = null,
+                LISTA_LECTORESMULTA = null,
+                CARGANDO = null;
     }
     // </editor-fold>
     /**
@@ -771,6 +772,7 @@ public class Principal extends javax.swing.JFrame {
             irAConectar();
             //deshabilitar menu de biblioteca
             menuBiblioteca.setVisible(false);
+            menuAcercaBiblioteca.setVisible(false);
         } else {
             javax.swing.JOptionPane.showMessageDialog(this,
                     "Se establecio la conexión con la Biblioteca.",
@@ -778,9 +780,30 @@ public class Principal extends javax.swing.JFrame {
                     javax.swing.JOptionPane.INFORMATION_MESSAGE);
             //establecer que pueda hacer uso del programa
             irAEscritorio();
+            //pre-carga de instancias para vistas
+            preCarga();
             //habilitar menu de biblioteca
             menuBiblioteca.setVisible(true);
+            menuAcercaBiblioteca.setVisible(true);
         }
+    }
+    
+    private void preCarga() {
+        VISTAS.BIBLIOTECA = new LaBiblioteca();
+        VISTAS.AUTOR = new AutorGUI();
+        VISTAS.LECTOR = new Lectores();
+        VISTAS.LIBRO = new Libros();
+        VISTAS.EJEMPLAR = new Ejemplares();
+        VISTAS.PRESTAMO = new PrestamoGUI();
+        VISTAS.MULTA = new Multa();
+        VISTAS.LISTA_AUTORES = new ListaAutores();
+        VISTAS.LISTA_LECTORES = new ListaLectores();
+        VISTAS.LISTA_LIBROS = new ListaLibros();
+        VISTAS.LISTA_EJEMPLARES = new EjemplaresPorLibro();
+        VISTAS.LISTA_PRESTAMOSXFECHA = new PrestamoPorFecha();
+        VISTAS.LISTA_PRESTAMOSXLECTOR = new PrestamosPorLector();
+        VISTAS.LISTA_LECTORESMOROSOS = new LectoresMorosos();
+        VISTAS.LISTA_LECTORESMULTA = new LectoresMultas();
     }
     
     private void salir(){
@@ -841,7 +864,6 @@ public class Principal extends javax.swing.JFrame {
         formInfo.setVisible(false);
         escritorio.setVisible(true);
     }
-    
     //</editor-fold>
 }
 
