@@ -93,6 +93,11 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
             public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
             }
         });
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         titulo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -333,11 +338,12 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                     .addComponent(jLabel7)
                     .addComponent(datoIdPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(datoLector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnModoLector)
-                    .addComponent(btnVerLector, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnModoLector, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnVerLector, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel8)
+                        .addComponent(datoLector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -347,15 +353,15 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                     .addComponent(btnModoEjemplar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel10)
-                        .addComponent(btnFechaPrestamo))
+                    .addGroup(panelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnFechaPrestamo, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel10))
                     .addComponent(datoFechaPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel11)
-                        .addComponent(btnFechaDevolucion))
+                    .addGroup(panelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnFechaDevolucion, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel11))
                     .addComponent(datoFechaDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -602,7 +608,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                     .addComponent(panelPrestamo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelBuscarPrestamo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(panelLector, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(panelLector, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(122, 122, 122))))
         );
 
@@ -729,6 +735,10 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
     private void btnVerEjemplarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerEjemplarActionPerformed
         GUI.Principal.abrir(GUI.Principal.VISTAS.EJEMPLAR, ejemplar);
     }//GEN-LAST:event_btnVerEjemplarActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        iniciar();
+    }//GEN-LAST:event_formComponentShown
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Variables del Diseñador ">
@@ -865,14 +875,18 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                     "Seguro que desea salir?\nSe perderan los cambios no guardados...", 
                     "Aun no se guardan los cambios", 2, 2);
             if(salir == 0){
+                limpiarTodo();
+                desHabilitarEditar();
                 dispose();
-            }else
-                setDefaultCloseOperation(0);
+            }else{
+               // setDefaultCloseOperation(0);
+            }
         }
-        else
+        else{
+            limpiarTodo();
+            desHabilitarEditar();
             dispose();
-        limpiarTodo();
-        desHabilitarEditar();
+        }
     }
     
     /**
