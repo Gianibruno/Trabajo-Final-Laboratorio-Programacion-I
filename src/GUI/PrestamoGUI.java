@@ -737,7 +737,11 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnVerEjemplarActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        iniciar();
+        Entidades.Prestamo temp = prestamo;
+        boolean abrir = false;
+        if(prestamo != null) abrir = true;
+        if(abrir) ver(temp);
+        else iniciar();
     }//GEN-LAST:event_formComponentShown
     //</editor-fold>
     
