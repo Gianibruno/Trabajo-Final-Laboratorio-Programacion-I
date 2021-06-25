@@ -155,5 +155,6 @@ public class PrestamoPorFecha extends javax.swing.JInternalFrame {
 
     private void abrirPrestamo(int indice) {
         System.out.println(lista.get(indice).toString());
+        Principal.abrir(Principal.VISTAS.PRESTAMO,lista.get(indice));
     }
 }
