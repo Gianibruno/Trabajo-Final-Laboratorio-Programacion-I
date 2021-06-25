@@ -199,6 +199,30 @@ public class EjemplarData {
         return ejemplares;
     }
     
+    public java.util.List<Entidades.Ejemplar> buscarPorLibro(String nombreLibro) {
+        Entidades.Ejemplar ejemplar;
+        java.util.ArrayList<Entidades.Ejemplar> ejemplares = new java.util.ArrayList<>();
+        String sql = "SELECT e.* FROM ejemplares AS e, libros AS l "
+                + "WHERE l.nombre LIKE \"%"+ nombreLibro +"%\" "
+                + "AND e.id_libro = l.id_libro;";
+        LibroData ld = new LibroData(conaux);
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                ejemplar = new Entidades.Ejemplar();
+                ejemplar.setId(rs.getInt(CAMPOS[0]));
+                ejemplar.setLibro(ld.buscarLibroXId(rs.getInt(CAMPOS[1])));
+                ejemplar.setEstado(rs.getInt(CAMPOS[2]));
+                ejemplares.add(ejemplar);
+            }
+            ps.close();
+        } catch (java.sql.SQLException ex) {
+            error(ex);
+        }
+        return ejemplares;
+    }
+    
     private void error(Object ex) {
         System.out.println("Error: " + ex);
         this.ex = ex;
