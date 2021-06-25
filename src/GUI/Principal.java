@@ -3,6 +3,8 @@
  */
 package GUI;
 
+import javax.swing.JInternalFrame;
+
 /**
  * GUI principal de la Biblioteca.
  *
@@ -673,7 +675,8 @@ public class Principal extends javax.swing.JFrame {
                     + vista.getTitle() + "\n"
                     + "------------------------------------------------");
             if(!vista.isVisible()){
-                escritorio.add(vista);
+                if(java.util.Arrays.asList(escritorio.getAllFrames()).indexOf(vista) == -1)
+                    escritorio.add(vista);
                 vista.setVisible(true);
             }
             if(datos != null){
