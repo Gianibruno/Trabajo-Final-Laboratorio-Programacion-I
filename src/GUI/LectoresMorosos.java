@@ -149,5 +149,6 @@ public class LectoresMorosos extends javax.swing.JInternalFrame {
 
     private void abrirLector(int indice) {
         System.out.println(lista.get(indice).toString());
+        Principal.abrir(Principal.VISTAS.LECTOR, lista.get(indice));
     }
 }
