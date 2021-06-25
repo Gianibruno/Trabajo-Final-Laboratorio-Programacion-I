@@ -48,6 +48,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         btnSalir = new javax.swing.JButton();
         btnVerLector = new javax.swing.JButton();
         btnVerEjemplar = new javax.swing.JButton();
+        btnVerMulta = new javax.swing.JButton();
         panelLector = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -242,7 +243,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                         .addComponent(btnPrestar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnRecibir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                         .addComponent(btnGuardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEliminar)))
@@ -283,6 +284,17 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
             }
         });
 
+        btnVerMulta.setVisible(false);
+        btnVerMulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/ver.png"))); // NOI18N
+        btnVerMulta.setToolTipText("Ver si posee multa");
+        btnVerMulta.setBorder(null);
+        btnVerEjemplar.setVisible(false);
+        btnVerMulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerMultaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelPrestamoLayout = new javax.swing.GroupLayout(panelPrestamo);
         panelPrestamo.setLayout(panelPrestamoLayout);
         panelPrestamoLayout.setHorizontalGroup(
@@ -318,7 +330,9 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnModoLector))
                             .addGroup(panelPrestamoLayout.createSequentialGroup()
-                                .addComponent(btnVerEjemplar)
+                                .addGroup(panelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnVerEjemplar)
+                                    .addComponent(btnVerMulta))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(panelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnFechaPrestamo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -362,17 +376,18 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                     .addGroup(panelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(btnFechaDevolucion, javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jLabel11))
-                    .addComponent(datoFechaDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(datoFechaDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnVerMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelPrestamoLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {datoEjemplar, datoFechaDevolucion, datoFechaPrestamo, datoIdPrestamo, datoLector});
 
         panelPrestamoLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnModoLector, btnVerLector});
 
-        panelPrestamoLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnModoEjemplar, btnVerEjemplar});
+        panelPrestamoLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnModoEjemplar, btnVerEjemplar, btnVerMulta});
 
         jLabel2.setText("Selecciona un Lector:");
 
@@ -743,6 +758,11 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         if(abrir) ver(temp);
         else iniciar();
     }//GEN-LAST:event_formComponentShown
+
+    private void btnVerMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerMultaActionPerformed
+        //System.out.println("En desarrollo: ver si posee multa...");
+        Principal.abrir(Principal.VISTAS.MULTA, multa);
+    }//GEN-LAST:event_btnVerMultaActionPerformed
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Variables del Diseñador ">
@@ -763,6 +783,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnVerEjemplar;
     private javax.swing.JButton btnVerLector;
+    private javax.swing.JButton btnVerMulta;
     private javax.swing.JButton btnVolverEjemplar;
     private javax.swing.JButton btnVolverLector;
     private javax.swing.JButton btnVolverPrestamo;
@@ -834,6 +855,10 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         datoFechaPrestamo.setEnabled(false);
         btnVerLector.setVisible(true);
         btnVerEjemplar.setVisible(true);
+        //Ver si posee multa
+        multa = mData.buscarMulta(prestamo);
+        if(multa != null) btnVerMulta.setVisible(true);
+        else btnVerMulta.setVisible(false);
     }
     //</editor-fold>
     
