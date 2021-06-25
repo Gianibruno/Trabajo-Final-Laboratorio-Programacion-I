@@ -5,9 +5,6 @@
  */
 package GUI;
 
-import Entidades.Lector;
-import java.util.List;
-
 /**
  *
  * @author giani
@@ -15,29 +12,29 @@ import java.util.List;
 public class ListaLectores extends javax.swing.JInternalFrame {
 
     javax.swing.table.DefaultTableModel modelTable = null;
+    private java.util.List<Entidades.Lector> lista = null;
 
     /**
      * Creates new form ListaLectores
      */
     public ListaLectores() {
         initComponents();
+        lista = new java.util.ArrayList<>();
         String[] COLUMNAS = new String[]{"Nombre", "DNI", "Direccion", "Telefono", "Estado", "Fecha Nacimiento"};
-        modelTable =  (javax.swing.table.DefaultTableModel)jTable2.getModel();
+        modelTable = (javax.swing.table.DefaultTableModel)jTable2.getModel();
         modelTable.setColumnIdentifiers(COLUMNAS);
         actualizar();
         
     }
-        public void actualizar(){
-            int i=0;
-            modelTable.setRowCount(0);
-            BD.LectorData ld = new BD.LectorData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
-            List<Entidades.Lector> lista =ld.obtenerLectores();
-            //modelTable.setRowCount(lista.size());
-            for (Lector lector : lista) {    
-                modelTable.insertRow(i, new String[]{lector.getNombre(),lector.getDni(),lector.getDireccion(),lector.getTelefono(),lector.getEstado()+"",lector.getFechaNacimiento()+""});
-                i++;
-            }
+    public void actualizar(){
+        modelTable.setRowCount(0);
+        BD.LectorData ld = new BD.LectorData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
+        lista = ld.obtenerLectores();
+        //modelTable.setRowCount(lista.size());
+        for (Entidades.Lector lector : lista) {    
+            modelTable.addRow(new String[]{lector.getNombre(),lector.getDni(),lector.getDireccion(),lector.getTelefono(),lector.getEstado()+"",lector.getFechaNacimiento()+""});
         }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -57,7 +54,17 @@ public class ListaLectores extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel());
+        jTable2.setModel(new javax.swing.table.DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
@@ -109,6 +116,11 @@ public class ListaLectores extends javax.swing.JInternalFrame {
         actualizar();
     }//GEN-LAST:event_jbActualizarActionPerformed
 
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        if(evt.getClickCount() >= 2)
+            abrirLector(jTable2.getSelectedRow());
+    }//GEN-LAST:event_jTable2MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -116,4 +128,9 @@ public class ListaLectores extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JButton jbActualizar;
     // End of variables declaration//GEN-END:variables
+
+    private void abrirLector(int indice) {
+        System.out.println(lista.get(indice).toString());
+        Principal.abrir(Principal.VISTAS.LECTOR,lista.get(indice));
+    }
 }
