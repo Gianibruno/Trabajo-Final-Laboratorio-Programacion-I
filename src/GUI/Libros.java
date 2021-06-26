@@ -288,7 +288,7 @@ public class Libros extends javax.swing.JInternalFrame {
 
     private void btnBuscarIsbnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarIsbnActionPerformed
         actualizarCBAutores();
-        if(tfIsbn.getText()==""){
+        if(tfIsbn.getText().isEmpty()){
             mensaje("No se ha ingresado un ISBN, por favor, ingrese uno.");
             return;
         }
@@ -299,6 +299,7 @@ public class Libros extends javax.swing.JInternalFrame {
         long isbn = Long.parseLong(tfIsbn.getText());
         libro = ld.buscarLibro(isbn);
         if(libro==null){
+            jbNuevoActionPerformed(null);
             mensaje("No se ha encontrado un libro con el ISBN ingresado.");
             return;
         }
@@ -318,6 +319,7 @@ public class Libros extends javax.swing.JInternalFrame {
         int id = Integer.parseInt(tfId.getText());
         libro = ld.buscarLibroXId(id);
         if(libro == null){
+            jbNuevoActionPerformed(null);
             mensaje("No se ha encontrado un libro con el ID ingresado.");
             return;
         }
