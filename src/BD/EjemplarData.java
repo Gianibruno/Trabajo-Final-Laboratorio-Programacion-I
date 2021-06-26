@@ -18,7 +18,7 @@ public class EjemplarData {
     private java.sql.PreparedStatement ps = null;
     private java.sql.ResultSet rs = null;
     private java.sql.Connection con = null;
-    private Object ex = null;
+    private Exception ex = null;
     private Conexion conaux = null;
 
     public EjemplarData(Conexion con) {
@@ -26,7 +26,7 @@ public class EjemplarData {
         this.conaux = con;
     }
 
-    public Object getExcepcion() {
+    public Exception getExcepcion() {
         return ex;
     }
 
@@ -222,8 +222,23 @@ public class EjemplarData {
         }
         return ejemplares;
     }
+
+    public boolean borrarEjemplar(Entidades.Ejemplar ejemplar) {
+        boolean respuesta = false;
+        String sql = "DELETE FROM "+ TABLA +" WHERE "+ CAMPOS[0] +" = ?;";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, ejemplar.getId());
+            ps.executeUpdate();
+            ps.close();
+            respuesta = true;
+        } catch (java.sql.SQLException ex) {
+            error(ex);
+        }
+        return respuesta;
+    }
     
-    private void error(Object ex) {
+    private void error(Exception ex) {
         System.out.println("Error: " + ex);
         this.ex = ex;
     }
