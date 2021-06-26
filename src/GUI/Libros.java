@@ -5,18 +5,15 @@
  */
 package GUI;
 
-import Entidades.Autor;
-import java.util.List;
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author melid
  */
 public class Libros extends javax.swing.JInternalFrame {
 
-    List<Entidades.Autor> lista = null;
-
+    java.util.List<Entidades.Autor> lista = null;
+    BD.LibroData ld = new BD.LibroData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
+    Entidades.Libro libro = null;
     /**
      * Creates new form Libros
      */
@@ -27,11 +24,12 @@ public class Libros extends javax.swing.JInternalFrame {
 
     public void actualizarCBAutores() {
         cbAutor.removeAllItems();
-        cbAutor.addItem(new Autor());
-        cbAutor.setSelectedIndex(0);
+        //cbAutor.addItem(new Entidades.Autor());
+        //cbAutor.setSelectedIndex(0);
         BD.AutorData ad = new BD.AutorData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
         lista = ad.obtenerAutores();
-        for (Autor autor : lista) {
+        lista.add(0, null);
+        for (Entidades.Autor autor : lista) {
             cbAutor.addItem(autor);
         }
     }
@@ -72,6 +70,11 @@ public class Libros extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jLabel1.setText("Registro de Libros");
@@ -87,18 +90,6 @@ public class Libros extends javax.swing.JInternalFrame {
         jLabel6.setText("Tipo:");
 
         jLabel7.setText("Año:");
-
-        tfTitulo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfTituloActionPerformed(evt);
-            }
-        });
-
-        tfEditorial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfEditorialActionPerformed(evt);
-            }
-        });
 
         jbNuevo.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jbNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/nuevo.png"))); // NOI18N
@@ -155,6 +146,10 @@ public class Libros extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(256, 256, 256))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,20 +198,12 @@ public class Libros extends javax.swing.JInternalFrame {
                                     .addComponent(cbAutor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(42, 42, 42)
                                 .addComponent(jLabel3)))
-                        .addContainerGap(299, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addContainerGap(299, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel6))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel7)))
-                .addGap(0, 722, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(256, 256, 256))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7))
+                        .addGap(0, 722, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,36 +264,27 @@ public class Libros extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 
-    private void tfTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfTituloActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfTituloActionPerformed
-
-    private void tfEditorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfEditorialActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfEditorialActionPerformed
-
     private void btnBuscarIsbnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarIsbnActionPerformed
         actualizarCBAutores();
         if(tfIsbn.getText()==""){
-            JOptionPane.showMessageDialog(this, "No se ha ingresado un ISBN, por favor, ingrese uno.");
+            mensaje("No se ha ingresado un ISBN, por favor, ingrese uno.");
             return;
         }
         if(!(tfIsbn.getText().chars().allMatch( Character::isDigit ))){
-            JOptionPane.showMessageDialog(this, "El ISBN debe ser de tipo numerico, por favor, ingreseló nuevamente");
+            mensaje("El ISBN debe ser de tipo numerico, por favor, ingreseló nuevamente");
             return;
         }
         long isbn = Long.parseLong(tfIsbn.getText());
-        BD.LibroData ld = new BD.LibroData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
-        Entidades.Libro libro = ld.buscarLibro(isbn);
+        libro = ld.buscarLibro(isbn);
         if(libro==null){
-            JOptionPane.showMessageDialog(this, "No se ha encontrado un libro con el ISBN ingresado.");
+            mensaje("No se ha encontrado un libro con el ISBN ingresado.");
             return;
         }
         tfId.setText(libro.getId() + "");
         tfIsbn.setText(libro.getIsbn() + "");
         tfTitulo.setText(libro.getNombre());
         tfEditorial.setText(libro.getEditorial());
-        cbAutor.setSelectedIndex(libro.getAutor().getIdAutor());
+        cbAutor.setSelectedItem(lista.get(libro.getAutor().getIdAutor()));
         ycAnio.setYear(libro.getAño());
         boolean estado = false;
         if (libro.getEstado() == 1) {
@@ -318,22 +296,25 @@ public class Libros extends javax.swing.JInternalFrame {
 
     private void btnBuscarIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarIdActionPerformed
         actualizarCBAutores();
-        if(tfId.getText()==""){
-            JOptionPane.showMessageDialog(this, "No se ha ingresado un ID, por favor, ingrese uno.");
+        if(tfId.getText().isEmpty()){
+            mensaje("No se ha ingresado un ID, por favor, ingrese uno.");
             return;
         }
         if(!(tfId.getText().chars().allMatch( Character::isDigit ))){
-            JOptionPane.showMessageDialog(this, "El ID debe ser de tipo numerico, por favor, ingreseló nuevamente");
+            mensaje("El ID debe ser de tipo numerico, por favor, ingreseló nuevamente");
             return;
         }
         int id = Integer.parseInt(tfId.getText());
-        BD.LibroData ld = new BD.LibroData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
-        Entidades.Libro libro = ld.buscarLibroXId(id);
+        libro = ld.buscarLibroXId(id);
+        if(libro == null){
+            mensaje("No se ha encontrado un libro con el ID ingresado.");
+            return;
+        }
         tfId.setText(libro.getId() + "");
         tfIsbn.setText(libro.getIsbn() + "");
         tfTitulo.setText(libro.getNombre());
         tfEditorial.setText(libro.getEditorial());
-        cbAutor.setSelectedIndex(libro.getAutor().getIdAutor());
+        cbAutor.setSelectedItem(lista.get(libro.getAutor().getIdAutor()));
         ycAnio.setYear(libro.getAño());
         boolean estado = false;
         if (libro.getEstado() == 1) {
@@ -349,38 +330,41 @@ public class Libros extends javax.swing.JInternalFrame {
         tfIsbn.setText("");
         tfTitulo.setText("");
         tfEditorial.setText("");
-        cbAutor.setSelectedItem("");
+        cbAutor.setSelectedItem(null); //de autores
         ycAnio.setYear(Integer.parseInt(java.time.Year.now() + ""));
-        cbEstado.setSelected(false);
+        cbEstado.setSelected(true); //nuevo activado
         tfTipo.setText("");
 
     }//GEN-LAST:event_jbNuevoActionPerformed
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
-        if(tfIsbn.getText()==""){
-            JOptionPane.showMessageDialog(this, "No se ha ingresado un ISBN, por favor, ingrese uno.");
+        //System.out.println(cbAutor.getSelectedItem().toString());
+        if(tfIsbn.getText().isEmpty()){
+            mensaje("No se ha ingresado un ISBN, por favor, ingrese uno.");
             return;
         }
         if(!(tfIsbn.getText().chars().allMatch( Character::isDigit ))){
-            JOptionPane.showMessageDialog(this, "El ISBN debe ser de tipo numerico, por favor, ingreseló nuevamente");
+            mensaje("El ISBN debe ser de tipo numerico, por favor, ingreseló nuevamente");
             return;
         }
         int rt=0;
-        actualizarCBAutores();
+        //actualizarCBAutores();
         int aux = 0;
-        BD.LibroData ld = new BD.LibroData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
-        Entidades.Libro libro = new Entidades.Libro();
-        BD.AutorData ad = new BD.AutorData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
+        libro = new Entidades.Libro();
+        if(cbAutor.getSelectedIndex() <= 0){
+            mensaje("Por favor, elija un autor.");
+            return;
+        }
         libro.setAutor((Entidades.Autor)cbAutor.getSelectedItem());
-        if(libro.getAutor().toString()==""){
-            JOptionPane.showMessageDialog(this, "Por favor, elija un autor.");
+        if(libro.getAutor() == null){
+            mensaje("Error al seleccionar al autor");
             return;
         }
         libro.setAño(Short.parseShort(ycAnio.getYear() + ""));
         if (ld.buscarLibro(Long.parseLong(tfIsbn.getText())) == null) {
             libro.setIsbn(Long.parseLong(tfIsbn.getText()));
         } else {
-            JOptionPane.showMessageDialog(this, "El ISBN ingresado ya existe, intente con otro.");
+            mensaje("El ISBN ingresado ya existe, intente con otro.");
             tfIsbn.setText("");
             return;
         }
@@ -393,9 +377,9 @@ public class Libros extends javax.swing.JInternalFrame {
         libro.setTipo(tfTipo.getText());
         rt = ld.guardar(libro);
         if (rt>0) {
-            JOptionPane.showMessageDialog(this, "¡Libro guardado con exito!");
+            mensaje("¡Libro guardado con exito!");
         } else {
-            JOptionPane.showMessageDialog(this, "¡Error al guardar libro!");
+            mensaje("¡Error al guardar libro!");
         }
         tfId.setText(rt+"");
     }//GEN-LAST:event_jbGuardarActionPerformed
@@ -404,11 +388,15 @@ public class Libros extends javax.swing.JInternalFrame {
         dispose();
     }//GEN-LAST:event_jbSalirActionPerformed
 
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        actualizarCBAutores();
+    }//GEN-LAST:event_formComponentShown
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarId;
     private javax.swing.JButton btnBuscarIsbn;
-    private javax.swing.JComboBox<Autor> cbAutor;
+    private javax.swing.JComboBox<Entidades.Autor> cbAutor;
     private javax.swing.JCheckBox cbEstado;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -429,4 +417,8 @@ public class Libros extends javax.swing.JInternalFrame {
     private javax.swing.JTextField tfTitulo;
     private com.toedter.calendar.JYearChooser ycAnio;
     // End of variables declaration//GEN-END:variables
+
+    private void mensaje(String msg) {
+        javax.swing.JOptionPane.showMessageDialog(this, msg);
+    }
 }
