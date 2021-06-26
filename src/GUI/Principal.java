@@ -3,8 +3,6 @@
  */
 package GUI;
 
-import javax.swing.JInternalFrame;
-
 /**
  * GUI principal de la Biblioteca.
  *
