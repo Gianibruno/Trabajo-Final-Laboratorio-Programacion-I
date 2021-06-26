@@ -71,9 +71,9 @@ public class LibroData {
                 + CAMPOS[1] + "=?, "
                 + CAMPOS[2] + "=?, "
                 + CAMPOS[3] + "=?, "
-                + CAMPOS[4] + "=? "
-                + CAMPOS[5] + "=? "
-                + CAMPOS[6] + "=? "
+                + CAMPOS[4] + "=?, "
+                + CAMPOS[5] + "=?, "
+                + CAMPOS[6] + "=?, "
                 + CAMPOS[7] + "=? "
                 + "WHERE " + CAMPOS[0] + "=?;";
         if (libro != null && libro.getId() > 0) {
@@ -86,6 +86,7 @@ public class LibroData {
                 ps.setString(5, libro.getEditorial());
                 ps.setInt(6, libro.getAño());
                 ps.setInt(7, libro.getEstado());
+                ps.setInt(8, libro.getId());
                 ps.executeUpdate();
                 ps.close();
                 respuesta = 1;
