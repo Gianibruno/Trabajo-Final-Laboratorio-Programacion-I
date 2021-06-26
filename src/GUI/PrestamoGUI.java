@@ -1138,6 +1138,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         java.util.List<Entidades.Multa> multasDelLector;
         int nuevo;
         String mensaje = "Prestar un Ejemplar:\n";
+        hoy = java.time.LocalDate.now();
         if(comprobar()){ //............................................................................(1) y (5)
             if(!esNumero(datoIdPrestamo.getText())){
                 actualizarDatos();
@@ -1146,12 +1147,13 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                 if(prestamosDelLector.size() < maxPrestamosPorLector){ //..............................(4)
                     multasDelLector = mData.obtenerMultas().stream().filter(m ->
                             m.getPrestamo().getLector().getIdLector() == lector.getIdLector()
+                            && m.getFecha_fin().isAfter(hoy) //si fecha fin es posterior a actual
                     ).collect(java.util.stream.Collectors.toList());
                     if(multasDelLector.isEmpty()){ //..................................................(3)
                         prestamosVencidos = prestamosDelLector.stream()
                                 .filter(p -> 
                                         p.getFechaDevolucion() == null 
-                                        && p.getFechaPrestamo().plusDays(maxDiasPrestados).isAfter(hoy)
+                                        && p.getFechaPrestamo().plusDays(maxDiasPrestados).isBefore(hoy)
                                 ).collect(java.util.stream.Collectors.toList());
                         if(prestamosVencidos.isEmpty()){ //............................................(2)
                             nuevo = pData.registrar(prestamo);
