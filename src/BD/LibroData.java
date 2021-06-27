@@ -19,7 +19,7 @@ public class LibroData {
     private java.sql.PreparedStatement ps = null;
     private java.sql.ResultSet rs = null;
     private java.sql.Connection con = null;
-    private Object ex = null;
+    private Exception ex = null;
     private Conexion conaux = null;
 
     public LibroData(Conexion con) {
@@ -28,7 +28,7 @@ public class LibroData {
 
     }
 
-    public Object getExcepcion() {
+    public Exception getExcepcion() {
         return ex;
     }
 
@@ -176,7 +176,7 @@ public class LibroData {
         return libro;
     }
     
-    private void error(Object ex) {
+    private void error(Exception ex) {
         System.out.println("Error: " + ex);
         this.ex = ex;
     }
