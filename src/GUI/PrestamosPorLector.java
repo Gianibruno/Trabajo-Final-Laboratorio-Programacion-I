@@ -37,6 +37,8 @@ public class PrestamosPorLector extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         datoEstado = new javax.swing.JLabel();
         datoNombre = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        datoPosee = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -95,6 +97,10 @@ public class PrestamosPorLector extends javax.swing.JInternalFrame {
 
             datoNombre.setText(".");
 
+            jLabel5.setText("Ejemplares que posee:");
+
+            datoPosee.setText(".");
+
             javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
             getContentPane().setLayout(layout);
             layout.setHorizontalGroup(
@@ -105,23 +111,25 @@ public class PrestamosPorLector extends javax.swing.JInternalFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createSequentialGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
-                            .addComponent(btnActualizar))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(datoEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGap(77, 77, 77))
+                            .addComponent(datoPosee, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnActualizar))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel3)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(datoNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(jLabel2)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(datoDNI)))
+                                    .addComponent(datoDNI))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(datoNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(datoEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(btnBuscar)))
                     .addContainerGap())
@@ -144,14 +152,17 @@ public class PrestamosPorLector extends javax.swing.JInternalFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel4)
                         .addComponent(datoEstado))
-                    .addGap(4, 4, 4)
-                    .addComponent(btnActualizar)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(datoPosee)
+                        .addComponent(btnActualizar))
+                    .addGap(10, 10, 10)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
 
-            layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {datoDNI, datoEstado, datoNombre});
+            layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {datoDNI, datoEstado, datoNombre, datoPosee});
 
             pack();
         }// </editor-fold>//GEN-END:initComponents
@@ -176,10 +187,12 @@ public class PrestamosPorLector extends javax.swing.JInternalFrame {
     private javax.swing.JTextField datoDNI;
     private javax.swing.JLabel datoEstado;
     private javax.swing.JLabel datoNombre;
+    private javax.swing.JLabel datoPosee;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
@@ -188,6 +201,7 @@ public class PrestamosPorLector extends javax.swing.JInternalFrame {
     private BD.LectorData lData = new BD.LectorData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
     private Entidades.Lector lector = null;
     private java.util.List<Entidades.Prestamo> lista = null;
+    private java.util.List<Entidades.Prestamo> listaPosee = null;
     private javax.swing.table.DefaultTableModel modelo = null;
     
     private void iniciar(){
@@ -202,6 +216,8 @@ public class PrestamosPorLector extends javax.swing.JInternalFrame {
             modelo.setRowCount(0);
             lector = lData.buscarLector(datoDNI.getText());
             if(lector != null){
+                listaPosee = pData.listar(lector).stream().filter(p -> p.getFechaDevolucion() == null).collect(java.util.stream.Collectors.toList());
+                datoPosee.setText(String.valueOf(listaPosee.size()));
                 datoNombre.setText(lector.getNombre());
                 datoEstado.setText(Entidades.Biblioteca.CONF.LECTORESTADOS[lector.getEstado()]);
             }
