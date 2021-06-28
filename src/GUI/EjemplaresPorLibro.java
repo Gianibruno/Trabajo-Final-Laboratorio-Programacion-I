@@ -81,7 +81,7 @@ public class EjemplaresPorLibro extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -102,7 +102,7 @@ public class EjemplaresPorLibro extends javax.swing.JInternalFrame {
                     .addComponent(datoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -114,8 +114,9 @@ public class EjemplaresPorLibro extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
-        if(evt.getClickCount() >= 2)
+        if (evt.getClickCount() >= 2) {
             abrirEjemplar(tabla.getSelectedRow());
+        }
     }//GEN-LAST:event_tablaMouseClicked
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
@@ -135,11 +136,12 @@ public class EjemplaresPorLibro extends javax.swing.JInternalFrame {
     private BD.EjemplarData eData = new BD.EjemplarData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
     private java.util.List<Entidades.Ejemplar> lista = null;
     private javax.swing.table.DefaultTableModel modelo = null;
-    
+
     private void iniciar() {
         lista = new java.util.ArrayList<>();
-        modelo = (javax.swing.table.DefaultTableModel)tabla.getModel();
-        modelo.setColumnIdentifiers(new String[] {
+        modelo = (javax.swing.table.DefaultTableModel) tabla.getModel();
+        modelo.setColumnIdentifiers(new String[]{
+            "Titulo",
             "ID",
             "Estado"
         });
@@ -147,31 +149,38 @@ public class EjemplaresPorLibro extends javax.swing.JInternalFrame {
     }
 
     private void buscar() {
-        if(!datoNombre.getText().isEmpty()) actualizar();
-        else mensaje("Escriba el nombre del libro para buscar.");
+        if (!datoNombre.getText().isEmpty()) {
+            actualizar();
+        } else {
+            mensaje("Escriba el nombre del libro para buscar.");
+        }
     }
 
     private void actualizar() {
         modelo.setRowCount(0);
         lista = eData.buscarPorLibro(datoNombre.getText());
-        if(lista.size() > 0){
+        if (lista.size() > 0) {
             for (Entidades.Ejemplar ejemplar : lista) {
+                //System.out.println(ejemplar.getEstado()+"");
                 modelo.addRow(new String[]{
-                        ejemplar.getId()+ "",
-                        Entidades.Biblioteca.CONF.EJEMPLARESTADOS[ejemplar.getEstado()]
-                    });
+                    ejemplar.getLibro().getNombre(),
+                    ejemplar.getId() + "",
+                    Entidades.Biblioteca.CONF.EJEMPLARESTADOS[ejemplar.getEstado()]
+                });
             }
-        }else mensaje("No se encontraron ejemplares de ese libro");
+        } else {
+            mensaje("No se encontraron ejemplares de ese libro");
+        }
     }
 
-    private void limpiar(){
+    private void limpiar() {
         datoNombre.setText("...");
         modelo.setNumRows(0);
     }
-    
+
     private void abrirEjemplar(int indice) {
         System.out.println(lista.get(indice).toString());
-        Principal.abrir(Principal.VISTAS.EJEMPLAR,lista.get(indice));
+        Principal.abrir(Principal.VISTAS.EJEMPLAR, lista.get(indice));
     }
 
     private void mensaje(String msg) {

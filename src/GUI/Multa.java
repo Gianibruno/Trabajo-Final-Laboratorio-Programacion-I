@@ -111,7 +111,11 @@ public class Multa extends javax.swing.JInternalFrame {
             }
         });
 
+        jtLector.setEditable(false);
+
         jLabel5.setText("FECHA  FINAL:");
+
+        jtEjemplar.setEditable(false);
 
         jLabel4.setText("FECHA DE INICIO:");
 
@@ -340,8 +344,6 @@ public class Multa extends javax.swing.JInternalFrame {
         jtLector.setText("");
         jdcInicio.setDate(null);
         jdcFin.setDate(null);
-        jdcInicio.setEnabled(false);
-        jdcFin.setEnabled(false);
     }//GEN-LAST:event_jbtnLimpiarActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed

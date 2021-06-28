@@ -427,7 +427,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
             .addGroup(panelLectorLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelLectorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
                     .addGroup(panelLectorLayout.createSequentialGroup()
                         .addComponent(buscarLector)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -452,7 +452,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnVolverLector)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(132, Short.MAX_VALUE))
         );
 
         jLabel3.setText("Selecciona un Ejemplar de un Libro:");
@@ -497,7 +497,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                         .addComponent(buscarEjemplar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBuscarEjemplar))
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
                     .addGroup(panelEjemplarLayout.createSequentialGroup()
                         .addGroup(panelEjemplarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -518,7 +518,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnVolverEjemplar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(163, Short.MAX_VALUE))
         );
 
         jLabel1.setText("Buscar un Prestamo de un Ejemplar:");
@@ -1215,7 +1215,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                         fechaFinMulta = hoy.plusDays(diasMulta);
                         if(diasMulta > maxDiasPrestados * multaPorDia * 2){//.........................................(3)
                             if(lectorData.desactivar(lector.getIdLector()) == 1)
-                                mensaje += "Se inhabilitó al lector por haber superado "+ maxDiasPrestados * 3 +" meses de deuda...\n";
+                                mensaje += "Se inhabilitó al lector por haber superado "+ maxDiasPrestados * 3 +" dias de deuda...\n";
                             else
                                 mensaje += "Error al inhabilitar al lector, intentelo manualmente...\n";
                         }

@@ -19,6 +19,7 @@ public class Ejemplares extends javax.swing.JInternalFrame {
     BD.LibroData ld = new BD.LibroData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
     Entidades.Ejemplar ejemplar = null;
     java.util.List<Entidades.Libro> libros = null;
+
     /**
      * Creates new form Ejemplares
      */
@@ -39,13 +40,15 @@ public class Ejemplares extends javax.swing.JInternalFrame {
             cbLibro.addItem(libro);
         }
     }
-    
-    private int libroEnLibros(Entidades.Libro libro){
+
+    private int libroEnLibros(Entidades.Libro libro) {
         int indice = -1;
-        if(libro != null){
+        if (libro != null) {
             for (Libro l : libros) {
                 indice++;
-                if(l != null && l.getId() == libro.getId()) return indice;
+                if (l != null && l.getId() == libro.getId()) {
+                    return indice;
+                }
             }
         }
         return indice;
@@ -60,22 +63,24 @@ public class Ejemplares extends javax.swing.JInternalFrame {
         //comboEstado.addItem("Reparacion");
         //comboEstado.addItem("Disponible");
     }
-    
-    private void limpiar(){
+
+    private void limpiar() {
         tfId.setText("");
         comboEstado.setSelectedIndex(0);
         cbLibro.setSelectedIndex(0);
         btnEliminar.setVisible(false);
     }
-    
-    public void ver(Entidades.Ejemplar e){
-        if(e != null){
+
+    public void ver(Entidades.Ejemplar e) {
+        if (e != null) {
             ejemplar = e;
             tfId.setText(String.valueOf(e.getId()));
             comboEstado.setSelectedIndex(e.getEstado() + 1);
             cbLibro.setSelectedIndex(libroEnLibros(e.getLibro()));
             btnEliminar.setVisible(true);
-        } else btnEliminar.setVisible(false);
+        } else {
+            btnEliminar.setVisible(false);
+        }
     }
 
     /**
@@ -269,56 +274,69 @@ public class Ejemplares extends javax.swing.JInternalFrame {
 //            return;
 //        }
         //usamos directamente el ejemplar en memoria
-        if(ejemplar != null && ejemplar.getEstado() != comboEstado.getSelectedIndex() - 1){
+        if (ejemplar != null && ejemplar.getEstado() != comboEstado.getSelectedIndex() - 1) {
+            if (comboEstado.getSelectedIndex() == 1) {
+                JOptionPane.showMessageDialog(this, "Para prestar el ejemplar, dirigase a la vista Prestamos.");
+                comboEstado.setSelectedIndex(ejemplar.getEstado() + 1);
+                return;
+            }
+              if (ejemplar.getEstado()==0) {
+                JOptionPane.showMessageDialog(this, "El libro esta en prestamo, dirigase a la vista Prestamos para devolverlo.");
+                comboEstado.setSelectedIndex(ejemplar.getEstado() + 1);
+                return;
+            }
+
             ejemplar.setEstado((comboEstado.getSelectedIndex() == 0) ? 3 : comboEstado.getSelectedIndex() - 1); //si es 0 va a estar disponible
-            if(ed.cambiarEstado(ejemplar) == 1){
+
+            if (ed.cambiarEstado(ejemplar) == 1) {
                 JOptionPane.showMessageDialog(this, "Se actualizo el estado del ejemplar.");
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Error al actualizar el estado.");
             }
-        }else if(ejemplar.getEstado() == comboEstado.getSelectedIndex() - 1){
+        } else if (ejemplar.getEstado() == comboEstado.getSelectedIndex() - 1) {
             JOptionPane.showMessageDialog(this, "El estado no fue modificado.");
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Error con el ejemplar, busque o cree uno.");
         }
     }//GEN-LAST:event_bActualizarActionPerformed
 
     private void bCrearEjemplarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCrearEjemplarActionPerformed
-        if(((Entidades.Libro)cbLibro.getSelectedItem()).getEstado() == 0){
+        if (((Entidades.Libro) cbLibro.getSelectedItem()).getEstado() == 0) {
             JOptionPane.showMessageDialog(this, "El libro seleccionado esta inactivo");
             return;
         }
         ejemplar = new Entidades.Ejemplar();
         ejemplar.setEstado((comboEstado.getSelectedIndex() == 0) ? 3 : comboEstado.getSelectedIndex() - 1);
-        ejemplar.setLibro((Entidades.Libro)cbLibro.getSelectedItem());
+        ejemplar.setLibro((Entidades.Libro) cbLibro.getSelectedItem());
         int aux = ed.guardar(ejemplar);
         if (aux > 0) {
             ejemplar.setId(aux);
             btnEliminar.setVisible(true);
             tfId.setText(aux + "");
             JOptionPane.showMessageDialog(this, "El ejemplar se ha creado con exito con el ID:" + aux);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Error al crear ejemplar!");
         }
     }//GEN-LAST:event_bCrearEjemplarActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         actualizarCBLibros();
-        if(ejemplar == null) btnEliminar.setVisible(false);
-        else{
+        if (ejemplar == null) {
+            btnEliminar.setVisible(false);
+        } else {
             cbLibro.setSelectedIndex(libroEnLibros(ejemplar.getLibro()));
             btnEliminar.setVisible(true);
         }
     }//GEN-LAST:event_formComponentShown
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        if(ejemplar != null && JOptionPane.showConfirmDialog(this, "¿Esta seguro? va a eliminar un ejemplar del libro: "+ ejemplar.getLibro().getNombre() + "...") == 0){
-            if(ed.borrarEjemplar(ejemplar)){
+        if (ejemplar != null && JOptionPane.showConfirmDialog(this, "¿Esta seguro? va a eliminar un ejemplar del libro: " + ejemplar.getLibro().getNombre() + "...") == 0) {
+            if (ed.borrarEjemplar(ejemplar)) {
                 limpiar();
                 JOptionPane.showMessageDialog(this, "El ejemplar fue eliminado");
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Error al borrar el ejemplar...\nAsegurese de borrar los prestamos asociados al mismo...");
-            }            
+            }
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -327,10 +345,11 @@ public class Ejemplares extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnVerLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerLibroActionPerformed
-        if(ejemplar != null && ejemplar.getLibro() != null){
+        if (ejemplar != null && ejemplar.getLibro() != null) {
             Principal.abrir(Principal.VISTAS.LIBRO, ejemplar.getLibro());
-        }else
+        } else {
             JOptionPane.showMessageDialog(this, "Error con el libro del ejemplar, busque o cree uno.");
+        }
     }//GEN-LAST:event_btnVerLibroActionPerformed
 
 

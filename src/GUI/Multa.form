@@ -220,6 +220,9 @@
         <Component class="com.toedter.calendar.JDateChooser" name="jdcInicio">
         </Component>
         <Component class="javax.swing.JTextField" name="jtLector">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
@@ -227,6 +230,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jtEjemplar">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="jdcFin">
         </Component>

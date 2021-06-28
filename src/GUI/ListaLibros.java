@@ -62,6 +62,11 @@ public class ListaLibros extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jLabel1.setText("Lista de Libros");
@@ -129,6 +134,10 @@ public class ListaLibros extends javax.swing.JInternalFrame {
         if(evt.getClickCount() >= 2)
             abrirLibro(jTable2.getSelectedRow());
     }//GEN-LAST:event_jTable2MouseClicked
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        actualizar();
+    }//GEN-LAST:event_formComponentShown
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

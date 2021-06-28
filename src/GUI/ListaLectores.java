@@ -53,6 +53,11 @@ public class ListaLectores extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel() {
             @Override
@@ -120,6 +125,10 @@ public class ListaLectores extends javax.swing.JInternalFrame {
         if(evt.getClickCount() >= 2)
             abrirLector(jTable2.getSelectedRow());
     }//GEN-LAST:event_jTable2MouseClicked
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        actualizar();
+    }//GEN-LAST:event_formComponentShown
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
