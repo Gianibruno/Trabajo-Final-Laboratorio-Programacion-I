@@ -1030,44 +1030,53 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         } else exito = false;
         if(!exito)mensaje += "No se puede modificar la información de este prestamo.\n";
         else{
-            if(prestamo.getFechaPrestamo().isBefore(prestamo.getFechaDevolucion())){
+            if(prestamo.getFechaDevolucion() == null){
                 if(pData.modificar(prestamo) == 1){
-                    if(idEjemplarAnterior > 0){
-                        if(eData.cambiarEstado(idEjemplarAnterior, Entidades.Ejemplar.ESTADOS.disponible) == 1){
-                            mensaje += "El ejemplar anterior ahora está disponible...\n";
-                        }else{
-                            mensaje += "Cambiar manualmente el estado del ejemplar id: "+ idEjemplarAnterior +" a disponible.\n";
-                        }
-                        if(prestamo.getEjemplar().getEstado() == 0 && eData.cambiarEstado(prestamo.getEjemplar()) == 1){
-                            mensaje += "Actualizado el ejemplar seleccionado a prestado...\n";
-                        }else{
-                            mensaje += "Cambiar manualmente el estado del ejemplar id: "+ prestamo.getEjemplar().getId() +" a prestado.\n";
-                        }
-                    }
-                    //multas
-                    if(prestamo.getFechaPrestamo().plusDays(maxDiasPrestados).isBefore(prestamo.getFechaDevolucion())){
-                        diasMulta = java.time.temporal.ChronoUnit.DAYS.between(prestamo.getFechaPrestamo().plusDays(maxDiasPrestados), hoy) * multaPorDia;
-                        fechaFinMulta = prestamo.getFechaDevolucion().plusDays(diasMulta);
-                        //System.out.println(diasMulta +" > "+ (maxDiasPrestados * multaPorDia * 2) +" = "+ (diasMulta > maxDiasPrestados * multaPorDia * 2));
-                        if(diasMulta > maxDiasPrestados * multaPorDia * 2){ //1 mes = 60 multa, 2 meses = 120 (3 meses desde el prestamo)
-                            if(fechaFinMulta.isAfter(hoy)){
-                                mensaje += "inhabilitar lector\n";
-                                if(lectorData.desactivar(lector.getIdLector()) == 1)
-                                    mensaje += "Se inhabilitó al lector por haber superado "+ maxDiasPrestados * 3 +" días de deuda...\n";
-                                else mensaje += "Error al inhabilitar al lector, intentelo manualmente...\n";
-                            }
-                        }
-                        if(mData.guardar(new Entidades.Multa(prestamo, prestamo.getFechaDevolucion(), fechaFinMulta)) > 0)
-                            mensaje += "Se aplicó una multa de "+ diasMulta +" días. Hasta la fecha "+ fechaFinMulta.toString() + ".\n";
-                        else
-                            mensaje += "Error al aplicar la multa. Intentelo manualmente hasta la fecha: "+ fechaFinMulta.toString() + "\n";
-                    }
                     mensaje += "Los datos fueron modificados!!";
                     desHabilitarEditar();
                     desHabilitarFDevolucion();
                     desHabilitarFPrestamo();
                 }else mensaje += "No se modificaron los datos, posible error de conexión...";
-            }else mensaje += "Las fecha del prestamo no puede ser superior a la fecha de devolución...\nNo se puede modificar la información de este prestamo.";
+            }else{
+                if(prestamo.getFechaPrestamo().isBefore(prestamo.getFechaDevolucion())){
+                    if(pData.modificar(prestamo) == 1){
+                        if(idEjemplarAnterior > 0){
+                            if(eData.cambiarEstado(idEjemplarAnterior, Entidades.Ejemplar.ESTADOS.disponible) == 1){
+                                mensaje += "El ejemplar anterior ahora está disponible...\n";
+                            }else{
+                                mensaje += "Cambiar manualmente el estado del ejemplar id: "+ idEjemplarAnterior +" a disponible.\n";
+                            }
+                            if(prestamo.getEjemplar().getEstado() == 0 && eData.cambiarEstado(prestamo.getEjemplar()) == 1){
+                                mensaje += "Actualizado el ejemplar seleccionado a prestado...\n";
+                            }else{
+                                mensaje += "Cambiar manualmente el estado del ejemplar id: "+ prestamo.getEjemplar().getId() +" a prestado.\n";
+                            }
+                        }
+                        //multas
+                        if(prestamo.getFechaPrestamo().plusDays(maxDiasPrestados).isBefore(prestamo.getFechaDevolucion())){
+                            diasMulta = java.time.temporal.ChronoUnit.DAYS.between(prestamo.getFechaPrestamo().plusDays(maxDiasPrestados), hoy) * multaPorDia;
+                            fechaFinMulta = prestamo.getFechaDevolucion().plusDays(diasMulta);
+                            //System.out.println(diasMulta +" > "+ (maxDiasPrestados * multaPorDia * 2) +" = "+ (diasMulta > maxDiasPrestados * multaPorDia * 2));
+                            if(diasMulta > maxDiasPrestados * multaPorDia * 2){ //1 mes = 60 multa, 2 meses = 120 (3 meses desde el prestamo)
+                                if(fechaFinMulta.isAfter(hoy)){
+                                    mensaje += "inhabilitar lector\n";
+                                    if(lectorData.desactivar(lector.getIdLector()) == 1)
+                                        mensaje += "Se inhabilitó al lector por haber superado "+ maxDiasPrestados * 3 +" días de deuda...\n";
+                                    else mensaje += "Error al inhabilitar al lector, intentelo manualmente...\n";
+                                }
+                            }
+                            if(mData.guardar(new Entidades.Multa(prestamo, prestamo.getFechaDevolucion(), fechaFinMulta)) > 0)
+                                mensaje += "Se aplicó una multa de "+ diasMulta +" días. Hasta la fecha "+ fechaFinMulta.toString() + ".\n";
+                            else
+                                mensaje += "Error al aplicar la multa. Intentelo manualmente hasta la fecha: "+ fechaFinMulta.toString() + "\n";
+                        }
+                        mensaje += "Los datos fueron modificados!!";
+                        desHabilitarEditar();
+                        desHabilitarFDevolucion();
+                        desHabilitarFPrestamo();
+                    }else mensaje += "No se modificaron los datos, posible error de conexión...";
+                }else mensaje += "Las fecha del prestamo no puede ser superior a la fecha de devolución...\nNo se puede modificar la información de este prestamo.";    
+            }
         }
         mensaje(mensaje);
     }
