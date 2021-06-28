@@ -6,8 +6,6 @@
  */
 package BD;
 
-import Entidades.Biblioteca;
-
 /**
  * <h1>Clase Data: Prestamo</h1>
  * <h3>De las funcionalidades:</h3>
@@ -58,7 +56,7 @@ public class PrestamoData {
     private java.sql.PreparedStatement declaracion = null;
     private java.sql.ResultSet resultado = null;
     private BD.Conexion conexion = null;
-    private Object ex = null;
+    private Exception ex = null;
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Constructores ">
@@ -73,7 +71,7 @@ public class PrestamoData {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Metodos Getters ">
-    public Object getExcepcion() {
+    public Exception getExcepcion() {
         return ex;
     }
     //</editor-fold>
@@ -451,7 +449,7 @@ public class PrestamoData {
             tablaLectores = "lectores", campoId = CAMPOS[2],
             sql = "SELECT DISTINCT l.* FROM "+ tablaLectores +" AS l, "+ TABLA +" AS p "
                 + "WHERE p." + campoId + " = l." + campoId +" "
-                + "AND DATEDIFF(NOW(), p."+ CAMPOS[3] +") > "+ Biblioteca.CONF.MAXDIASPRESTADOS +" "
+                + "AND DATEDIFF(NOW(), p."+ CAMPOS[3] +") > "+ Entidades.Biblioteca.CONF.MAXDIASPRESTADOS +" "
                 + "AND NOT p."+ CAMPOS[4] +" IS NULL;";
         Entidades.Lector lector;
         try{
@@ -636,7 +634,7 @@ public class PrestamoData {
      * Metodo privado para ver que hacer con los mensajes de error desde la clase data
      * @param ex 
      */
-    private void error(Object ex){
+    private void error(Exception ex){
         //Ver que hacer con errores
         System.out.println("Error: \n"+ex);
         this.ex = ex;

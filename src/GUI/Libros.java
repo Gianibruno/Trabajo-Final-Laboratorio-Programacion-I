@@ -5,18 +5,15 @@
  */
 package GUI;
 
-import Entidades.Autor;
-import java.util.List;
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author melid
  */
 public class Libros extends javax.swing.JInternalFrame {
 
-    List<Entidades.Autor> lista = null;
-
+    java.util.List<Entidades.Autor> lista = null;
+    BD.LibroData ld = new BD.LibroData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
+    Entidades.Libro libro = null;
     /**
      * Creates new form Libros
      */
@@ -25,14 +22,33 @@ public class Libros extends javax.swing.JInternalFrame {
         actualizarCBAutores();      
     }
 
-    public void actualizarCBAutores() {
+    private void actualizarCBAutores() {
         cbAutor.removeAllItems();
-        cbAutor.addItem(new Autor());
-        cbAutor.setSelectedIndex(0);
+        //cbAutor.addItem(new Entidades.Autor());
+        //cbAutor.setSelectedIndex(0);
         BD.AutorData ad = new BD.AutorData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
         lista = ad.obtenerAutores();
-        for (Autor autor : lista) {
+        lista.add(0, null);
+        for (Entidades.Autor autor : lista) {
             cbAutor.addItem(autor);
+        }
+    }
+    
+    public void ver(Entidades.Libro l){
+        if(l != null){
+            libro = l;
+            tfId.setText(libro.getId() + "");
+            tfIsbn.setText(libro.getIsbn() + "");
+            tfTitulo.setText(libro.getNombre());
+            tfEditorial.setText(libro.getEditorial());
+            cbAutor.setSelectedItem(lista.get(libro.getAutor().getIdAutor()));
+            ycAnio.setYear(libro.getAño());
+            boolean estado = false;
+            if (libro.getEstado() == 1) {
+                estado = true;
+            }
+            cbEstado.setSelected(estado);
+            tfTipo.setText(libro.getTipo());
         }
     }
 
@@ -67,15 +83,24 @@ public class Libros extends javax.swing.JInternalFrame {
         ycAnio = new com.toedter.calendar.JYearChooser();
         jbGuardar = new javax.swing.JButton();
         cbAutor = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Registro de Libros");
 
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/libros.png"))); // NOI18N
 
         jLabel2.setText("ID:");
@@ -88,18 +113,6 @@ public class Libros extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Año:");
 
-        tfTitulo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfTituloActionPerformed(evt);
-            }
-        });
-
-        tfEditorial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfEditorialActionPerformed(evt);
-            }
-        });
-
         jbNuevo.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jbNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/nuevo.png"))); // NOI18N
         jbNuevo.setText("NUEVO");
@@ -111,6 +124,7 @@ public class Libros extends javax.swing.JInternalFrame {
 
         btnBuscarIsbn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/buscar.png"))); // NOI18N
         btnBuscarIsbn.setText("Buscar [ISBN]");
+        btnBuscarIsbn.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         btnBuscarIsbn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarIsbnActionPerformed(evt);
@@ -132,12 +146,14 @@ public class Libros extends javax.swing.JInternalFrame {
 
         btnBuscarId.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/buscar.png"))); // NOI18N
         btnBuscarId.setText("Buscar [ID]");
+        btnBuscarId.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         btnBuscarId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarIdActionPerformed(evt);
             }
         });
 
+        cbEstado.setSelected(true);
         cbEstado.setText("Estado");
 
         ycAnio.setMaximum(4000);
@@ -151,6 +167,22 @@ public class Libros extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/ver.png"))); // NOI18N
+        jButton1.setBorder(null);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/actualizar.png"))); // NOI18N
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -160,188 +192,138 @@ public class Libros extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel4)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel9))
-                                        .addGap(15, 15, 15))
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(tfIsbn, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
-                                    .addComponent(tfTitulo)
-                                    .addComponent(tfEditorial)
-                                    .addComponent(tfId))
-                                .addGap(23, 23, 23)
-                                .addComponent(cbEstado))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnBuscarIsbn)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnBuscarId)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbGuardar)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(tfIsbn, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel5))
+                                        .addComponent(jLabel6)
+                                        .addComponent(jLabel7)
+                                        .addComponent(jLabel8))
+                                    .addGap(22, 22, 22)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(tfEditorial, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(tfTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(cbAutor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(tfTipo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(ycAnio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 169, Short.MAX_VALUE)
-                                .addComponent(jbNuevo)
-                                .addGap(37, 37, 37))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jbSalir)
-                                .addContainerGap())))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(33, 33, 33)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ycAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(tfTipo, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
-                                    .addComponent(cbAutor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(42, 42, 42)
-                                .addComponent(jLabel3)))
-                        .addContainerGap(299, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel6))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel7)))
-                .addGap(0, 722, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(256, 256, 256))
+                            .addComponent(jButton1)
+                            .addComponent(cbEstado))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnBuscarId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnBuscarIsbn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jbNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnModificar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbGuardar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbSalir)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1)
-                .addGap(55, 55, 55)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
                     .addComponent(tfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
+                    .addComponent(cbEstado)
+                    .addComponent(btnBuscarId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(tfIsbn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbEstado))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tfTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tfEditorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addGap(20, 20, 20)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(cbAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(tfTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addComponent(jLabel7))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(ycAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(87, 87, 87))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(96, 96, 96)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnBuscarId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnBuscarIsbn)
-                            .addComponent(jbSalir)
-                            .addComponent(jbGuardar))
-                        .addContainerGap())))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addComponent(jbNuevo)
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(btnBuscarIsbn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(tfTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(tfEditorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(cbAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(tfTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(ycAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbSalir)
+                    .addComponent(jbGuardar)
+                    .addComponent(jbNuevo)
+                    .addComponent(btnModificar))
+                .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbAutor, tfEditorial, tfId, tfIsbn, tfTipo, tfTitulo, ycAnio});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
 
-    private void tfTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfTituloActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfTituloActionPerformed
-
-    private void tfEditorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfEditorialActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfEditorialActionPerformed
-
     private void btnBuscarIsbnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarIsbnActionPerformed
         actualizarCBAutores();
-        if(tfIsbn.getText()==""){
-            JOptionPane.showMessageDialog(this, "No se ha ingresado un ISBN, por favor, ingrese uno.");
+        if(tfIsbn.getText().isEmpty()){
+            mensaje("No se ha ingresado un ISBN, por favor, ingrese uno.");
             return;
         }
         if(!(tfIsbn.getText().chars().allMatch( Character::isDigit ))){
-            JOptionPane.showMessageDialog(this, "El ISBN debe ser de tipo numerico, por favor, ingreseló nuevamente");
+            mensaje("El ISBN debe ser de tipo numerico, por favor, ingreseló nuevamente");
             return;
         }
         long isbn = Long.parseLong(tfIsbn.getText());
-        BD.LibroData ld = new BD.LibroData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
-        Entidades.Libro libro = ld.buscarLibro(isbn);
+        libro = ld.buscarLibro(isbn);
         if(libro==null){
-            JOptionPane.showMessageDialog(this, "No se ha encontrado un libro con el ISBN ingresado.");
+            jbNuevoActionPerformed(null);
+            mensaje("No se ha encontrado un libro con el ISBN ingresado.");
             return;
         }
-        tfId.setText(libro.getId() + "");
-        tfIsbn.setText(libro.getIsbn() + "");
-        tfTitulo.setText(libro.getNombre());
-        tfEditorial.setText(libro.getEditorial());
-        cbAutor.setSelectedIndex(libro.getAutor().getIdAutor());
-        ycAnio.setYear(libro.getAño());
-        boolean estado = false;
-        if (libro.getEstado() == 1) {
-            estado = true;
-        }
-        cbEstado.setSelected(estado);
-        tfTipo.setText(libro.getTipo());
+        ver(libro);
     }//GEN-LAST:event_btnBuscarIsbnActionPerformed
 
     private void btnBuscarIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarIdActionPerformed
         actualizarCBAutores();
-        if(tfId.getText()==""){
-            JOptionPane.showMessageDialog(this, "No se ha ingresado un ID, por favor, ingrese uno.");
+        if(tfId.getText().isEmpty()){
+            mensaje("No se ha ingresado un ID, por favor, ingrese uno.");
             return;
         }
         if(!(tfId.getText().chars().allMatch( Character::isDigit ))){
-            JOptionPane.showMessageDialog(this, "El ID debe ser de tipo numerico, por favor, ingreseló nuevamente");
+            mensaje("El ID debe ser de tipo numerico, por favor, ingreseló nuevamente");
             return;
         }
         int id = Integer.parseInt(tfId.getText());
-        BD.LibroData ld = new BD.LibroData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
-        Entidades.Libro libro = ld.buscarLibroXId(id);
-        tfId.setText(libro.getId() + "");
-        tfIsbn.setText(libro.getIsbn() + "");
-        tfTitulo.setText(libro.getNombre());
-        tfEditorial.setText(libro.getEditorial());
-        cbAutor.setSelectedIndex(libro.getAutor().getIdAutor());
-        ycAnio.setYear(libro.getAño());
-        boolean estado = false;
-        if (libro.getEstado() == 1) {
-            estado = true;
+        libro = ld.buscarLibroXId(id);
+        if(libro == null){
+            jbNuevoActionPerformed(null);
+            mensaje("No se ha encontrado un libro con el ID ingresado.");
+            return;
         }
-        cbEstado.setSelected(estado);
-        tfTipo.setText(libro.getTipo());
-
+        ver(libro);
     }//GEN-LAST:event_btnBuscarIdActionPerformed
 
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
@@ -349,38 +331,45 @@ public class Libros extends javax.swing.JInternalFrame {
         tfIsbn.setText("");
         tfTitulo.setText("");
         tfEditorial.setText("");
-        cbAutor.setSelectedItem("");
+        cbAutor.setSelectedItem(null); //de autores
         ycAnio.setYear(Integer.parseInt(java.time.Year.now() + ""));
-        cbEstado.setSelected(false);
+        cbEstado.setSelected(true); //nuevo activado
         tfTipo.setText("");
 
     }//GEN-LAST:event_jbNuevoActionPerformed
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
-        if(tfIsbn.getText()==""){
-            JOptionPane.showMessageDialog(this, "No se ha ingresado un ISBN, por favor, ingrese uno.");
+        //System.out.println(cbAutor.getSelectedItem().toString());
+        if(tfIsbn.getText().isEmpty()){
+            mensaje("No se ha ingresado un ISBN, por favor, ingrese uno.");
             return;
         }
         if(!(tfIsbn.getText().chars().allMatch( Character::isDigit ))){
-            JOptionPane.showMessageDialog(this, "El ISBN debe ser de tipo numerico, por favor, ingreseló nuevamente");
+            mensaje("El ISBN debe ser de tipo numerico, por favor, ingreseló nuevamente");
             return;
         }
         int rt=0;
-        actualizarCBAutores();
+        //actualizarCBAutores();
         int aux = 0;
-        BD.LibroData ld = new BD.LibroData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
-        Entidades.Libro libro = new Entidades.Libro();
-        BD.AutorData ad = new BD.AutorData(grupo1tpfinal.Grupo1TPFinal.CONEXION);
+        libro = new Entidades.Libro();
+        if(cbAutor.getSelectedIndex() <= 0){
+            mensaje("Por favor, elija un autor.");
+            return;
+        }
         libro.setAutor((Entidades.Autor)cbAutor.getSelectedItem());
-        if(libro.getAutor().toString()==""){
-            JOptionPane.showMessageDialog(this, "Por favor, elija un autor.");
+        if(libro.getAutor() == null){
+            mensaje("Error al seleccionar al autor");
+            return;
+        }
+        if(libro.getAutor().getEstado() == 0){
+            mensaje("El autor esta inactivo");
             return;
         }
         libro.setAño(Short.parseShort(ycAnio.getYear() + ""));
         if (ld.buscarLibro(Long.parseLong(tfIsbn.getText())) == null) {
             libro.setIsbn(Long.parseLong(tfIsbn.getText()));
         } else {
-            JOptionPane.showMessageDialog(this, "El ISBN ingresado ya existe, intente con otro.");
+            mensaje("El ISBN ingresado ya existe, intente con otro.");
             tfIsbn.setText("");
             return;
         }
@@ -393,9 +382,9 @@ public class Libros extends javax.swing.JInternalFrame {
         libro.setTipo(tfTipo.getText());
         rt = ld.guardar(libro);
         if (rt>0) {
-            JOptionPane.showMessageDialog(this, "¡Libro guardado con exito!");
+            mensaje("¡Libro guardado con exito!");
         } else {
-            JOptionPane.showMessageDialog(this, "¡Error al guardar libro!");
+            mensaje("¡Error al guardar libro!");
         }
         tfId.setText(rt+"");
     }//GEN-LAST:event_jbGuardarActionPerformed
@@ -404,12 +393,81 @@ public class Libros extends javax.swing.JInternalFrame {
         dispose();
     }//GEN-LAST:event_jbSalirActionPerformed
 
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        actualizarCBAutores();
+        if(libro != null) ver(libro);
+        else jbNuevoActionPerformed(null);
+    }//GEN-LAST:event_formComponentShown
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(libro != null && libro.getAutor() != null){
+            Principal.abrir(Principal.VISTAS.AUTOR, libro.getAutor());
+        }else mensaje("Error con el Autor del libro, busque o cree uno.");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        if(libro != null){
+            long isbn;
+            String titulo, editorial, tipo;
+            int id, anio, estado;
+            Entidades.Autor autor;
+            boolean modificar = false;
+            //modificar isbn?
+            if(tfIsbn.getText().isEmpty()){
+                mensaje("No se ha ingresado un ISBN, por favor, ingrese uno.");
+                return;
+            }
+            if(!(tfIsbn.getText().chars().allMatch( Character::isDigit ))){
+                mensaje("El ISBN debe ser de tipo numerico, por favor, ingreseló nuevamente.");
+                return;
+            }
+            if(cbAutor.getSelectedIndex() <= 0){
+                mensaje("Por favor, elija un autor.");
+                return;
+            }
+            id = libro.getId();
+            isbn = Long.parseLong(tfIsbn.getText());
+            titulo = tfTitulo.getText();
+            editorial = tfEditorial.getText();
+            autor = cbAutor.getModel().getElementAt(cbAutor.getSelectedIndex());
+            tipo = tfTipo.getText();
+            anio = ycAnio.getValue();
+            estado = cbEstado.isSelected() ? 1 : 0;
+            if(libro.getIsbn() != isbn) modificar = true;
+            if(!libro.getNombre().equals(titulo)) modificar = true;
+            if(!libro.getEditorial().equals(editorial)) modificar = true;
+            if(libro.getAutor().getIdAutor() != autor.getIdAutor()) modificar = true;
+            if(!libro.getTipo().equals(tipo)) modificar = true;
+            if(libro.getAño() != anio) modificar = true;
+            if(libro.getEstado() != estado) modificar = true;
+            if(modificar){
+                libro = new Entidades.Libro(
+                        isbn,
+                        titulo,
+                        tipo,
+                        editorial,
+                        (short)anio,
+                        autor,
+                        estado,
+                        id
+                );
+                if(ld.modificar(libro) == 0){
+                    mensaje("Error al modificar el libro...");
+                }else{
+                    mensaje("El libro fue modificado...");
+                }
+            }else mensaje("No hay cambios para modificar...");
+        }else mensaje("El libro no esta registrado...");
+    }//GEN-LAST:event_btnModificarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarId;
     private javax.swing.JButton btnBuscarIsbn;
-    private javax.swing.JComboBox<Autor> cbAutor;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JComboBox<Entidades.Autor> cbAutor;
     private javax.swing.JCheckBox cbEstado;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -429,4 +487,8 @@ public class Libros extends javax.swing.JInternalFrame {
     private javax.swing.JTextField tfTitulo;
     private com.toedter.calendar.JYearChooser ycAnio;
     // End of variables declaration//GEN-END:variables
+
+    private void mensaje(String msg) {
+        javax.swing.JOptionPane.showMessageDialog(this, msg);
+    }
 }

@@ -16,6 +16,7 @@ public class Biblioteca {
         public static final String
                 AUTORESTADOS[] = {"Inactivo", "Activo"},
                 LECTORESTADOS[] = {"Inactivo", "Activo"},
-                LIBROESTADOS[] = {"Inactivo", "Activo"};
+                LIBROESTADOS[] = {"Inactivo", "Activo"},
+                EJEMPLARESTADOS[] = {"Prestado", "Retraso", "Reparación", "Disponible"};
     }
 }

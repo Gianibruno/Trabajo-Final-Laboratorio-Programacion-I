@@ -18,7 +18,7 @@ public class EjemplarData {
     private java.sql.PreparedStatement ps = null;
     private java.sql.ResultSet rs = null;
     private java.sql.Connection con = null;
-    private Object ex = null;
+    private Exception ex = null;
     private Conexion conaux = null;
 
     public EjemplarData(Conexion con) {
@@ -26,7 +26,7 @@ public class EjemplarData {
         this.conaux = con;
     }
 
-    public Object getExcepcion() {
+    public Exception getExcepcion() {
         return ex;
     }
 
@@ -199,7 +199,46 @@ public class EjemplarData {
         return ejemplares;
     }
     
-    private void error(Object ex) {
+    public java.util.List<Entidades.Ejemplar> buscarPorLibro(String nombreLibro) {
+        Entidades.Ejemplar ejemplar;
+        java.util.ArrayList<Entidades.Ejemplar> ejemplares = new java.util.ArrayList<>();
+        String sql = "SELECT e.* FROM ejemplares AS e, libros AS l "
+                + "WHERE l.nombre LIKE \"%"+ nombreLibro +"%\" "
+                + "AND e.id_libro = l.id_libro;";
+        LibroData ld = new LibroData(conaux);
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                ejemplar = new Entidades.Ejemplar();
+                ejemplar.setId(rs.getInt(CAMPOS[0]));
+                ejemplar.setLibro(ld.buscarLibroXId(rs.getInt(CAMPOS[1])));
+                ejemplar.setEstado(rs.getInt(CAMPOS[2]));
+                ejemplares.add(ejemplar);
+            }
+            ps.close();
+        } catch (java.sql.SQLException ex) {
+            error(ex);
+        }
+        return ejemplares;
+    }
+
+    public boolean borrarEjemplar(Entidades.Ejemplar ejemplar) {
+        boolean respuesta = false;
+        String sql = "DELETE FROM "+ TABLA +" WHERE "+ CAMPOS[0] +" = ?;";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, ejemplar.getId());
+            ps.executeUpdate();
+            ps.close();
+            respuesta = true;
+        } catch (java.sql.SQLException ex) {
+            error(ex);
+        }
+        return respuesta;
+    }
+    
+    private void error(Exception ex) {
         System.out.println("Error: " + ex);
         this.ex = ex;
     }

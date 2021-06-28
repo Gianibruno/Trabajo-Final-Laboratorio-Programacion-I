@@ -58,7 +58,7 @@ public class Conexion {
             url;
     private int puerto;
     private java.sql.Connection conexion = null;
-    private Object excepcion = null;
+    private Exception excepcion = null;
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc=" Constructores ">
@@ -117,7 +117,7 @@ public class Conexion {
      * Devuelve la ultima Excepcion registrada
      * @return 
      */
-    public Object getExcepcion(){
+    public Exception getExcepcion(){
         return excepcion;
     }
     /**

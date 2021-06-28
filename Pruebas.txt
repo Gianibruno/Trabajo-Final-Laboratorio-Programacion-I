@@ -1,0 +1,37 @@
+Pruebas basicas de Vistas:
+
+Autor:
+-Crear: OK
+-Leer: OK
+-Modificar: OK
+-Activar/Desactivar: OK
+
+Lector:
+-Crear: OK
+-Leer: OK
+-Modificar: OK
+-Activar/Desactivar: OK
+
+Libro:
+-Crear: OK
+-Leer: OK
+-Modificar: OK
+-Activar/Desactivar: OK
+
+Ejemplar:
+-Crear: OK
+-Leer: OK
+-Modificar: OK
+-Eliminar: OK
+
+Prestamo
+-Crear: OK
+-Leer: OK
+-Modificar: OK
+-Eliminar: OK
+
+Multa
+-Crear: Desde prestamo
+-Leer: OK
+-Modificar: NO
+-Eliminar: OK

@@ -18,13 +18,13 @@ public class LectorData {
     private java.sql.PreparedStatement ps = null;
     private java.sql.ResultSet rs = null;
     private java.sql.Connection con = null;
-    private Object ex = null;
+    private Exception ex = null;
 
     public LectorData(Conexion con) {
         this.con = con.getConexion();
     }
     
-    public Object getExcepcion(){
+    public Exception getExcepcion(){
         return ex;
     }
     
@@ -281,7 +281,7 @@ public class LectorData {
         return respuesta;
     }
     
-    private void error(Object ex) {
+    private void error(Exception ex) {
         System.out.println("Error: "+ ex);
         this.ex = ex;
     }

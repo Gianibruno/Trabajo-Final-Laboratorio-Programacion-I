@@ -18,7 +18,7 @@ public class MultaData {
     private java.sql.PreparedStatement ps = null;
     private java.sql.ResultSet rs = null;
     private java.sql.Connection con = null;
-    private Object ex = null;
+    private Exception ex = null;
     private BD.Conexion conexion = null;
 
     public MultaData(Conexion con) {
@@ -26,7 +26,7 @@ public class MultaData {
         conexion = con;
     }
     
-    public Object getExcepcion(){
+    public Exception getExcepcion(){
         return ex;
     }
     
@@ -107,9 +107,35 @@ public class MultaData {
         return multas;
     }
     
+     public Entidades.Multa buscarMulta(Entidades.Multa multa) {
+        String sql = "SELECT * FROM " + TABLA + " WHERE " + CAMPOS[0] + "=?;";
+        BD.PrestamoData pd = new BD.PrestamoData(conexion);
+        Entidades.Prestamo prestamo;
+        if(multa != null){
+            try {
+                ps = con.prepareStatement(sql);
+                ps.setInt(1, multa.getId_multa());
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    prestamo = pd.buscar(rs.getInt(CAMPOS[1]));
+                    multa = new Entidades.Multa(
+                            prestamo,
+                            java.time.LocalDate.parse(rs.getString(CAMPOS[2])),
+                            java.time.LocalDate.parse(rs.getString(CAMPOS[3]))
+                    );
+                    multa.setId_multa(rs.getInt(CAMPOS[0]));
+                }
+                ps.close();
+            } catch (java.sql.SQLException ex) {
+                error(ex);
+            }
+        }
+        return multa;
+    }
+    
      public Entidades.Multa buscarMulta(int id_multa) {
         Entidades.Multa multa = null;
-        String sql = "SELECT * FROM " + TABLA + " WHERE " + CAMPOS[1] + "=?;";
+        String sql = "SELECT * FROM " + TABLA + " WHERE " + CAMPOS[0] + "=?;";
          BD.PrestamoData pd = new BD.PrestamoData(conexion);
         Entidades.Prestamo prestamo;
         try {
@@ -157,7 +183,7 @@ public class MultaData {
         return multa;
     }
 
-    private void error(Object ex) {
+    private void error(Exception ex) {
         System.out.println("Error: " + ex);
         this.ex = ex;
     }

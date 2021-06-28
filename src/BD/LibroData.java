@@ -19,7 +19,7 @@ public class LibroData {
     private java.sql.PreparedStatement ps = null;
     private java.sql.ResultSet rs = null;
     private java.sql.Connection con = null;
-    private Object ex = null;
+    private Exception ex = null;
     private Conexion conaux = null;
 
     public LibroData(Conexion con) {
@@ -28,7 +28,7 @@ public class LibroData {
 
     }
 
-    public Object getExcepcion() {
+    public Exception getExcepcion() {
         return ex;
     }
 
@@ -71,9 +71,9 @@ public class LibroData {
                 + CAMPOS[1] + "=?, "
                 + CAMPOS[2] + "=?, "
                 + CAMPOS[3] + "=?, "
-                + CAMPOS[4] + "=? "
-                + CAMPOS[5] + "=? "
-                + CAMPOS[6] + "=? "
+                + CAMPOS[4] + "=?, "
+                + CAMPOS[5] + "=?, "
+                + CAMPOS[6] + "=?, "
                 + CAMPOS[7] + "=? "
                 + "WHERE " + CAMPOS[0] + "=?;";
         if (libro != null && libro.getId() > 0) {
@@ -86,6 +86,7 @@ public class LibroData {
                 ps.setString(5, libro.getEditorial());
                 ps.setInt(6, libro.getAño());
                 ps.setInt(7, libro.getEstado());
+                ps.setInt(8, libro.getId());
                 ps.executeUpdate();
                 ps.close();
                 respuesta = 1;
@@ -175,7 +176,7 @@ public class LibroData {
         return libro;
     }
     
-    private void error(Object ex) {
+    private void error(Exception ex) {
         System.out.println("Error: " + ex);
         this.ex = ex;
     }

@@ -48,6 +48,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         btnSalir = new javax.swing.JButton();
         btnVerLector = new javax.swing.JButton();
         btnVerEjemplar = new javax.swing.JButton();
+        btnVerMulta = new javax.swing.JButton();
         panelLector = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -242,7 +243,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                         .addComponent(btnPrestar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnRecibir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                         .addComponent(btnGuardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEliminar)))
@@ -283,6 +284,17 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
             }
         });
 
+        btnVerMulta.setVisible(false);
+        btnVerMulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/ver.png"))); // NOI18N
+        btnVerMulta.setToolTipText("Ver si posee multa");
+        btnVerMulta.setBorder(null);
+        btnVerEjemplar.setVisible(false);
+        btnVerMulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerMultaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelPrestamoLayout = new javax.swing.GroupLayout(panelPrestamo);
         panelPrestamo.setLayout(panelPrestamoLayout);
         panelPrestamoLayout.setHorizontalGroup(
@@ -318,7 +330,9 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnModoLector))
                             .addGroup(panelPrestamoLayout.createSequentialGroup()
-                                .addComponent(btnVerEjemplar)
+                                .addGroup(panelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnVerEjemplar)
+                                    .addComponent(btnVerMulta))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(panelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnFechaPrestamo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -362,17 +376,18 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                     .addGroup(panelPrestamoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(btnFechaDevolucion, javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jLabel11))
-                    .addComponent(datoFechaDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(datoFechaDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnVerMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelPrestamoLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {datoEjemplar, datoFechaDevolucion, datoFechaPrestamo, datoIdPrestamo, datoLector});
 
         panelPrestamoLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnModoLector, btnVerLector});
 
-        panelPrestamoLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnModoEjemplar, btnVerEjemplar});
+        panelPrestamoLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnModoEjemplar, btnVerEjemplar, btnVerMulta});
 
         jLabel2.setText("Selecciona un Lector:");
 
@@ -725,7 +740,8 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_buscarPrestamoKeyPressed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-        if(btnGuardar.isVisible())salir();
+        if(btnGuardar.isVisible()) salir();
+        else dispose();
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void btnVerLectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerLectorActionPerformed
@@ -743,6 +759,11 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         if(abrir) ver(temp);
         else iniciar();
     }//GEN-LAST:event_formComponentShown
+
+    private void btnVerMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerMultaActionPerformed
+        //System.out.println("En desarrollo: ver si posee multa...");
+        Principal.abrir(Principal.VISTAS.MULTA, multa);
+    }//GEN-LAST:event_btnVerMultaActionPerformed
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Variables del Diseñador ">
@@ -763,6 +784,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnVerEjemplar;
     private javax.swing.JButton btnVerLector;
+    private javax.swing.JButton btnVerMulta;
     private javax.swing.JButton btnVolverEjemplar;
     private javax.swing.JButton btnVolverLector;
     private javax.swing.JButton btnVolverPrestamo;
@@ -834,12 +856,17 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         datoFechaPrestamo.setEnabled(false);
         btnVerLector.setVisible(true);
         btnVerEjemplar.setVisible(true);
+        //Ver si posee multa
+        multa = mData.buscarMulta(prestamo);
+        if(multa != null) btnVerMulta.setVisible(true);
+        else btnVerMulta.setVisible(false);
     }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Metodos Privados ">
     
     private void iniciar(){
+        setDefaultCloseOperation(0);
         limpiarTodo();
         seleccionar(0);
     }
@@ -1003,44 +1030,53 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         } else exito = false;
         if(!exito)mensaje += "No se puede modificar la información de este prestamo.\n";
         else{
-            if(prestamo.getFechaPrestamo().isBefore(prestamo.getFechaDevolucion())){
+            if(prestamo.getFechaDevolucion() == null){
                 if(pData.modificar(prestamo) == 1){
-                    if(idEjemplarAnterior > 0){
-                        if(eData.cambiarEstado(idEjemplarAnterior, Entidades.Ejemplar.ESTADOS.disponible) == 1){
-                            mensaje += "El ejemplar anterior ahora está disponible...\n";
-                        }else{
-                            mensaje += "Cambiar manualmente el estado del ejemplar id: "+ idEjemplarAnterior +" a disponible.\n";
-                        }
-                        if(prestamo.getEjemplar().getEstado() == 0 && eData.cambiarEstado(prestamo.getEjemplar()) == 1){
-                            mensaje += "Actualizado el ejemplar seleccionado a prestado...\n";
-                        }else{
-                            mensaje += "Cambiar manualmente el estado del ejemplar id: "+ prestamo.getEjemplar().getId() +" a prestado.\n";
-                        }
-                    }
-                    //multas
-                    if(prestamo.getFechaPrestamo().plusDays(maxDiasPrestados).isBefore(prestamo.getFechaDevolucion())){
-                        diasMulta = java.time.temporal.ChronoUnit.DAYS.between(prestamo.getFechaPrestamo().plusDays(maxDiasPrestados), hoy) * multaPorDia;
-                        fechaFinMulta = prestamo.getFechaDevolucion().plusDays(diasMulta);
-                        //System.out.println(diasMulta +" > "+ (maxDiasPrestados * multaPorDia * 2) +" = "+ (diasMulta > maxDiasPrestados * multaPorDia * 2));
-                        if(diasMulta > maxDiasPrestados * multaPorDia * 2){ //1 mes = 60 multa, 2 meses = 120 (3 meses desde el prestamo)
-                            if(fechaFinMulta.isAfter(hoy)){
-                                mensaje += "inhabilitar lector\n";
-                                if(lectorData.desactivar(lector.getIdLector()) == 1)
-                                    mensaje += "Se inhabilitó al lector por haber superado "+ maxDiasPrestados * 3 +" días de deuda...\n";
-                                else mensaje += "Error al inhabilitar al lector, intentelo manualmente...\n";
-                            }
-                        }
-                        if(mData.guardar(new Entidades.Multa(prestamo, prestamo.getFechaDevolucion(), fechaFinMulta)) > 0)
-                            mensaje += "Se aplicó una multa de "+ diasMulta +" días. Hasta la fecha "+ fechaFinMulta.toString() + ".\n";
-                        else
-                            mensaje += "Error al aplicar la multa. Intentelo manualmente hasta la fecha: "+ fechaFinMulta.toString() + "\n";
-                    }
                     mensaje += "Los datos fueron modificados!!";
                     desHabilitarEditar();
                     desHabilitarFDevolucion();
                     desHabilitarFPrestamo();
                 }else mensaje += "No se modificaron los datos, posible error de conexión...";
-            }else mensaje += "Las fecha del prestamo no puede ser superior a la fecha de devolución...\nNo se puede modificar la información de este prestamo.";
+            }else{
+                if(prestamo.getFechaPrestamo().isBefore(prestamo.getFechaDevolucion())){
+                    if(pData.modificar(prestamo) == 1){
+                        if(idEjemplarAnterior > 0){
+                            if(eData.cambiarEstado(idEjemplarAnterior, Entidades.Ejemplar.ESTADOS.disponible) == 1){
+                                mensaje += "El ejemplar anterior ahora está disponible...\n";
+                            }else{
+                                mensaje += "Cambiar manualmente el estado del ejemplar id: "+ idEjemplarAnterior +" a disponible.\n";
+                            }
+                            if(prestamo.getEjemplar().getEstado() == 0 && eData.cambiarEstado(prestamo.getEjemplar()) == 1){
+                                mensaje += "Actualizado el ejemplar seleccionado a prestado...\n";
+                            }else{
+                                mensaje += "Cambiar manualmente el estado del ejemplar id: "+ prestamo.getEjemplar().getId() +" a prestado.\n";
+                            }
+                        }
+                        //multas
+                        if(prestamo.getFechaPrestamo().plusDays(maxDiasPrestados).isBefore(prestamo.getFechaDevolucion())){
+                            diasMulta = java.time.temporal.ChronoUnit.DAYS.between(prestamo.getFechaPrestamo().plusDays(maxDiasPrestados), hoy) * multaPorDia;
+                            fechaFinMulta = prestamo.getFechaDevolucion().plusDays(diasMulta);
+                            //System.out.println(diasMulta +" > "+ (maxDiasPrestados * multaPorDia * 2) +" = "+ (diasMulta > maxDiasPrestados * multaPorDia * 2));
+                            if(diasMulta > maxDiasPrestados * multaPorDia * 2){ //1 mes = 60 multa, 2 meses = 120 (3 meses desde el prestamo)
+                                if(fechaFinMulta.isAfter(hoy)){
+                                    mensaje += "inhabilitar lector\n";
+                                    if(lectorData.desactivar(lector.getIdLector()) == 1)
+                                        mensaje += "Se inhabilitó al lector por haber superado "+ maxDiasPrestados * 3 +" días de deuda...\n";
+                                    else mensaje += "Error al inhabilitar al lector, intentelo manualmente...\n";
+                                }
+                            }
+                            if(mData.guardar(new Entidades.Multa(prestamo, prestamo.getFechaDevolucion(), fechaFinMulta)) > 0)
+                                mensaje += "Se aplicó una multa de "+ diasMulta +" días. Hasta la fecha "+ fechaFinMulta.toString() + ".\n";
+                            else
+                                mensaje += "Error al aplicar la multa. Intentelo manualmente hasta la fecha: "+ fechaFinMulta.toString() + "\n";
+                        }
+                        mensaje += "Los datos fueron modificados!!";
+                        desHabilitarEditar();
+                        desHabilitarFDevolucion();
+                        desHabilitarFPrestamo();
+                    }else mensaje += "No se modificaron los datos, posible error de conexión...";
+                }else mensaje += "Las fecha del prestamo no puede ser superior a la fecha de devolución...\nNo se puede modificar la información de este prestamo.";    
+            }
         }
         mensaje(mensaje);
     }
@@ -1111,6 +1147,7 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
         java.util.List<Entidades.Multa> multasDelLector;
         int nuevo;
         String mensaje = "Prestar un Ejemplar:\n";
+        hoy = java.time.LocalDate.now();
         if(comprobar()){ //............................................................................(1) y (5)
             if(!esNumero(datoIdPrestamo.getText())){
                 actualizarDatos();
@@ -1119,12 +1156,13 @@ public class PrestamoGUI extends javax.swing.JInternalFrame {
                 if(prestamosDelLector.size() < maxPrestamosPorLector){ //..............................(4)
                     multasDelLector = mData.obtenerMultas().stream().filter(m ->
                             m.getPrestamo().getLector().getIdLector() == lector.getIdLector()
+                            && m.getFecha_fin().isAfter(hoy) //si fecha fin es posterior a actual
                     ).collect(java.util.stream.Collectors.toList());
                     if(multasDelLector.isEmpty()){ //..................................................(3)
                         prestamosVencidos = prestamosDelLector.stream()
                                 .filter(p -> 
                                         p.getFechaDevolucion() == null 
-                                        && p.getFechaPrestamo().plusDays(maxDiasPrestados).isAfter(hoy)
+                                        && p.getFechaPrestamo().plusDays(maxDiasPrestados).isBefore(hoy)
                                 ).collect(java.util.stream.Collectors.toList());
                         if(prestamosVencidos.isEmpty()){ //............................................(2)
                             nuevo = pData.registrar(prestamo);

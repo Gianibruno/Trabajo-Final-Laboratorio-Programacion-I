@@ -58,6 +58,28 @@ public class AutorGUI extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Registro de Autores");
         setToolTipText("Crear, Modificar, Activar o Desactivar un Autor");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         mensaje.setText("...");
 
@@ -369,6 +391,19 @@ public class AutorGUI extends javax.swing.JInternalFrame {
         else
             desactivar();
     }//GEN-LAST:event_btnEstadoActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        if(autor != null) salir();
+        else setVisible(false);
+    }//GEN-LAST:event_formInternalFrameClosing
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        Entidades.Autor temp = autor;
+        boolean abrir = false;
+        if(autor != null) abrir = true;
+        if(abrir) ver(temp);
+        else iniciar();
+    }//GEN-LAST:event_formComponentShown
     //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc=" Variables del Diseñador ">
@@ -428,30 +463,67 @@ public class AutorGUI extends javax.swing.JInternalFrame {
         datoNacionalidad.setText(this.autor.getNacionalidad());
         datoNacimiento.setDate(java.sql.Date.valueOf(this.autor.getFechaNacimiento()));
         datoEstado.setText(Entidades.Biblioteca.CONF.AUTORESTADOS[this.autor.getEstado()]);
+        modoeditar();
     }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc=" Metodos privados ">
     
     private void iniciar(){
+        setDefaultCloseOperation(0);
         modonuevo();
     }
     
     private void salir() {
-        //ver si puede salir
-        dispose();
+        if(autor != null){
+            if(javax.swing.JOptionPane.showConfirmDialog(this, 
+                    "Seguro que desea salir?\nSe perderan los cambios no guardados...", 
+                    "Aun no se guardan los cambios", 2, 2) == 0){
+                limpiar();
+                modonuevo();
+                setVisible(false);
+            }
+        }else{
+            limpiar();
+            modonuevo();
+            setVisible(false);
+        }
     }
 
     private void modoeditar() {
-        System.out.println("Modo Editar Autor");
+        //System.out.println("Modo Editar Autor");
+        //veo editar
+        btnEditar.setVisible(true);
+        //veo los labels
+        lblId.setVisible(true);
+        lblNombre.setVisible(true);
+        lblNacionalidad.setVisible(true);
+        lblNacimiento.setVisible(true);
+        lblEstado.setVisible(true);
+        //veo los campos
+        datoId.setVisible(true);
+        datoNombre.setVisible(true);
+        datoNacionalidad.setVisible(true);
+        datoNacimiento.setVisible(true);
+        datoEstado.setVisible(true);
+        //no permito edicion de campos
+        datoNombre.setEditable(false);
+        datoNacionalidad.setEditable(false);
+        datoNacimiento.setEnabled(false);
+        datoEstado.setEnabled(false);
+        //permito editar dni
+        datoDni.setEditable(true);
         //habilitar edicion
         titulo.setText("Modificar Autor");
+        btnGuardar.setText("Actualizar");
+        btnGuardar.setIcon(iconoActualizar);
         btnModo.setVisible(true);
         btnNuevo.setVisible(true);
         btnGuardar.setVisible(true);
         btnEditar.setVisible(false);
         btnBuscar.setVisible(false);
         btnEstado.setVisible(true);
+        actualizarEstado();
         //permito editar los campos
         datoDni.setEditable(true);
         datoNombre.setEditable(true);
@@ -463,7 +535,7 @@ public class AutorGUI extends javax.swing.JInternalFrame {
     }
 
     private void modonuevo() {
-        System.out.println("Modo Nuevo Autor");
+        //System.out.println("Modo Nuevo Autor");
         //habilitar nuevo
         titulo.setText("Nuevo Autor");
         btnGuardar.setText("Guardar");
@@ -499,11 +571,9 @@ public class AutorGUI extends javax.swing.JInternalFrame {
     }
 
     private void modobuscar() {
-        System.out.println("Modo Buscar Autor");
+        //System.out.println("Modo Buscar Autor");
         //habilitar buscar
         titulo.setText("Buscar Autor");
-        btnGuardar.setText("Actualizar");
-        btnGuardar.setIcon(iconoActualizar);
         btnModo.setVisible(false);
         btnNuevo.setVisible(true);
         btnGuardar.setVisible(false);
@@ -636,34 +706,10 @@ public class AutorGUI extends javax.swing.JInternalFrame {
                 //logica
                 if(autor != null){
                     //habilitar los controles para permitir editar
-                    //veo editar
-                    btnEditar.setVisible(true);
-                    //veo los labels
-                    lblId.setVisible(true);
-                    lblNombre.setVisible(true);
-                    lblNacionalidad.setVisible(true);
-                    lblNacimiento.setVisible(true);
-                    lblEstado.setVisible(true);
-                    //veo los campos
-                    datoId.setVisible(true);
-                    datoNombre.setVisible(true);
-                    datoNacionalidad.setVisible(true);
-                    datoNacimiento.setVisible(true);
-                    datoEstado.setVisible(true);
-                    //no permito edicion de campos
-                    datoNombre.setEditable(false);
-                    datoNacionalidad.setEditable(false);
-                    datoNacimiento.setEnabled(false);
-                    datoEstado.setEnabled(false);
-                    //permito editar dni
-                    datoDni.setEditable(true);
+                    modoeditar();
                     //llena los campos con el resultado
                     ver(autor);
-                    //actualiza el boton estado
-                    if(datoEstado.getText().equals(Entidades.Biblioteca.CONF.AUTORESTADOS[0]))
-                        btnEstado.setText("Activar");
-                    else
-                        btnEstado.setText("Desactivar");
+                    actualizarEstado();
                 }else{
                     //error no encontro ningun autor
                     mensaje("Error al Buscar Autor", "Autor no registrado en la Base de Datos...", 0);
@@ -688,8 +734,8 @@ public class AutorGUI extends javax.swing.JInternalFrame {
                 seActivo = ad.activar(id);
             //logica
             if(seActivo == 1){
-                btnEstado.setText("Desactivar");
                 datoEstado.setText(Entidades.Biblioteca.CONF.AUTORESTADOS[1]);
+                actualizarEstado();
                 mensaje("Activar Autor", "Se activo el Autor con exito.", 1);
             }else{
                 mensaje("Error al Activar Autor", "Excepción:\n"+ ad.getExcepcion() +".", 0);
@@ -709,8 +755,8 @@ public class AutorGUI extends javax.swing.JInternalFrame {
                 seActivo = ad.desactivar(id);
             //logica
             if(seActivo == 1){
-                btnEstado.setText("Activar");
                 datoEstado.setText(Entidades.Biblioteca.CONF.AUTORESTADOS[0]);
+                actualizarEstado();
                 mensaje("Desactivar Autor", "Se desactivo el Autor con exito.", 1);
             }else{
                 mensaje("Error al Desactivar Autor", "Excepción:\n"+ ad.getExcepcion() +".", 0);
@@ -721,6 +767,7 @@ public class AutorGUI extends javax.swing.JInternalFrame {
     }
     
     private void limpiar(){
+        if(autor != null) autor = null;
         datoId.setText("0");
         datoNombre.setText("");
         datoDni.setText("");
@@ -728,6 +775,14 @@ public class AutorGUI extends javax.swing.JInternalFrame {
         datoNacimiento.setDate(java.sql.Date.valueOf(java.time.LocalDate.now()));
         datoEstado.setText(Entidades.Biblioteca.CONF.AUTORESTADOS[0]);
         desmarcarVacios();
+    }
+
+    private void actualizarEstado() {
+        //actualiza el boton estado
+        if(datoEstado.getText().equals(Entidades.Biblioteca.CONF.AUTORESTADOS[0]))
+            btnEstado.setText("Activar");
+        else
+            btnEstado.setText("Desactivar");
     }
     
     private void desmarcarVacios(){

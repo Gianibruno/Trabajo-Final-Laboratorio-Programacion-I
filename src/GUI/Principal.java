@@ -673,16 +673,17 @@ public class Principal extends javax.swing.JFrame {
                     + vista.getTitle() + "\n"
                     + "------------------------------------------------");
             if(!vista.isVisible()){
-                escritorio.add(vista);
+                if(java.util.Arrays.asList(escritorio.getAllFrames()).indexOf(vista) == -1)
+                    escritorio.add(vista);
                 vista.setVisible(true);
             }
             if(datos != null){
                 if(vista instanceof AutorGUI)((AutorGUI)vista).ver((Entidades.Autor)datos);
-                //if(vista instanceof Lectores)((Lectores)vista).ver((Entidades.Lector)datos);
-                //if(vista instanceof Libros)((Libros)vista).ver((Entidades.Libro)datos);
-                //if(vista instanceof Ejemplares)((Ejemplares)vista).ver((Entidades.Ejemplar)datos);
+                if(vista instanceof Lectores)((Lectores)vista).ver((Entidades.Lector)datos);
+                if(vista instanceof Libros)((Libros)vista).ver((Entidades.Libro)datos);
+                if(vista instanceof Ejemplares)((Ejemplares)vista).ver((Entidades.Ejemplar)datos);
                 if(vista instanceof PrestamoGUI)((PrestamoGUI)vista).ver((Entidades.Prestamo)datos);
-                //if(vista instanceof Multa)((Multa)vista).ver((Entidades.Multa)datos);
+                if(vista instanceof Multa)((Multa)vista).ver((Entidades.Multa)datos);
             }
             try {
                 vista.setSelected(true);
