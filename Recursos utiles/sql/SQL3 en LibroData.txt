@@ -1,0 +1,30 @@
+#CREAR UN LIBRO:
+INSERT INTO libros(
+    id_autor, 
+    isbn, 
+    nombre, 
+    tipo, 
+    editorial, 
+    año, 
+    estado) 
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+#MODIFICAR UN LIBRO:
+UPDATE libros SET
+id_autor = ?,
+isbn = ?,
+nombre = ?,
+tipo = ?,
+editorial = ?,
+año = ?,
+estado = ?
+WHERE id_libro = ?;
+
+#OBTENER TODOS LOS LIBROS:
+SELECT * FROM libros;
+
+#OBTENER UN LIBRO POR ISBN:
+SELECT * FROM libros WHERE isbn = ?;
+
+#OBTENER UN LIBRO POR ID:
+SELECT * FROM libros WHERE id_libro = ?;

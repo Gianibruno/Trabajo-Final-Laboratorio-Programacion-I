@@ -1,0 +1,35 @@
+#CREAR UN AUTOR:
+INSERT INTO autores(
+    dni, 
+    nombre, 
+    nacionalidad, 
+    fechaNacimiento, 
+    estado) 
+    VALUES (?, ?, ?, ?, 1);
+
+#ACTUALIZAR UN AUTOR:
+UPDATE autores SET 
+dni = ?, 
+nombre = ?, 
+nacionalidad = ?, 
+fechaNacimiento = ? 
+WHERE id_autor = ?;
+
+#DESACTIVAR UN AUTOR:
+UPDATE autores SET
+estado = ? #0
+WHERE id_autor = ?;
+
+#ACTIVAR UN AUTOR:
+UPDATE autores SET
+estado = ? #1
+WHERE id_autor = ?;
+
+#OBTENER TODOS LOS AUTORES:
+SELECT * FROM autores;
+
+#OBTENER UN AUTOR POR DNI:
+SELECT * FROM autores WHERE dni = ?;
+
+#OBTENER UN AUTOR POR ID:
+SELECT * FROM autores WHERE id_autor = ?;

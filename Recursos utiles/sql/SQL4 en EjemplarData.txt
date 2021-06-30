@@ -1,0 +1,39 @@
+#CREAR UN EJEMPLAR:
+INSERT INTO ejemplares(
+    id_ejemplar,
+    id_libro, 
+    estado) 
+VALUES (?, ?, ?);
+
+#MODIFICAR UN EJEMPLAR
+UPDATE ejemplares SET
+id_libro = ?,
+estado = ?
+WHERE id_ejemplar = ?;
+
+#CAMBIAR ESTADO DEL EJEMPLAR:
+UPDATE ejemplares SET
+estado = ?
+WHERE id_ejemplar = ?;
+
+#OBTENER UN EJEMPLAR POR ID:
+SELECT * FROM ejemplares WHERE id_ejemplar = ?;
+
+#OBTENER TODOS LOS EJEMPLARES:
+SELECT * FROM ejemplares;
+
+#OBTENER TODOS LOS EJEMPLARES DISPONIBLES POR NOMBRE DE LIBRO:
+SELECT e.*
+FROM ejemplares AS e, libros AS l
+WHERE l.nombre LIKE "%?%" #nombre del libro
+AND e.id_libro = l.id_libro
+AND e.estado = 3;
+
+#OBTENER TODOS LOS EJEMPLARES POR NOMBRE DE LIBRO:
+SELECT e.*
+FROM ejemplares AS e, libros AS l
+WHERE l.nombre LIKE "%?%" #nombre del libro
+AND e.id_libro = l.id_libro;
+
+#ELIMINAR UN EJEMPLAR:
+DELETE FROM ejemplares WHERE id_ejemplar = ?;

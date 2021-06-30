@@ -1,0 +1,25 @@
+#CREAR UNA MULTA:
+INSERT INTO multa(
+    id_prestamo, 
+    fecha_inicio, 
+    fecha_fin) 
+VALUES (?, ? ,?);
+
+#MODIFICAR UNA MULTA:
+UPDATE multa SET
+id_prestamo = ?,
+fecha_inicio = ?,
+fecha_fin = ?
+WHERE id_multa = ?;
+
+#OBTENER TODAS LAS MULTAS:
+SELECT * FROM multa;
+
+#OBTENER UNA MULTA POR ID:
+SELECT * FROM multa WHERE id_multa = ?;
+
+#OBTENER UNA MULTA POR ID DEL PRESTAMO:
+SELECT * FROM multa WHERE id_prestamo = ?;
+
+#ELIMINAR UNA MULTA:
+DELETE FROM multa WHERE id_multa = ?;

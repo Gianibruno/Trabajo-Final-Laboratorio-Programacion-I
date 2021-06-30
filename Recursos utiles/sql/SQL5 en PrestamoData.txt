@@ -1,0 +1,44 @@
+#CREAR UN PRESTAMO:
+INSERT INTO prestamos(
+    id_ejemplar, 
+    id_lector, 
+    fecha_prestamo, 
+    fecha_devolucion) 
+VALUES (?, ?, ?, ?);
+
+#MODIFICAR UN PRESTAMO:
+UPDATE prestamos SET
+id_ejemplar = ?,
+id_lector = ?,
+fecha_prestamo = ?,
+fecha_devolucion = ?
+WHERE id_prestamo = ?;
+
+#ELIMINAR UN PRESTAMO:
+DELETE FROM prestamos WHERE id_prestamo = ?;
+
+#OBTENER LOS PRESTAMOS POR FECHA:
+SELECT * FROM prestamos WHERE fecha_prestamo = ?;
+
+#OBTENER LOS PRESTAMOS POR LECTOR:
+SELECT * FROM prestamos WHERE id_lector = ?;
+
+#OBTENER TODOS LOS LECTORES CON PRESTAMOS VENCIDOS:
+SELECT DISTINCT l.* 
+FROM lectores AS l, prestamos AS p
+WHERE p.id_lector = l.id_lector
+AND DATEDIFF(NOW(), p.fecha_prestamo) > 30
+AND NOT p.fecha_devolucion IS NULL;
+
+#DEVOLVER UN PRESTAMO:
+UPDATE prestamos SET fecha_devolucion = ? WHERE id_prestamo = ?;
+
+#OBTENER UN PRESTAMO POR NOMBRE DEL LIBRO:
+SELECT p.* 
+FROM prestamos AS p, ejemplares AS e, libros AS l
+WHERE l.nombre LIKE "%?%" #nombre del libro
+AND p.id_ejemplar = e.id_ejemplar
+AND e.id_libro = l.id_libro;
+
+#OBTENER UN PRESTAMO POR ID
+SELECT * FROM prestamos WHERE id_prestamo = ?;
