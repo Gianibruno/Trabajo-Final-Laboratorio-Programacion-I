@@ -1,0 +1,56 @@
+#CREAR UN LECTOR:
+INSERT INTO lectores(
+    dni, 
+    nombre, 
+    telefono, 
+    direccion, 
+    fechaNacimiento, 
+    estado) 
+VALUES (?, ?, ?, ?, ?, 1);
+
+#MODIFICAR UN LECTOR:
+UPDATE lectores SET
+dni = ?,
+nombre = ?,
+telefono = ?,
+direccion = ?,
+fechaNacimiento = ?,
+estado = ?
+WHERE id_lector = ?;
+
+#ACTIVAR UN LECTOR:
+UPDATE lectores SET
+estado = ? #1
+WHERE id_lector = ?;
+
+#DESACTIVAR UN LECTOR:
+UPDATE lectores SET
+estado = ? #0
+WHERE id_lector = ?;
+
+#OBTENER TODOS LOS LECTORES:
+SELECT * FROM lectores;
+
+#OBTENER UN LECTOR POR DNI:
+SELECT * FROM lectores WHERE dni = ?;
+
+#OBTENER UN LECTOR POR ID:
+SELECT * FROM lectores WHERE id_lector = ?;
+
+#OBTENER UN LECTOR ACTIVO:
+SELECT * FROM lectores
+WHERE nombre LIKE "%?%"
+AND estado = 1;
+
+#OBTENER TODOS LOS LECTORES MOROSOS:
+SELECT DISTINCT l.* 
+FROM lectores AS l, prestamos AS p
+WHERE p.id_lector = l.id_lector
+AND p.fecha_prestamo + INTERVAL 30 DAY < NOW()
+AND p.fecha_devolucion IS NULL;
+
+#OBTENER LECTORES CON MULTA:
+SELECT l.* 
+FROM lectores AS l, prestamos AS p, multa AS m
+WHERE p.id_lector = l.id_lector
+AND p.id_prestamo = m.id_prestamo;
