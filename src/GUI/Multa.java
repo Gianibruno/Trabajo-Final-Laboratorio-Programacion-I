@@ -84,6 +84,7 @@ public class Multa extends javax.swing.JInternalFrame {
             }
         });
 
+        jbtnBorrar.setVisible(false);
         jbtnBorrar.setText("BORRAR");
         jbtnBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
